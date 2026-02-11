@@ -1,0 +1,550 @@
+header {
+  background-color:#08245a;
+  color:#f2f2f2;
+}
+
+/* "body" SIRVE PARA DAR COLOR GRIS A TODA LA PAGINA */
+body {
+background-color: rgb(200,200,200);
+}
+
+
+h3 {
+text-align: "center";
+}
+
+/* "footer" USADO PARA COLOR BLANCO EN LAS LETRAS DEL DIRECTORIO  */
+footer{
+  color:#ffffff;
+}
+
+
+/* "main" DA COLOR GRIS CLARO A LOS CONTENEDORES DE LA PAGINA */
+.main {
+  background:#f2f2f2;
+}
+
+/* "colordorado" SIRVE PARA DAR EL COLOR DORADO DE LA UNAM 
+A LA BARRA DE NAVEGACION (MENU) */
+.colordorado{
+  background:#D59F0F;
+}
+
+/* "letraazul" COLOR AZUL A LAS LETRAS DE LA BARRA DE NAVEGACION (MENU)*/
+.letraazul{
+  color: #293e6b;
+}
+
+/* "colorazul" COLOR AZUL De FONDO USADO EN EL FOOTER*/
+.colorazul{
+  background:#293e6b;
+}
+
+/* "borde_derecha" BORDES A LOS ELEMENTOS EN LOS CONTENEDORES 7 pixeles*/
+.borde_derecha{
+border:7px solid;
+border-bottom:none;
+border-left-color:#c8c8c8;
+border-top-color:#c8c8c8;
+border-right-color:#c8c8c8;
+}
+
+/* "letra" USAR EN CASO DE QUERER UNA LETRA COLOR BLANCO TIPO ARIAL*/
+.letra{
+color:#ffffff;
+font-family:Arial, Helvetica, sans-serif;
+}
+
+/* "titulo" USADO PARA EL COLOR GRIS Y LETRA 
+BLANCA DE LOS TITULOS COMO " "Sitios de Interes"*/
+.titulo{
+background-color: #464D51;
+color: #FFF;
+}
+
+/* "titulo1" USADO EXCLUSIVAMENTE EN EL TITULO "Logros de informatica" 
+PARA PONER COLOR A LOS BORDES DEL BOTON */
+.titulo1{
+background-color: #464D51;
+color: #ffffff;
+  border:3px solid;
+  border-bottom-color:#464D51;
+  border-left-color:#464D51;
+    border-top-color:#464D51;
+  border-right-color:#464D51;
+}
+/* "tr1" USADO EN EL FOOTER PARA PONER EL 
+COLOR A LOS BORDES DE LA TABLA DEL FOOTER CON LA INFORMACION DE CONTACTO*/
+.tr1 {
+  border: #293e6b 2px solid;
+}
+
+
+/* "metro" COLOR AZUL DE FONDO EN IMAGENES  */
+.metro {
+  background:#3B4F50;
+}
+
+
+.head-section { border-bottom: 0px solid #FFF}
+.head-section .navbar {
+    margin-bottom: 0;
+}
+.navbar-default { border: none }
+.navbar-brand {
+  color: #FFFFFF;
+  font-size: 30px;
+  font-weight: 100;
+  line-height: 30px;
+  margin-top: 5px;
+  padding: 0;
+}
+.navbar-brand span {
+  color: #08245a
+}
+.head-section .navbar-collapse  ul.navbar-nav {
+    float: center;
+    margin-right: -20;
+
+}
+.head-section .navbar-default {
+  background-color: #FFF;
+  color: #FFF;
+}
+
+.head-section .nav li a
+.head-section .nav li.active u
+{
+  color: #FFF;
+  font-size: 16px;
+  font-weight: 300;
+  background: none;
+}
+
+.dropdown-menu li a {
+  color: #000;
+  font-size: 16px;
+  font-weight: 300;
+  background: none;
+}
+ul.dropdown-menu { border: none }
+.head-section .nav li a:hover,
+.head-section .nav li a:focus,
+.head-section .nav li.active a,
+.head-section .nav li.active a:hover,
+.head-section .nav li a.dropdown-toggle:hover,
+.head-section .nav li a.dropdown-toggle:focus,
+.head-section .nav li.active ul.dropdown-menu li a:hover,
+.head-section .nav li.active ul.dropdown-menu li.active a {
+  background-color: #be9526;
+  -webkit-transition: all .3s ease;
+  -moz-transition: all .3s ease;
+  -ms-transition: all .3s ease;
+  -o-transition: all .3s ease;
+  transition: all .3s ease;
+}
+.head-section .navbar-default .navbar-nav > .open > a,
+.head-section .navbar-default .navbar-nav > .open > a:hover,
+.head-section .navbar-default .navbar-nav > .open > a:focus {
+    color: #fff;
+    background-color: #08245a;
+    -webkit-transition: all .3s ease;
+    -moz-transition: all .3s ease;
+    -ms-transition: all .3s ease;
+    -o-transition: all .3s ease;
+    transition: all .3s ease;
+}
+.head-section .navbar {
+  min-height: 10px;
+  color: #FFF;
+}
+.head-section .navbar-nav > li {
+    padding-bottom: 0px;
+    padding-top: 0px;
+}
+.head-section ul.navbar-nav li:last-child() {
+  margin-left: 12px !important;
+  text-align: left;
+  color: #FFF;
+}
+.head-section  .navbar-nav > li > a {
+    padding-bottom: 10px;
+    padding-top: 20px;
+    border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    margin-left: 5px;
+    padding-left: 30px;
+    padding-right: 30px;
+    line-height: 15px;
+    -webkit-transition: all .3s ease;
+    -moz-transition: all .3s ease;
+    -ms-transition: all .3s ease;
+    -o-transition: all .3s ease;
+    transition: all .3s ease;
+}
+
+
+
+
+.dropdown-menu li a:hover { color: #0055ff !important }
+.head-section .navbar-default .navbar-nav > .open > a .caret,
+.navbar-default .nav li.dropdown > a:focus .caret {
+    border-top-color: #ffffff;
+    border-bottom-color: #ffffff;
+    -webkit-transition: all .3s ease;
+    -moz-transition: all .3s ease;
+    -ms-transition: all .3s ease;
+    -o-transition: all .3s ease;
+    transition: all .3s ease;
+    color: #fff;
+}
+.dropdown-menu { box-shadow: none }
+.head-section .nav li .dropdown-menu {
+    margin-top: 0px;
+    padding: 0;
+    border-radius: 0px;
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+}
+.head-section .nav li .dropdown-menu li a {
+    line-height: 30px;
+    padding: 3px 12px;
+    border-bottom: 1px solid #F3E8E8;
+}
+
+
+.menu_a{
+  padding: 0;
+  list-style: none;
+  font-family: 'Century Gothic';  
+  font-size: 16px;
+  background: FFF;
+  weight: 100%;
+  text-align: center;
+}
+ 
+.menu_a li a{
+    display: block;
+    border-bottom: 1px solid rgba(0,0,0, 0.2);
+    border-top: 1px solid rgba(255,255,255, 0.2);
+    background:#e5e5e5;
+    text-decoration:none;
+    color:#555555;
+  font-family: 'Century Gothic';   
+  font-size: 16px;
+    text-shadow: 1px 0px 1px rgba(0,0,0,0.2);
+    filter: dropshadow(color=#000, offx=1, offy=0);
+    padding:10px;
+    padding-left:15px;
+  text-align: center;
+}
+ 
+.menu_a li ul li a{
+  font-family: 'Century Gothic';   
+  font-size: 16px;
+  color: #555555;
+  text-shadow: 1px 0px 1px rgba(255,255,255,0.5);
+  background-color: #fafafa;
+  text-align: center;
+}
+ 
+.menu_a li a:hover{
+  background: #0A2878;
+  -moz-transition: background 0.3s ease-in;
+  -webkit-transition: background 0.3s ease-in;
+  -o-transition: background 0.3s ease-in;
+  color: #FFF;
+  text-align: center;
+}
+ 
+.menu_a ul{
+    margin:0;
+    padding:0;
+    list-style:none;
+    height:0;
+    overflow: hidden;
+    transition:1s;
+    -moz-transition:2s;
+    -webkit-transition:2s;
+  text-align: center;
+}
+ 
+.menu_a li:hover ul{
+    height:100px;
+    overflow-y:auto;
+    overflow-x:none;
+  text-align: center;
+}
+ 
+.menu_a ul li a{
+    background:#FFF;
+}
+ 
+.menu_a ul li a:hover {
+    background: #6b748c;
+    color: #FFF;
+    -moz-transition: color 0.3s ease;
+    -webkit-transition: color 0.3s ease;
+    -o-transition: color 0.3s ease;
+}
+
+ul.nav li.dropdown:hover ul.dropdown-menu {
+display: block;
+}
+
+
+.navbar-header {
+        float: none;
+        text-align: left;
+        width: 100%;
+        margin: 0px 0;
+    }
+
+    .navbar-brand {
+        float: none;
+
+    }
+/*usado para colocar redes al costado derecho*/
+.social-bar {
+  position: fixed;
+  right: 0;
+  top: 80%;
+  font-size: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+
+}
+
+.icon {
+  color: white;
+  text-decoration: none;
+  padding: .7rem;
+  display: flex;
+  transition: all .5s;
+}
+
+.icon-facebook {
+  background: #2E406E;
+}
+
+.icon-twitter {
+  background: #339DC5;
+}
+
+.icon-youtube {
+  background: #E83028;
+}
+
+.icon-instagram {
+  background: #3F60A5;
+}
+
+.icon:first-child {
+  border-radius: 1rem 0 0 0;
+}
+
+.icon:last-child {
+  border-radius: 0 0 0 1rem;
+}
+
+.icon:hover {
+  padding-right: 3rem;
+  border-radius: 1rem 0 0 1rem;
+  box-shadow: 0 0 .5rem rgba(0, 0, 0, 0.42);
+}
+
+
+
+#carrusel {
+    float:left;
+    width:100%;
+    overflow:hidden;
+    height:480px;
+    position:relative;
+    margin-top:10px;
+    margin-bottom:50px;
+}
+ 
+#carrusel .left-arrow {
+    position:absolute;
+    left:0px;
+    z-index:100;
+    top:50%;
+    margin-top:-9px;
+}
+ 
+#carrusel .right-arrow {
+    position:absolute;
+    right:10px;
+    z-index:100;
+    top:50%;
+    margin-top:-9px;
+}
+ 
+.carrusel {
+    width:4000px;
+    left:0px;
+    position:absolute;
+    
+}
+ 
+.carrusel>div {
+    float: left;
+    height: 300px;
+    margin-right: 15px;
+    width: 350px;
+}
+ 
+.carrusel img {
+    cursor:pointer;
+}
+ 
+.product {
+    border:#CCCCCC 10px solid;
+}
+
+.carousel-instruction {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    z-index: 15;
+    width: 60%;
+    padding-left: 0;
+    margin-left: -30%;
+    text-align: center;
+    list-style: none;
+}
+
+img {
+  vertical-align: auto;
+  border: 0;
+}
+
+background-color{
+  background-color: #08245a;
+  color: #08245a;
+}
+
+#navigation {
+    background-color: #1c3d6c;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+@media (min-width: 480px) {
+    #navigation {
+        position: absolute;
+        top: 0;
+        width: 100%;
+    }
+}
+
+.region-navigation {
+    padding: 0;
+    margin-bottom: -5px;
+}
+
+#navigation .block {
+  margin-bottom: 0;
+}
+
+#block .superfish-1 {
+  text-align: center;
+}
+
+.block {
+  margin-bottom: 1.5em;
+}
+
+.block-superfish {
+  overflow: visible;
+}
+
+#header, #content, #navigation, .region-sidebar-first, .region-sidebar-second, #footer {
+    padding-left: 10px;
+    padding-right: 10px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    _display: inline;
+    _overflow: hidden;
+    _overflow-y: visible;
+}
+
+
+#navigation .links li, #navigation .menu li {
+    padding: 0 !important;
+}
+#navigation .links li, #navigation .menu li {
+    float: left;
+    padding: 0 10px 0 0;
+    list-style-type: none;
+    list-style-image: none;
+}
+#superfish-1 ul, #superfish-1 li {
+    -webkit-transform: translate3d(0px, 0px, 1px);
+}
+.sf-menu.sf-style-simple.sf-horizontal > li.first {
+}
+.sf-menu.sf-style-simple.sf-horizontal > li.first, .sf-menu.sf-style-simple.sf-navbar > li.first {
+    border-left-color: #183659;
+}
+.sf-menu.sf-style-simple.sf-horizontal li, .sf-menu.sf-style-simple.sf-navbar li {
+    border: 1px solid #183659;
+    border-left-color: #183659;
+}
+.sf-menu.sf-style-simple li {
+    background-color: #1c3d6c;
+}
+.sf-menu li {
+    float: left;
+    position: relative;
+    z-index: 498;
+}
+.sf-menu, .sf-menu * {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+user agent stylesheet
+li {
+    display: list-item;
+    unicode-bidi: isolate;
+}
+
+nav {
+  background-color: #08245a;
+}
+
+#about {
+  margin-top: 100px;
+}
+
+#objective {
+  margin-top: 100px;
+}
+
+#cards {
+  margin-top: 215px;
+}
+
+.card {
+  /* Add shadows to create the "card" effect */
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+  width: 27%;
+}
+
+/* On mouse-over, add a deeper shadow */
+.card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+/* Add some padding inside the card container */
+.container {
+  padding: 2px 16px;
+}
