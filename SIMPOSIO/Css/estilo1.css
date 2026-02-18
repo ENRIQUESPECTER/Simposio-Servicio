@@ -6,6 +6,7 @@ header {
 /* "body" SIRVE PARA DAR COLOR GRIS A TODA LA PAGINA */
 body {
 background-color: rgb(200,200,200);
+overflow-x: hidden;
 }
 
 
@@ -357,48 +358,50 @@ display: block;
 
 
 
-#carrusel {
+#carousel {
     float:left;
     width:100%;
     overflow:hidden;
-    height:480px;
-    position:relative;
+    position:static;
     margin-top:10px;
     margin-bottom:50px;
 }
  
-#carrusel .left-arrow {
-    position:absolute;
+#carousel .left-arrow {
+    position:relative;
     left:0px;
     z-index:100;
     top:50%;
     margin-top:-9px;
 }
  
-#carrusel .right-arrow {
-    position:absolute;
+#carousel .right-arrow {
+    position:relative;
     right:10px;
     z-index:100;
     top:50%;
     margin-top:-9px;
 }
  
-.carrusel {
-    width:4000px;
+.carousel {
     left:0px;
-    position:absolute;
-    
+    position:relative;
+    display: flex;
+    width: 100%;
 }
  
-.carrusel>div {
+.carousel>div {
     float: left;
-    height: 300px;
-    margin-right: 15px;
-    width: 350px;
+    height: auto;
+    width: 100%;
 }
  
-.carrusel img {
+.carousel img {
     cursor:pointer;
+    width: 100%;
+    height: auto;
+    display: block;
+    position: relative ;
 }
  
 .product {
@@ -406,7 +409,7 @@ display: block;
 }
 
 .carousel-instruction {
-    position: absolute;
+    position: relative;
     bottom: 10px;
     left: 50%;
     z-index: 15;
@@ -420,6 +423,8 @@ display: block;
 img {
   vertical-align: auto;
   border: 0;
+  max-width: 100%;
+  height: auto;
 }
 
 background-color{
@@ -529,14 +534,19 @@ nav {
 }
 
 #cards {
-  margin-top: 215px;
+  margin-top: 169px;
 }
 
 .card {
   /* Add shadows to create the "card" effect */
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
   transition: 0.3s;
-  width: 27%;
+  width: 25%;
+  border-radius: 10px;
+  margin-left: 9rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 /* On mouse-over, add a deeper shadow */
@@ -548,3 +558,47 @@ nav {
 .container {
   padding: 2px 16px;
 }
+
+#card-img {
+  border-radius: 10px 10px 0 0;
+}
+
+
+@media (max-width: 900px) {
+  .navbar-collapse {
+    background-color: #08245a;
+  }
+
+  .navbar-nav {
+    text-align: center;
+    gap: 0px;
+  }
+  
+  .cards {
+    flex-direction: column;
+  }
+
+  #card {
+    flex-direction: column;
+    flex-wrap: wrap;
+    flex: 100;
+  }
+  
+}
+
+@media (min-width: 900px) {
+  .navbar-collapse {
+    background-color: #08245a;
+    padding-left: 19rem;
+    }
+  .navbar-nav {
+    margin: 7.5px -15px;
+    gap: 69px;
+}
+}
+@media (max-width: 991px) {
+  .navbar-collapse {
+    position: relative !important;
+  }
+}
+
