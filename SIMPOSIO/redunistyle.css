@@ -131,9 +131,15 @@ ul li a {
     .container-info {
          grid-template-columns: 1fr;
     }
-
     .menu {
         display: none;
+    }
+    img {
+        max-width: 100%;
+        height: auto;
+    }
+    .campus-bar {
+        margin-top: 4rem;
     }
 }
 
@@ -144,8 +150,11 @@ ul li a {
     transition: background-color 0.3s ease-in-out;
   }
   #mainNav.navbar-shrink .nav-link {
-    padding: 0.2rem 1.5rem 0.2rem;
+    padding: 0.4rem 1.5rem 0.4rem;
     border-bottom: 0.25rem solid transparent;
+  }
+  .nav-container {
+    width: 70%;
   }
 }
 
@@ -170,4 +179,8 @@ footer {
     color: white;
     background-color: #08245a;
     margin-top: 1.5rem;
+}
+
+.navbar-toggler {
+    color: #fff;
 }
