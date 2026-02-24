@@ -11,7 +11,7 @@ body {
 
 /* NAVBAR */
 .navbar {
-    background-color: #1f5f99;
+    background-color: #033393;
     padding: 15px 0;
     position: relative;
 }
@@ -123,41 +123,7 @@ ul li a {
     margin-top: 20px;
 }
 
-/* RESPONSIVE */
-@media (max-width: 900px) {
-    .container {
-        grid-template-columns: 1fr;
-    }
-    .container-info {
-         grid-template-columns: 1fr;
-    }
-    .menu {
-        display: none;
-    }
-    img {
-        max-width: 100%;
-        height: auto;
-    }
-    .campus-bar {
-        margin-top: 4rem;
-    }
-}
-
 /*TODO LOS CAMBIOS A NEUVOS A PARTIR DEL CSS QUE ES ANTERIOR AL PROYECTO*/
-@media (min-width: 992px) {
-  #mainNav {
-    border-bottom: none;
-    transition: background-color 0.3s ease-in-out;
-  }
-  #mainNav.navbar-shrink .nav-link {
-    padding: 0.4rem 1.5rem 0.4rem;
-    border-bottom: 0.25rem solid transparent;
-  }
-  .nav-container {
-    width: 70%;
-  }
-}
-
 .border {
     opacity: 0.9;
     border-width: 1px;
@@ -181,6 +147,96 @@ footer {
     margin-top: 1.5rem;
 }
 
+.footer-columns{
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1.2fr 1.2fr 1.2fr;
+    gap: 3rem;
+}
+.container-login {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 5rem;
+}
+
+/* PARTE RESPONSIVE CUANDO SE PASA DE 900px */
+@media (max-width: 900px) {
+    /* EL CONTENEDOR PASA A SER SOLO UNA COLUMNA */
+    .container {
+        grid-template-columns: 1fr;
+    }
+    .container-info {
+        grid-template-columns: 1fr;
+    }
+    /* */
+    .menu {
+        display: none;
+    }
+    /* LAS IMAGENES PASAN A OCUPAR EL MAXIMO DE ANCHO Y SE AJUSTA LA ALTURA AUTOMATICAMENTE */
+    img {
+        max-width: 100%;
+        height: auto;
+    }
+    /* SEPARACION DE LA BARRA DORADA CON EL TOP DEL HTML PARA QUE SE VEA BIEN EN MOVIL */
+    .campus-bar {
+        margin-top: 4rem;
+    }
+    .footer-columns {
+        grid-template-columns: 1fr;
+        padding: 2rem 0rem 0rem;
+        text-align: center;
+        display: grid;
+        gap: 2rem;
+    }
+    .footer-columns ul {
+        padding: 0;
+    }
+    .footer-columns li {
+        list-style: none;
+        margin-bottom: 0.5rem;
+    }
+    .footer-columns p {
+        text-align: center;
+        justify-content: space-between;
+    }
+    .footer-links {
+        max-width: 100%;
+        height: auto;
+    }
+}
+
+/*TODO LOS CAMBIOS A NEUVOS A PARTIR DEL CSS QUE ES ANTERIOR AL PROYECTO*/
+@media (min-width: 992px) {
+  #mainNav {
+    border-bottom: none;
+    transition: background-color 0.3s ease-in-out;
+  }
+  #mainNav.navbar-shrink .nav-link {
+    padding: 0.4rem 1.5rem 0.4rem;
+    border-bottom: 0.25rem solid transparent;
+  }
+  .nav-container {
+    width: 70%;
+  }
+}
+
 .navbar-toggler {
     color: #fff;
 }
+
+.login-card {
+    background-color: #fff;
+    padding: 40px;
+    width: 350px;
+    border-radius: 10px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+.input-group {
+    margin-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+}
+
+
