@@ -1,0 +1,247 @@
+/* ================================
+   CONFIGURACIÓN GENERAL
+================================ */
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f6f9;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    text-align: center;
+    margin-top: 30px;
+    color: #1e3a8a;
+}
+
+h2 {
+    margin-bottom: 10px;
+}
+
+/* ================================
+   CONTENEDOR PRINCIPAL
+================================ */
+
+.contenedor {
+    width: 90%;
+    max-width: 1100px;
+    margin: 40px auto;
+}
+
+/* ================================
+   TARJETAS DE EVENTOS
+================================ */
+
+.evento-card {
+    background: #ffffff;
+    padding: 25px;
+    border-radius: 14px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+    margin-bottom: 30px;
+    transition: all 0.25s ease;
+}
+
+.evento-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 25px rgba(0,0,0,0.1);
+}
+
+.evento-card h2 {
+    color: #1e3a8a;
+}
+
+.evento-card p {
+    color: #555;
+    margin: 6px 0;
+}
+
+.evento-card a {
+    display: inline-block;
+    margin-top: 12px;
+    padding: 10px 18px;
+    background: #1e3a8a;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: background 0.3s ease;
+}
+
+.evento-card a:hover {
+    background: #0f1f5c;
+}
+
+/* ================================
+   AGENDA DEL EVENTO
+================================ */
+
+.agenda-container {
+    margin-top: 30px;
+}
+
+.bloque-horario {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 18px;
+    border-radius: 10px;
+    margin-bottom: 12px;
+    font-size: 14px;
+}
+
+/* BLOQUE OCUPADO */
+
+.bloque-ocupado {
+    background: #e0f2fe;
+    border-left: 6px solid #0284c7;
+}
+
+.bloque-ocupado strong {
+    color: #075985;
+}
+
+/* BLOQUE DISPONIBLE */
+
+.bloque-disponible {
+    background: #f3f4f6;
+    border-left: 6px solid #9ca3af;
+    color: #777;
+}
+
+/* ================================
+   BOTÓN VOLVER
+================================ */
+
+.btn-volver {
+    display: inline-block;
+    margin-top: 25px;
+    padding: 8px 15px;
+    background: #374151;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    transition: background 0.3s ease;
+}
+
+.btn-volver:hover {
+    background: #111827;
+}
+
+/* ================================
+   RESPONSIVE
+================================ */
+
+/* ================= NAVBAR ================= */
+
+/* NAVBAR */
+.navbar {
+    background-color: #033393;
+    padding: 15px 0;
+    position: relative;
+}
+
+.nav-container {
+    width: 70%;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo {
+    color: white;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.menu {
+    display: flex;
+    gap: 30px;
+}
+
+.menu a {
+    color: white;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.menu a:hover {
+    opacity: 0.7;
+}
+.fixed-top {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 1030;
+}
+
+.nav-logo {
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+
+.nav-links a {
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.nav-auth {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.btn-login,
+.btn-logout,
+.btn-registrar {
+    background: white;
+    color: #1e3a8a;
+    padding: 6px 12px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 13px;
+    transition: 0.3s;
+}
+
+.btn-login:hover,
+.btn-logout:hover,
+.btn-registrar:hover {
+    background: #e0e7ff;
+}
+
+@media (max-width: 768px) {
+
+    .bloque-horario {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+    }
+
+    .evento-card {
+        padding: 18px;
+    }
+
+}
+/*TODO LOS CAMBIOS A NEUVOS A PARTIR DEL CSS QUE ES ANTERIOR AL PROYECTO*/
+@media (min-width: 992px) {
+  #mainNav {
+    border-bottom: none;
+    transition: background-color 0.3s ease-in-out;
+  }
+  #mainNav.navbar-shrink .nav-link {
+    padding: 0.4rem 1.5rem 0.4rem;
+    border-bottom: 0.25rem solid transparent;
+  }
+  .nav-container {
+    width: 70%;
+  }
+}
