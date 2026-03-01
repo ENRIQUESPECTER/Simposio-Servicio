@@ -18,6 +18,11 @@ h1 {
 h2 {
     margin-bottom: 10px;
 }
+p {
+    text-align: center;
+    font-size: 16px;
+    
+}
 
 /* ================================
    CONTENEDOR PRINCIPAL
@@ -139,6 +144,8 @@ h2 {
     background-color: #033393;
     padding: 15px 0;
     position: relative;
+    background-color: #002147; /* Azul institucional */
+    border-bottom: 4px solid #c9a227; /* Dorado */
 }
 
 .nav-container {
@@ -203,8 +210,8 @@ h2 {
 .btn-login,
 .btn-logout,
 .btn-registrar {
-    background: white;
-    color: #1e3a8a;
+    border: 2.5px solid #c9a227;
+    color: #c9a227;
     padding: 6px 12px;
     border-radius: 6px;
     text-decoration: none;
@@ -215,7 +222,8 @@ h2 {
 .btn-login:hover,
 .btn-logout:hover,
 .btn-registrar:hover {
-    background: #e0e7ff;
+    background-color: #c9a227;
+    color: #002147;
 }
 
 @media (max-width: 768px) {

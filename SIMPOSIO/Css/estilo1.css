@@ -493,8 +493,6 @@ background-color{
 #superfish-1 ul, #superfish-1 li {
     -webkit-transform: translate3d(0px, 0px, 1px);
 }
-.sf-menu.sf-style-simple.sf-horizontal > li.first {
-}
 .sf-menu.sf-style-simple.sf-horizontal > li.first, .sf-menu.sf-style-simple.sf-navbar > li.first {
     border-left-color: #183659;
 }
@@ -574,14 +572,20 @@ nav {
     gap: 0px;
   }
   
-  .cards {
-    flex-direction: column;
+  .carousel {
+    max-width: 100%;
+    height: auto;
   }
-
-  #card {
+  
+  .card {
+    grid-template-columns: 1fr;
+    display: grid;
     flex-direction: column;
-    flex-wrap: wrap;
-    flex: 100;
+    max-width: 100%;
+    height: auto; 
+  }
+  .row {
+    flex-direction: column;
   }
   
 }

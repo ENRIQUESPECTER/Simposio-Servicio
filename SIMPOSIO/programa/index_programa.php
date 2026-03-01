@@ -15,6 +15,7 @@ $result = $conexion->query($query);
 <div class="contenedor" style="margin: 169px auto;">
 
 <h1>Programa de Eventos</h1>
+<p>Aqui podrás ver toda la información sobre los eventos que vayan asignandose, así como los horarios de las actividades que habrán en ellos</p>
 
 <?php if($result->num_rows > 0): ?>
 

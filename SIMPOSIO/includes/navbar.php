@@ -6,11 +6,9 @@
             </button>
             <div class="navbar-collapse collapse" id="navbarResponsive">
                 <ul class="navbar-nav nav nav-container menu">
-                    <li class="nav-item"><a class="nav-link" href="index.html">Inicio</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../red_universitaria.html">Red Universitaria de Proyectos</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">Convocatoria</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">Ponencias</a></li>
-                    <li class="nav-item"><a class="nav-link" href="programa/index_programa.php">Programa</a></li>
-                    <li><a class="nav-link" href="login.html">Login</a></li>
                 </ul>
             </div>
         <div class="nav-auth">
