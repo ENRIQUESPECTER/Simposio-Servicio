@@ -1,5 +1,6 @@
 <?php
 require("../conexion.php");
+require("../auth.php");
 include("../includes/header_programa.php");
 
 $query = "
@@ -18,7 +19,14 @@ $result = $conexion->query($query);
 <p>Aqui podrás ver toda la información sobre los eventos que vayan asignandose, así como los horarios de las actividades que habrán en ellos</p>
 
 <?php if($result->num_rows > 0): ?>
-
+    
+    <?php if(esta_logeado() && (es_docente() || es_empresa())): ?>
+        <a href="registrar_actividad.php?id_evento=<?= $evento['id_evento'] ?>" 
+        class="btn btn-success">
+        Registrar Actividad
+        </a>
+    <?php endif; ?>
+    
     <?php while($evento = $result->fetch_assoc()): ?>
 
         <div class="evento-card">
