@@ -1,5 +1,11 @@
 <?php
 require "conexion.php";
+require "../auth.php";
+
+if(!esta_logeado() || !(es_docente() || es_empresa())){
+    header("Location: index_programa.php");
+    exit();
+}
 
 if(!isset($_POST['nombre'], $_POST['correo'], $_POST['password'], $_POST['tipo_usuario'])){
     header("Location: registro.html");

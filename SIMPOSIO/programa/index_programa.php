@@ -20,14 +20,15 @@ $result = $conexion->query($query);
 
 <?php if($result->num_rows > 0): ?>
     
-    <?php if(esta_logeado() && (es_docente() || es_empresa())): ?>
-        <a href="registrar_actividad.php?id_evento=<?= $evento['id_evento'] ?>" 
+    
+    <?php while($evento = $result->fetch_assoc()): ?>
+
+<?php if(esta_logeado() && (es_docente() || es_empresa())): ?>
+        <a href="../registrar_actividad.php?id_evento=<?= $evento['id_evento'] ?>" 
         class="btn btn-success">
         Registrar Actividad
         </a>
     <?php endif; ?>
-    
-    <?php while($evento = $result->fetch_assoc()): ?>
 
         <div class="evento-card">
             <h2><?php echo $evento['titulo']; ?></h2>

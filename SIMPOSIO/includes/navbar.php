@@ -13,8 +13,8 @@
             </div>
         <div class="nav-auth">
             <?php if(isset($_SESSION['id_usuario'])): ?>
-                <span class="user-name">
-                    <?php echo $_SESSION['nombre']; ?>
+                <span class="user-name" style="color: #fff;">
+                    <?php echo $_SESSION['nombre'];?>
                 </span>
                 <a href="../logout.php" class="btn-logout">Cerrar sesión</a>
             <?php else: ?>

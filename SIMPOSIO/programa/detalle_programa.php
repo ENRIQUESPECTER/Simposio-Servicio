@@ -1,5 +1,6 @@
 <?php
 require("../conexion.php");
+require("../auth.php");
 include("../includes/header_programa.php");
 
 if(!isset($_GET['id'])){
@@ -60,7 +61,7 @@ $hora_fin_evento = strtotime($evento['hora_fin']);
     <title>Agenda del Evento</title>
     <link rel="stylesheet" href="programa.css">
 </head>
-<body>
+<body style="margin-top: 9rem;">
 
 <h1><?php echo $evento['titulo']; ?></h1>
 <?php if(isset($_SESSION['tipo_usuario']) && $_SESSION['tipo_usuario'] == 'docente'): ?>
