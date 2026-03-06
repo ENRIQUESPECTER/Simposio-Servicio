@@ -1,75 +1,123 @@
 <?php
-require_once "auth.php";
-require_once "conexion.php";
+require("conexion.php");
+require("auth.php");
+include("includes/header_programa.php");
 
-if(!esta_logeado() || !(es_docente() || es_empresa())){
-    header("Location: index_programa.php");
-    exit();
+if(!isset($_SESSION['id_usuario'])){
+    die("Debes iniciar sesión");
 }
 
-$id_evento = $_GET['id_evento'];
+if($_SESSION['tipo_usuario'] != "docente" && $_SESSION['tipo_usuario'] != "empresa"){
+    die("No tienes permisos para registrar actividades");
+}
+
+if(!isset($_GET['id_evento'])){
+    die("Evento no especificado");
+}
+
+$id_evento = intval($_GET['id_evento']);
+$fecha = $_GET['fecha'];
+$hora_inicio = $_GET['hora_inicio'];
+$hora_fin = $_GET['hora_fin'];
+
+$id_usuario = $_SESSION['id_usuario'];
+
+
+/*OBTENER TIPOS DE ACTIVIDAD*/
+$sql_tipo = "SELECT * FROM tipo_actividad ORDER BY nombre ASC";
+$result_tipo = $conexion->query($sql_tipo);
+
+
+/*REGISTRO XD*/
+if($_SERVER['REQUEST_METHOD'] == "POST"){
+
+    $titulo = $_POST['titulo'];
+    $descripcion = $_POST['descripcion'];
+    $resumen = $_POST['resumen'];
+    $referencias = $_POST['referencias'];
+    $id_tipo = $_POST['id_tipo'];
+
+    $archivo_pdf = NULL;
+
+    /* SUBIR PDF */
+
+    if(isset($_FILES['archivo_pdf']) && $_FILES['archivo_pdf']['error'] == 0){
+
+        $nombreArchivo = time() . "_" . $_FILES['archivo_pdf']['name'];
+        $ruta = "pdfs/" . $nombreArchivo;
+
+        move_uploaded_file($_FILES['archivo_pdf']['tmp_name'], $ruta);
+
+        $archivo_pdf = $nombreArchivo;
+    }
+
+    $stmt = $conexion->prepare("
+        INSERT INTO actividad_evento
+        (id_evento,id_usuario,id_tipo,titulo,descripcion,resumen,referencias,archivo_pdf,fecha,hora_inicio,hora_fin)
+        VALUES(?,?,?,?,?,?,?,?,?,?,?)
+    ");
+
+    $stmt->bind_param(
+        "iiissssssss",$id_evento,$id_usuario,$id_tipo,$titulo,$descripcion,$resumen,$referencias,$archivo_pdf,$fecha,$hora_inicio,$hora_fin);
+
+    if($stmt->execute()){
+
+        header("Location: programa/detalle_programa.php?id=".$id_evento);
+        exit();
+
+    }else{
+        echo "Error al registrar actividad";
+    }
+
+}
 ?>
+
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Proyecto Seguridad</title>
-    <link rel="stylesheet" href="Css/redunistyle.css">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="Js/funciones.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
-    <style>
+    <head>
+        <meta charset="UTF-8">
+        <title>Registrar Actividad</title>
+        <link rel="stylesheet" href="Css/actividades.css">
+        <style>
         body {
-            height: 100vh;
             background: linear-gradient(135deg, #0a7eeb, #c0902a);
         }
     </style>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
-<form action="guardar_actividad.php" method="POST" enctype="multipart/form-data">
-    <input type="hidden" name="id_evento" value="<?= $id_evento ?>">
-    
-    <div class="mb-3">
-        <label>Título</label>
-        <input type="text" name="titulo" class="form-control" required>
-    </div>
-        
-    <div class="mb-3">
-        <label>Descripción</label>
-        <textarea name="descripcion" class="form-control" required></textarea>
-    </div>
+    </head>
+    <body>
+        <div class="container-actividad info-bloque">
+            <h2>Registrar actividad</h2>
+            <p>
+                Horario: <?php echo $hora_inicio ?> - <?php echo $hora_fin ?>
+            </p>
+            <form class="form-group" method="POST" enctype="multipart/form-data">
 
-    <div class="mb-3">
-        <label>Resumen</label>
-        <textarea name="resumen" class="form-control" required></textarea>
-    </div>
+                <label>Tipo de actividad</label>
+                <select name="id_tipo" required>
+                    <?php while($tipo = $result_tipo->fetch_assoc()): ?>
+                        <option value="<?php echo $tipo['id_tipo']; ?>">
+                            <?php echo $tipo['nombre']; ?>
+                        </option>
+                    <?php endwhile; ?>
+                </select>
 
-    <div class="mb-3">
-        <label>Referencias</label>
-        <textarea name="referencias" class="form-control"></textarea>
-    </div>
+                <label>Título</label>
+                <input type="text" name="titulo" required>
 
-    <div class="mb-3">
-        <label>Hora Inicio</label>
-        <input type="time" name="hora_inicio" required>
-    </div>
+                <label>Descripción</label>
+                <textarea name="descripcion"></textarea>
 
-    <div class="mb-3">
-        <label>Hora Fin</label>
-        <input type="time" name="hora_fin" required>
-    </div>
+                <label>Resumen</label>
+                <textarea name="resumen"></textarea>
 
-    <div class="mb-3">
-        <label>Archivo PDF</label>
-        <input type="file" name="archivo_pdf" accept="application/pdf" required>
-    </div>
-        
-    <button type="submit" class="btn btn-success">
-        Registrar Actividad
-    </button>
-        
-</form>
-</body>
+                <label>Referencias</label>
+                <textarea name="referencias"></textarea>
+                <label>Subir PDF</label>
+                <input type="file" name="archivo_pdf" accept="application/pdf">
+                <button type="submit" class="btn-submit">
+                    Registrar actividad
+                </button>
+            </form>
+        </div>
+    </body>
 </html>

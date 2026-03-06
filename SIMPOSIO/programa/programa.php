@@ -1,8 +1,8 @@
-<?php
+<?php /*
 session_start();
 require "../conexion.php";
 
-/* Obtener evento activo (fecha actual) */
+/* Obtener evento activo (fecha actual) 
 $hoy = date("Y-m-d");
 
 $sql_evento = "SELECT * FROM evento 
@@ -18,7 +18,7 @@ if(!$evento){
     $mensaje = "No hay eventos programados para hoy.";
 } else {
 
-    /* Obtener actividades */
+    /* Obtener actividades 
     $sql_actividades = "SELECT a.*, t.nombre AS tipo_nombre
                         FROM actividad_evento a
                         JOIN tipo_actividad t ON a.id_tipo = t.id_tipo

@@ -9,9 +9,8 @@ if(!isset($_GET['id'])){
 
 $id_evento = intval($_GET['id']);
 
-/* =========================
-   OBTENER EVENTO
-========================= */
+
+/* OBTENER EVENTO */
 $stmt_evento = $conexion->prepare("
     SELECT * FROM evento
     WHERE id_evento = ?
@@ -26,9 +25,7 @@ if($result_evento->num_rows == 0){
 
 $evento = $result_evento->fetch_assoc();
 
-/* =========================
-   OBTENER ACTIVIDADES
-========================= */
+/* OBTENER ACTIVIDADES */
 $stmt_act = $conexion->prepare("
     SELECT a.*, t.nombre as tipo
     FROM actividad_evento a
@@ -47,9 +44,7 @@ while($fila = $result_act->fetch_assoc()){
     $actividades[] = $fila;
 }
 
-/* =========================
-   CONFIGURAR HORARIOS
-========================= */
+/* CONFIGURAR HORARIOS */
 $hora_actual = strtotime($evento['hora_inicio']);
 $hora_fin_evento = strtotime($evento['hora_fin']);
 ?>
@@ -64,12 +59,7 @@ $hora_fin_evento = strtotime($evento['hora_fin']);
 <body style="margin-top: 9rem;">
 
 <h1><?php echo $evento['titulo']; ?></h1>
-<?php if(isset($_SESSION['tipo_usuario']) && $_SESSION['tipo_usuario'] == 'docente'): ?>
-    <a href="registrar_actividad.php?id=<?php echo $id_evento; ?>" 
-       class="btn-registrar">
-       Registrar actividad
-    </a>
-<?php endif; ?>
+
 <div class="contenedor">
 
     <p>
@@ -111,6 +101,14 @@ $hora_fin_evento = strtotime($evento['hora_fin']);
                     (<?php echo $actividad_actual['tipo']; ?>)
                 <?php else: ?>
                     Disponible
+                    <?php if(isset($_SESSION['tipo_usuario']) && ($_SESSION['tipo_usuario']=="docente")): ?>
+                        <br><br>
+                        <a class="btn-registrar"
+                        href="../registrar_actividad.php?id_evento=<?php echo $id_evento; ?>&fecha=<?php echo $evento['fecha']; ?>
+                        &hora_inicio=<?php echo $bloque_inicio; ?>&hora_fin=<?php echo $bloque_fin; ?>">
+                            Registrar actividad
+                        </a>
+                    <?php endif; ?>
                 <?php endif; ?>
             </div>
         </div>

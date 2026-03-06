@@ -1,84 +1,72 @@
 <?php
-require_once "auth.php";
-require_once "conexion.php";
+require("conexion.php");
+require("auth.php");
 
-if(!esta_logeado() || !(es_docente() || es_empresa())){
-    header("Location: index_programa.php");
-    exit();
+if(!isset($_SESSION['id_usuario'])){
+    die("Debes iniciar sesión");
 }
 
-$conexion->begin_transaction();
+if($_SESSION['tipo_usuario'] != "docente" && $_SESSION['tipo_usuario'] != "empresa"){
+    die("No tienes permisos para registrar actividades");
+}
 
-try {
+if(!isset($_GET['id_evento'])){
+    die("Evento no especificado");
+}
+
+$id_evento = intval($_GET['id_evento']);
+$fecha = $_GET['fecha'];
+$hora_inicio = $_GET['hora_inicio'];
+$hora_fin = $_GET['hora_fin'];
 
 $id_usuario = $_SESSION['id_usuario'];
-$id_evento = $_POST['id_evento'];
-$titulo = $_POST['titulo'];
-$descripcion = $_POST['descripcion'];
-$resumen = $_POST['resumen'];
-$referencias = $_POST['referencias'];
-$hora_inicio = $_POST['hora_inicio'];
-$hora_fin = $_POST['hora_fin'];
 
-if($hora_inicio >= $hora_fin){
-    throw new Exception("La hora fin debe ser mayor a la hora inicio.");
-}
 
-# Validar traslapes
-$stmt = $conexion->prepare("
-    SELECT id_actividad FROM actividad
-    WHERE id_evento = ?
-    AND (
-        (hora_inicio < ? AND hora_fin > ?)
-    )
-");
+/*OBTENER TIPOS DE ACTIVIDAD*/
+$sql_tipo = "SELECT * FROM tipo_actividad ORDER BY nombre ASC";
+$result_tipo = $conexion->query($sql_tipo);
 
-$stmt->bind_param("iss", $id_evento, $hora_fin, $hora_inicio);
-$stmt->execute();
-$result = $stmt->get_result();
 
-if($result->num_rows > 0){
-    throw new Exception("El horario ya está ocupado.");
-}
+/*REGISTRO XD*/
+if($_SERVER['REQUEST_METHOD'] == "POST"){
 
-# Validar PDF
-if($_FILES['archivo_pdf']['type'] != "application/pdf"){
-    throw new Exception("Solo se permiten archivos PDF.");
-}
+    $titulo = $_POST['titulo'];
+    $descripcion = $_POST['descripcion'];
+    $resumen = $_POST['resumen'];
+    $referencias = $_POST['referencias'];
+    $id_tipo = $_POST['id_tipo'];
 
-$nombre_archivo = uniqid() . ".pdf";
-$ruta = "../uploads/" . $nombre_archivo;
+    $archivo_pdf = NULL;
 
-move_uploaded_file($_FILES['archivo_pdf']['tmp_name'], $ruta);
+    /* SUBIR PDF */
 
-# Insertar actividad
-$stmt = $conexion->prepare("
-    INSERT INTO actividad
-    (id_evento, id_usuario, titulo, descripcion, resumen, referencias, archivo_pdf, hora_inicio, hora_fin, fecha_registro)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())
-");
+    if(isset($_FILES['archivo_pdf']) && $_FILES['archivo_pdf']['error'] == 0){
 
-$stmt->bind_param("iisssssss",
-    $id_evento,
-    $id_usuario,
-    $titulo,
-    $descripcion,
-    $resumen,
-    $referencias,
-    $nombre_archivo,
-    $hora_inicio,
-    $hora_fin
-);
+        $nombreArchivo = time() . "_" . $_FILES['archivo_pdf']['name'];
+        $ruta = "pdfs/" . $nombreArchivo;
 
-$stmt->execute();
+        move_uploaded_file($_FILES['archivo_pdf']['tmp_name'], $ruta);
 
-$conexion->commit();
+        $archivo_pdf = $nombreArchivo;
+    }
 
-    echo "Actividad registrada correctamente";
+    $stmt = $conexion->prepare("
+        INSERT INTO actividad_evento
+        (id_evento,id_usuario,id_tipo,titulo,descripcion,resumen,referencias,archivo_pdf,fecha,hora_inicio,hora_fin)
+        VALUES(?,?,?,?,?,?,?,?,?,?,?)
+    ");
 
-} catch(Exception $e){
+    $stmt->bind_param(
+        "iiissssssss",$id_evento,$id_usuario,$id_tipo,$titulo,$descripcion,$resumen,$referencias,$archivo_pdf,$fecha,$hora_inicio,$hora_fin);
 
-$conexion->rollback();
-    echo "Error: " . $e->getMessage();
+    if($stmt->execute()){
+
+        header("Location: programa/detalle_programa.php?id=".$id_evento);
+        exit();
+
+    }else{
+        echo "Error al registrar actividad";
+    }
+
 }
 ?>
