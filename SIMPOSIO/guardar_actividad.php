@@ -1,72 +1,137 @@
 <?php
+
 require("conexion.php");
 require("auth.php");
 
-if(!isset($_SESSION['id_usuario'])){
-    die("Debes iniciar sesión");
-}
-
-if($_SESSION['tipo_usuario'] != "docente" && $_SESSION['tipo_usuario'] != "empresa"){
-    die("No tienes permisos para registrar actividades");
-}
-
-if(!isset($_GET['id_evento'])){
-    die("Evento no especificado");
-}
-
-$id_evento = intval($_GET['id_evento']);
-$fecha = $_GET['fecha'];
-$hora_inicio = $_GET['hora_inicio'];
-$hora_fin = $_GET['hora_fin'];
+$id_evento = $_POST['id_evento'];
+$id_tipo = $_POST['id_tipo'];
+$titulo = $_POST['titulo'];
+$descripcion = $_POST['descripcion'];
+$resumen = $_POST['resumen'];
+$referencias = $_POST['referencias'];
+$hora_inicio = $_POST['hora_inicio'];
 
 $id_usuario = $_SESSION['id_usuario'];
 
 
-/*OBTENER TIPOS DE ACTIVIDAD*/
-$sql_tipo = "SELECT * FROM tipo_actividad ORDER BY nombre ASC";
-$result_tipo = $conexion->query($sql_tipo);
+/* obtener duración del tipo */
+
+$stmt = $conexion->prepare("
+SELECT duracion_minutos
+FROM tipo_actividad
+WHERE id_tipo = ?
+");
+
+$stmt->bind_param("i",$id_tipo);
+$stmt->execute();
+$res = $stmt->get_result()->fetch_assoc();
+
+$duracion = $res['duracion_minutos'];
 
 
-/*REGISTRO XD*/
-if($_SERVER['REQUEST_METHOD'] == "POST"){
+/* calcular hora fin */
 
-    $titulo = $_POST['titulo'];
-    $descripcion = $_POST['descripcion'];
-    $resumen = $_POST['resumen'];
-    $referencias = $_POST['referencias'];
-    $id_tipo = $_POST['id_tipo'];
+$hora_fin = date(
+"H:i",
+strtotime("+$duracion minutes", strtotime($hora_inicio))
+);
 
-    $archivo_pdf = NULL;
 
-    /* SUBIR PDF */
+/* obtener fecha del evento */
 
-    if(isset($_FILES['archivo_pdf']) && $_FILES['archivo_pdf']['error'] == 0){
+$stmt = $conexion->prepare("
+SELECT fecha
+FROM evento
+WHERE id_evento = ?
+");
 
-        $nombreArchivo = time() . "_" . $_FILES['archivo_pdf']['name'];
-        $ruta = "pdfs/" . $nombreArchivo;
+$stmt->bind_param("i",$id_evento);
+$stmt->execute();
+$evento = $stmt->get_result()->fetch_assoc();
 
-        move_uploaded_file($_FILES['archivo_pdf']['tmp_name'], $ruta);
+$fecha = $evento['fecha'];
 
-        $archivo_pdf = $nombreArchivo;
-    }
 
-    $stmt = $conexion->prepare("
-        INSERT INTO actividad_evento
-        (id_evento,id_usuario,id_tipo,titulo,descripcion,resumen,referencias,archivo_pdf,fecha,hora_inicio,hora_fin)
-        VALUES(?,?,?,?,?,?,?,?,?,?,?)
-    ");
+/* VALIDAR TRASLAPE */
 
-    $stmt->bind_param(
-        "iiissssssss",$id_evento,$id_usuario,$id_tipo,$titulo,$descripcion,$resumen,$referencias,$archivo_pdf,$fecha,$hora_inicio,$hora_fin);
+$stmt = $conexion->prepare("
+SELECT *
+FROM actividad_evento
+WHERE id_evento = ?
+AND (
+    (? < hora_fin AND ? > hora_inicio)
+)
+");
 
-    if($stmt->execute()){
+$stmt->bind_param("iss",$id_evento,$hora_inicio,$hora_fin);
+$stmt->execute();
 
-        header("Location: programa/detalle_programa.php?id=".$id_evento);
-        exit();
+$conflicto = $stmt->get_result();
 
-    }else{
-        echo "Error al registrar actividad";
-    }
+if($conflicto->num_rows > 0){
+    die("Error: el horario se traslapa con otra actividad.");
+}
+
+
+/* SUBIR PDF */
+
+$ruta_pdf = NULL;
+
+if(!empty($_FILES['archivo_pdf']['name'])){
+
+$nombre = time()."_".$_FILES['archivo_pdf']['name'];
+
+$destino = "uploads/actividades/".$nombre;
+
+move_uploaded_file(
+$_FILES['archivo_pdf']['tmp_name'],
+$destino
+);
+
+$ruta_pdf = $destino;
 
 }
+
+
+/* INSERTAR ACTIVIDAD */
+
+$stmt = $conexion->prepare("
+INSERT INTO actividad_evento
+(
+id_evento,
+id_usuario,
+id_tipo,
+titulo,
+descripcion,
+resumen,
+referencias,
+archivo_pdf,
+fecha,
+hora_inicio,
+hora_fin
+)
+
+VALUES(?,?,?,?,?,?,?,?,?,?,?)
+");
+
+$stmt->bind_param(
+"iiissssssss",
+$id_evento,
+$id_usuario,
+$id_tipo,
+$titulo,
+$descripcion,
+$resumen,
+$referencias,
+$ruta_pdf,
+$fecha,
+$hora_inicio,
+$hora_fin
+);
+
+$stmt->execute();
+
+
+header("Location: programa/detalle_programa.php?id=".$id_evento);
+
 ?>

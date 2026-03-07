@@ -1,75 +1,79 @@
 <?php
 require("conexion.php");
 require("auth.php");
-include("includes/header_programa.php");
-
-if(!isset($_SESSION['id_usuario'])){
-    die("Debes iniciar sesión");
-}
-
-if($_SESSION['tipo_usuario'] != "docente" && $_SESSION['tipo_usuario'] != "empresa"){
-    die("No tienes permisos para registrar actividades");
-}
 
 if(!isset($_GET['id_evento'])){
     die("Evento no especificado");
 }
 
 $id_evento = intval($_GET['id_evento']);
-$fecha = $_GET['fecha'];
-$hora_inicio = $_GET['hora_inicio'];
-$hora_fin = $_GET['hora_fin'];
-
-$id_usuario = $_SESSION['id_usuario'];
 
 
-/*OBTENER TIPOS DE ACTIVIDAD*/
-$sql_tipo = "SELECT * FROM tipo_actividad ORDER BY nombre ASC";
-$result_tipo = $conexion->query($sql_tipo);
+/* OBTENER EVENTO */
+
+$stmt = $conexion->prepare("SELECT fecha, hora_inicio, hora_fin FROM evento WHERE id_evento = ?");
+
+$stmt->bind_param("i",$id_evento);
+$stmt->execute();
+
+$evento = $stmt->get_result()->fetch_assoc();
 
 
-/*REGISTRO XD*/
-if($_SERVER['REQUEST_METHOD'] == "POST"){
+/* OBTENER ACTIVIDADES YA REGISTRADAS */
 
-    $titulo = $_POST['titulo'];
-    $descripcion = $_POST['descripcion'];
-    $resumen = $_POST['resumen'];
-    $referencias = $_POST['referencias'];
-    $id_tipo = $_POST['id_tipo'];
+$stmt = $conexion->prepare("SELECT hora_inicio, hora_fin FROM actividad_evento WHERE id_evento = ?");
+$stmt->bind_param("i",$id_evento);
+$stmt->execute();
 
-    $archivo_pdf = NULL;
+$result = $stmt->get_result();
 
-    /* SUBIR PDF */
+$ocupados = [];
 
-    if(isset($_FILES['archivo_pdf']) && $_FILES['archivo_pdf']['error'] == 0){
+while($fila = $result->fetch_assoc()){
+    $ocupados[] = $fila;
+}
 
-        $nombreArchivo = time() . "_" . $_FILES['archivo_pdf']['name'];
-        $ruta = "pdfs/" . $nombreArchivo;
 
-        move_uploaded_file($_FILES['archivo_pdf']['tmp_name'], $ruta);
+/* GENERAR BLOQUES DE 30 MIN */
 
-        $archivo_pdf = $nombreArchivo;
+$hora_actual = strtotime($evento['hora_inicio']);
+$hora_fin_evento = strtotime($evento['hora_fin']);
+
+$horarios_disponibles = [];
+
+while($hora_actual < $hora_fin_evento){
+
+    $bloque = date("H:i",$hora_actual);
+
+    $ocupado = false;
+
+    foreach($ocupados as $act){
+
+        if(
+            $bloque >= substr($act['hora_inicio'],0,5)
+            &&
+            $bloque < substr($act['hora_fin'],0,5)
+        ){
+            $ocupado = true;
+            break;
+        }
+
     }
 
-    $stmt = $conexion->prepare("
-        INSERT INTO actividad_evento
-        (id_evento,id_usuario,id_tipo,titulo,descripcion,resumen,referencias,archivo_pdf,fecha,hora_inicio,hora_fin)
-        VALUES(?,?,?,?,?,?,?,?,?,?,?)
-    ");
-
-    $stmt->bind_param(
-        "iiissssssss",$id_evento,$id_usuario,$id_tipo,$titulo,$descripcion,$resumen,$referencias,$archivo_pdf,$fecha,$hora_inicio,$hora_fin);
-
-    if($stmt->execute()){
-
-        header("Location: programa/detalle_programa.php?id=".$id_evento);
-        exit();
-
-    }else{
-        echo "Error al registrar actividad";
+    if(!$ocupado){
+        $horarios_disponibles[] = $bloque;
     }
+
+    $hora_actual = strtotime("+30 minutes",$hora_actual);
 
 }
+
+
+/* TIPOS DE ACTIVIDAD */
+
+$tipos = $conexion->query("
+SELECT * FROM tipo_actividad
+");
 ?>
 
 <!DOCTYPE html>
@@ -77,44 +81,56 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
     <head>
         <meta charset="UTF-8">
         <title>Registrar Actividad</title>
+        
         <link rel="stylesheet" href="Css/actividades.css">
         <style>
-        body {
-            background: linear-gradient(135deg, #0a7eeb, #c0902a);
-        }
-    </style>
+            body {
+                background: linear-gradient(135deg, #0a7eeb, #c0902a);
+            }
+            </style>
     </head>
     <body>
+        
         <div class="container-actividad info-bloque">
+            
             <h2>Registrar actividad</h2>
-            <p>
-                Horario: <?php echo $hora_inicio ?> - <?php echo $hora_fin ?>
-            </p>
-            <form class="form-group" method="POST" enctype="multipart/form-data">
-
+            
+            <form class="form-group" action="guardar_actividad.php" method="POST" enctype="multipart/form-data">
+                <input type="hidden" name="id_evento" value="<?php echo $id_evento; ?>">
                 <label>Tipo de actividad</label>
-                <select name="id_tipo" required>
-                    <?php while($tipo = $result_tipo->fetch_assoc()): ?>
-                        <option value="<?php echo $tipo['id_tipo']; ?>">
+                <select name="id_tipo" required>    
+                    <?php while($tipo = $tipos->fetch_assoc()): ?>
+                        <option value="<?php echo $tipo['id_tipo']; ?>">    
                             <?php echo $tipo['nombre']; ?>
+                            (<?php echo $tipo['duracion_minutos']; ?> min)    
                         </option>
-                    <?php endwhile; ?>
+                    <?php endwhile; ?>    
                 </select>
-
+                <label>Hora disponible</label>
+                <select name="hora_inicio" required>            
+                    <?php foreach($horarios_disponibles as $hora): ?>
+                        <option value="<?php echo $hora; ?>">
+                            <?php echo $hora; ?>
+                        </option>
+                    <?php endforeach; ?>             
+                </select>
+                
                 <label>Título</label>
                 <input type="text" name="titulo" required>
-
+                
                 <label>Descripción</label>
-                <textarea name="descripcion"></textarea>
-
+                <textarea name="descripcion" required></textarea>
+                
                 <label>Resumen</label>
-                <textarea name="resumen"></textarea>
-
+                <textarea name="resumen" required></textarea>
+                
                 <label>Referencias</label>
-                <textarea name="referencias"></textarea>
-                <label>Subir PDF</label>
-                <input type="file" name="archivo_pdf" accept="application/pdf">
-                <button type="submit" class="btn-submit">
+                <textarea name="referencias" required></textarea>
+                
+                <label>Archivo PDF</label>
+                <input type="file" name="archivo_pdf" accept="application/pdf" required>
+                
+                <button type="submit" class="btn-submit">                
                     Registrar actividad
                 </button>
             </form>

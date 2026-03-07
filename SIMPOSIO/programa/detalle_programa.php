@@ -71,51 +71,87 @@ $hora_fin_evento = strtotime($evento['hora_fin']);
 
     <?php while($hora_actual < $hora_fin_evento): ?>
 
-        <?php
-            $bloque_inicio = date("H:i", $hora_actual);
-            $bloque_fin = date("H:i", strtotime("+30 minutes", $hora_actual));
-            $ocupado = false;
-            $actividad_actual = null;
+<?php
+$bloque_inicio = date("H:i", $hora_actual);
+$actividad_actual = null;
 
-            foreach($actividades as $act){
-                if(
-                    $bloque_inicio >= substr($act['hora_inicio'],0,5)
-                    &&
-                    $bloque_inicio < substr($act['hora_fin'],0,5)
-                ){
-                    $ocupado = true;
-                    $actividad_actual = $act;
-                    break;
-                }
-            }
-        ?>
+foreach($actividades as $act){
 
-        <div class="bloque-horario <?php echo $ocupado ? 'bloque-ocupado' : 'bloque-disponible'; ?>">
-            <div>
-                <strong><?php echo $bloque_inicio . " - " . $bloque_fin; ?></strong>
-            </div>
+    if($bloque_inicio == substr($act['hora_inicio'],0,5)){
+        $actividad_actual = $act;
+        break;
+    }
 
-            <div>
-                <?php if($ocupado): ?>
-                    <?php echo $actividad_actual['titulo']; ?>
-                    (<?php echo $actividad_actual['tipo']; ?>)
-                <?php else: ?>
-                    Disponible
-                    <?php if(isset($_SESSION['tipo_usuario']) && ($_SESSION['tipo_usuario']=="docente")): ?>
-                        <br><br>
-                        <a class="btn-registrar"
-                        href="../registrar_actividad.php?id_evento=<?php echo $id_evento; ?>&fecha=<?php echo $evento['fecha']; ?>
-                        &hora_inicio=<?php echo $bloque_inicio; ?>&hora_fin=<?php echo $bloque_fin; ?>">
-                            Registrar actividad
-                        </a>
-                    <?php endif; ?>
-                <?php endif; ?>
-            </div>
-        </div>
+}
 
-        <?php $hora_actual = strtotime("+30 minutes", $hora_actual); ?>
+?>
 
-    <?php endwhile; ?>
+<?php if($actividad_actual): ?>
+
+<?php
+$hora_inicio_act = strtotime($actividad_actual['hora_inicio']);
+$hora_fin_act = strtotime($actividad_actual['hora_fin']);
+
+$duracion = ($hora_fin_act - $hora_inicio_act) / 60;
+?>
+
+<div class="bloque-horario bloque-ocupado">
+
+    <div>
+        <strong>
+        <?php echo date("H:i",$hora_inicio_act)." - ".date("H:i",$hora_fin_act); ?>
+        </strong>
+    </div>
+
+    <div>
+        <?php echo $actividad_actual['titulo']; ?>
+        (<?php echo $actividad_actual['tipo']; ?>)
+    </div>
+
+</div>
+
+<?php
+$hora_actual = $hora_fin_act;
+?>
+
+<?php else: ?>
+
+<?php
+$bloque_fin = date("H:i", strtotime("+30 minutes", $hora_actual));
+?>
+
+<div class="bloque-horario bloque-disponible">
+
+    <div>
+        <strong><?php echo $bloque_inicio." - ".$bloque_fin; ?></strong>
+    </div>
+
+    <div>
+        Disponible
+
+        <?php if(isset($_SESSION['tipo_usuario']) && $_SESSION['tipo_usuario']=="docente"): ?>
+
+        <br><br>
+
+        <a class="btn-registrar"
+        href="../registrar_actividad.php?id_evento=<?php echo $id_evento; ?>&fecha=<?php echo $evento['fecha']; ?>
+        &hora_inicio=<?php echo $bloque_inicio; ?>&hora_fin=<?php echo $bloque_fin; ?>">
+            Registrar actividad
+        </a>
+
+        <?php endif; ?>
+
+    </div>
+
+</div>
+
+<?php
+$hora_actual = strtotime("+30 minutes", $hora_actual);
+?>
+
+<?php endif; ?>
+
+<?php endwhile; ?>
 
     </div>
 
