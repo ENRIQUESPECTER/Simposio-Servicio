@@ -134,7 +134,7 @@ $bloque_fin = date("H:i", strtotime("+30 minutes", $hora_actual));
         <br><br>
 
         <a class="btn-registrar"
-        href="../registrar_actividad.php?id_evento=<?php echo $id_evento; ?>&fecha=<?php echo $evento['fecha']; ?>
+        href="../registro_actividades/registrar_actividad.php?id_evento=<?php echo $id_evento; ?>&fecha=<?php echo $evento['fecha']; ?>
         &hora_inicio=<?php echo $bloque_inicio; ?>&hora_fin=<?php echo $bloque_fin; ?>">
             Registrar actividad
         </a>
