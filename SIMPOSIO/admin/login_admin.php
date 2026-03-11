@@ -1,13 +1,14 @@
-<?php 
+<?php
 session_start();
 require "../conexion.php";
 
-// Validar que venga del formulario
 if(!isset($_POST['usuario'], $_POST['password'])){
     header("Location: login_admin.html");
     exit();
 }
-$usuario = $_POST['usuario'];
+
+$usuario = trim($_POST['usuario']);
+$password = trim($_POST['password']);
 
 $sql = "SELECT * FROM administrador WHERE usuario = ? LIMIT 1";
 $stmt = $conexion->prepare($sql);
@@ -15,27 +16,28 @@ $stmt->bind_param("s", $usuario);
 $stmt->execute();
 $resultado = $stmt->get_result();
 
-if($resultado->num_rows === 1){
+if($resultado->num_rows == 1){
 
-    $user = $resultado->fetch_assoc();
+    $admin = $resultado->fetch_assoc();
 
-    if(password_verify($password, $user['password'])){
+    if(password_verify($password, $admin['password'])){
 
-        $_SESSION['id_admin'] = $user['id_admin'];
-        $_SESSION['usuario'] = $user['usuario'];
+        $_SESSION['admin_login'] = true;
+        $_SESSION['id_admin'] = $admin['id_admin'];
+        $_SESSION['usuario'] = $admin['usuario'];
 
-        // Redirección inteligente
-        header("Location: panel.php");
+        header("Location: dashboard.php");
         exit();
 
     } else {
-        header("Location: login_admin.html");
+
+        header("Location: login_admin.html?error=1");
         exit();
-        echo "Contraseña incorrecta";
+
     }
 
 }else{
-    echo "Usuario no encontrado";
-}
 
-?>
+    header("Location: login_admin.html?error=2");
+    exit();
+}
