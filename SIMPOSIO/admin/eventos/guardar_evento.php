@@ -1,6 +1,6 @@
 <?php
 session_start();
-include("../../conexion.php");
+require "../../conexion.php";
 if(!isset($_SESSION['admin_login'])){
     header("Location: login_admin.html");
     exit();

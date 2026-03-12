@@ -1,7 +1,6 @@
 <?php
 session_start();
 require "../conexion.php";
-
 if(!isset($_POST['usuario'], $_POST['password'])){
     header("Location: login_admin.html");
     exit();
