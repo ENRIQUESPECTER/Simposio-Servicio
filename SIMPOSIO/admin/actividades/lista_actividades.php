@@ -27,8 +27,16 @@ ORDER BY e.fecha,a.hora_inicio";
 $result=$conexion->query($sql);
 
 ?>
-
-<h2>Actividades Registradas</h2>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../Css/admin.css">
+    <title>Lista de Actividades por evento</title>
+</head>
+<body>
+    <h2>Actividades Registradas</h2>
 
 <table border="1">
 
@@ -57,9 +65,9 @@ $result=$conexion->query($sql);
 
 <td>
 
-<a href="../eventos/editar_actividad.php?id=<?php echo $fila['id_actividad']; ?>">Editar</a>
+<a href="editar_actividad.php?id=<?php echo $fila['id_actividad']; ?>">Editar</a>
 
-<a href="../eventos/eliminar_actividad.php?id=<?php echo $fila['id_actividad']; ?>">Eliminar</a>
+<a href="eliminar_actividad.php?id=<?php echo $fila['id_actividad']; ?>"onclick="return confirm('¿Eliminar esta actividad?');">Eliminar</a>
 
 </td>
 
@@ -68,3 +76,5 @@ $result=$conexion->query($sql);
 <?php endwhile; ?>
 
 </table>
+</body>
+</html>

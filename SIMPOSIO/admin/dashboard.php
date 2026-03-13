@@ -1,6 +1,7 @@
 <?php
 session_start();
 require "../conexion.php";
+include '../includes/navbar_admin.php';
 if(!isset($_SESSION['admin_login'])){
     header("Location: login_admin.html");
     exit();
@@ -56,7 +57,7 @@ $tipos = $res_tipo->fetch_assoc()['total'];
         </div>
         
         <div class="menu">
-            <a class="btn" href="eventos/evento.php">Crear Evento</a>
+            <a class="btn" href="eventos/crear_evento.php">Crear Evento</a>
             <a class="btn" href="eventos/lista_eventos.php">Gestionar Eventos</a>
             <a class="btn" href="actividades/lista_actividades.php">Actividades</a>
             <a class="btn" href="tipos/lista_tipos.php">Tipos de actividad</a>

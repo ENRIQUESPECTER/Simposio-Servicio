@@ -36,16 +36,16 @@ $result=$conexion->query($sql);
                     </td>
 
                     <td>
-                        <a href="editar_evento.php?id_evento=<?php echo $evento['id_evento']; ?>">
+                        <a class="" href="editar_evento.php?id_evento=<?php echo $evento['id_evento']; ?>">
                             Editar
                         </a>
-                        <a href="eliminar_evento.php?id_evento=<?php echo $evento['id_evento']; ?>">
+                        <a class="" href="eliminar_evento.php?id_evento=<?php echo $evento['id_evento']; ?>"onclick="return confirm('¿Eliminar esta actividad?');">
                             Eliminar
                         </a>
                     </td>
                 </tr>
             <?php endwhile; ?>
-            <button class="btn"><a href="../dashboard.php" style="" >REGRESAR</a></button>
+            <a class="btn" href="../dashboard.php" style="">Regresar</a>
         </table>
         </div>
     </body>

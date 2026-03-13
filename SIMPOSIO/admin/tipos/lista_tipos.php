@@ -11,8 +11,16 @@ $sql="SELECT * FROM tipo_actividad";
 $result=$conexion->query($sql);
 
 ?>
-
-<h2>Tipos de Actividad</h2>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../Css/admin.css">
+    <title>Lista Tipos Actividades</title>
+</head>
+<body>
+    <h2>Tipos de Actividad</h2>
 
 <a href="crear_tipo.php">Nuevo tipo</a>
 
@@ -36,3 +44,5 @@ $result=$conexion->query($sql);
 <?php endwhile; ?>
 
 </table>
+</body>
+</html>

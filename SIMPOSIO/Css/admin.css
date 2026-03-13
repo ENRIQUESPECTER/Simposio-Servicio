@@ -1,23 +1,14 @@
 body{
-
-font-family: "Segoe UI", Arial, sans-serif;
-background:#f5f7fa;
+font-family: Arial, Helvetica, sans-serif;
 margin:0;
-padding:0;
-
+background:#f4f6f9;
 }
-
-/* Encabezados */
 
 h1,h2{
-
-text-align:center;
-color:#0b3d91;
-margin-top:30px;
-
+    text-align:center;
+    color:#0b3d91;
+    margin-top:30px;
 }
-
-/* Contenedor principal */
 
 .container{
 
@@ -35,142 +26,66 @@ box-shadow:0 4px 10px rgba(0,0,0,0.1);
 
 }
 
-/* Formularios */
+/* NAVBAR */
 
-form{
-
+.admin-navbar{
 display:flex;
-flex-direction:column;
-gap:12px;
-
-}
-
-label{
-
-font-weight:bold;
-color:#333;
-
-}
-
-input{
-
-padding:10px;
-border:1px solid #ccc;
-border-radius:6px;
-
-}
-
-/* Botones */
-
-button{
-
-background:#0b3d91;
+justify-content:space-between;
+align-items:center;
+background:#003366;
 color:white;
-
-padding:10px;
-
-border:none;
-border-radius:6px;
-
-font-weight:bold;
-
-cursor:pointer;
-
+padding:15px 30px;
 }
 
-button:hover{
-
-background:#082c6c;
-
-}
-
-/* Tablas */
-
-table{
-
-width:100%;
-border-collapse:collapse;
-margin-top:20px;
-
-}
-
-th{
-
-background:#0b3d91;
+.admin-navbar a{
 color:white;
-padding:10px;
-
-}
-
-td{
-
-padding:10px;
-border-bottom:1px solid #ddd;
-text-align:center;
-
-}
-
-tr:hover{
-
-background:#f1f3f5;
-
-}
-
-/* Panel principal */
-
-.panel-opciones{
-
-display:flex;
-flex-direction:column;
-
-gap:15px;
-
-width:300px;
-margin:auto;
-margin-top:40px;
-
-}
-
-.panel-opciones a{
-
-background:#0b3d91;
-color:white;
-
-padding:12px;
-
 text-decoration:none;
-border-radius:6px;
-
-text-align:center;
+margin:0 15px;
 font-weight:bold;
-
 }
 
-.panel-opciones a:hover{
-
-background:#082c6c;
-
+.logo{
+font-size:20px;
+font-weight:bold;
 }
 
-.header{
-    background:#003366;
-    color:white;
-    padding:20px;
+/* USER MENU */
+
+.user-menu{
+position:relative;
+cursor:pointer;
 }
 
-.header h1{
-    background:#003366;
-    color:white;
-    padding:20px;
+.dropdown{
+display:none;
+position:absolute;
+background:white;
+color:black;
+right:0;
+top:30px;
+border-radius:5px;
+box-shadow:0 5px 10px rgba(0,0,0,0.2);
 }
+
+.dropdown a{
+display:block;
+padding:10px;
+color:black;
+}
+
+.user-menu:hover .dropdown{
+display:block;
+}
+
+/* DASHBOARD */
 
 .dashboard{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:20px;
-    padding:40px;
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+gap:20px;
+padding:30px;
 }
-            
+
 .card{
     background:white;
     padding:30px;
@@ -184,20 +99,106 @@ background:#082c6c;
     margin:0;
     color:#003366;
 }
-            
+
+/* TABLAS */
+
+table{
+width:90%;
+margin:30px auto;
+border-collapse:collapse;
+background:white;
+}
+
+th,td{
+padding:12px;
+border-bottom:1px solid #ddd;
+}
+
+th{
+background:#003366;
+color:white;
+}
+
+/* BOTONES */
+button{
+    background:#0b3d91;
+    color:white;
+    padding:10px;
+    border-radius:6px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.btn{
+display:inline-block;
+padding:10px 15px;
+background:#003366;
+color:white;
+text-decoration:none;
+border-radius:5px;
+margin:5px;
+}
+
+.btn:hover{
+background:#001f4d;
+}
+
+/* FORMULARIOS */
+
+form{
+display:flex;
+flex-direction:column;
+gap:12px;
+}
+
+label{
+    font-weight:bold;
+    color:#333;
+}
+
+input,select,textarea {
+    padding:8px;
+    margin-bottom:15px;
+    padding:10px;
+    border:1px solid #ccc;
+    border-radius:6px;
+}
+
+/* AGENDA */
+
+.agenda-preview{
+width:400px;
+margin:auto;
+}
+
+.bloque-ocupado{
+background:#b30000;
+color:white;
+padding:8px;
+margin:5px 0;
+border-radius:4px;
+}
+
 .menu{
     display:grid;
     grid-template-columns:repeat(3,1fr);
     gap:20px;
     padding:40px;
+    text-align: center;
 }
-            
-.btn{
-    background:#003366;
-    color:white;
-    padding:20px;
-    text-align:center;
-    border-radius:8px;
-    text-decoration:none;
+
+
+/* RESPONSIVE */
+
+@media(max-width:768px){
+
+.admin-navbar{
+flex-direction:column;
+align-items:flex-start;
 }
-            
+
+.dashboard{
+grid-template-columns:1fr;
+}
+
+}
