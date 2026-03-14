@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 13-03-2026 a las 23:55:42
+-- Tiempo de generación: 14-03-2026 a las 21:29:58
 -- Versión del servidor: 10.4.16-MariaDB
 -- Versión de PHP: 7.4.12
 
@@ -20,6 +20,37 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `simposio`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `actividad_evento`
+--
+
+CREATE TABLE `actividad_evento` (
+  `id_actividad` int(11) NOT NULL,
+  `id_evento` int(11) NOT NULL,
+  `id_usuario` int(11) NOT NULL,
+  `id_tipo` int(11) NOT NULL,
+  `titulo` varchar(150) NOT NULL,
+  `descripcion` text DEFAULT NULL,
+  `resumen` text DEFAULT NULL,
+  `referencias` text DEFAULT NULL,
+  `archivo_pdf` varchar(255) DEFAULT NULL,
+  `fecha` date NOT NULL,
+  `hora_inicio` time NOT NULL,
+  `hora_fin` time NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `actividad_evento`
+--
+
+INSERT INTO `actividad_evento` (`id_actividad`, `id_evento`, `id_usuario`, `id_tipo`, `titulo`, `descripcion`, `resumen`, `referencias`, `archivo_pdf`, `fecha`, `hora_inicio`, `hora_fin`) VALUES
+(1, 1, 3, 2, 'Inteligencia Artificial en 2026', 'Conferencia sobre avances recientes en IA.', 'Se abordarán modelos de lenguaje y automatización.', 'Referencia IEEE 2025', 'ia2026.pdf', '2026-02-26', '09:00:00', '10:00:00'),
+(2, 1, 3, 1, 'Seguridad en Redes', 'Ponencia sobre vulnerabilidades actuales.', 'Análisis de ataques recientes.', 'NIST 2025', 'seguridad.pdf', '2026-02-26', '10:00:00', '10:30:00'),
+(3, 1, 2, 3, 'Taller de Desarrollo Web Seguro', 'Taller práctico sobre seguridad en aplicaciones web.', 'Prácticas OWASP.', 'OWASP Top 10', 'taller_web.pdf', '2026-02-26', '11:00:00', '13:00:00'),
+(4, 1, 10, 2, 'Sistemas de software', 'sfsdfsdg', 'sdgsdgsdg', 'dsgsdgsdg', 'uploads/actividades/1773373968_actividad web.pdf', '2026-03-24', '14:00:00', '15:00:00');
 
 -- --------------------------------------------------------
 
@@ -169,6 +200,27 @@ INSERT INTO `evento` (`id_evento`, `titulo`, `descripcion`, `fecha`, `hora_inici
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `plantilla_impresion`
+--
+
+CREATE TABLE `plantilla_impresion` (
+  `id_plantilla` int(11) NOT NULL,
+  `anio` int(11) NOT NULL,
+  `nombre` varchar(100) DEFAULT NULL,
+  `archivo_css` varchar(255) DEFAULT NULL,
+  `activa` tinyint(1) DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `plantilla_impresion`
+--
+
+INSERT INTO `plantilla_impresion` (`id_plantilla`, `anio`, `nombre`, `archivo_css`, `activa`) VALUES
+(1, 2026, 'Plantilla Oficial 2026', 'plantilla2026.css', 1);
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `proyecto`
 --
 
@@ -231,6 +283,27 @@ INSERT INTO `proyecto_docente` (`id_proyecto`, `id_docente`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `tipo_actividad`
+--
+
+CREATE TABLE `tipo_actividad` (
+  `id_tipo` int(11) NOT NULL,
+  `nombre` varchar(50) NOT NULL,
+  `duracion_minutos` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `tipo_actividad`
+--
+
+INSERT INTO `tipo_actividad` (`id_tipo`, `nombre`, `duracion_minutos`) VALUES
+(1, 'Ponencia', 30),
+(2, 'Conferencia', 60),
+(3, 'Taller', 120);
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `usuario`
 --
 
@@ -259,6 +332,15 @@ INSERT INTO `usuario` (`id_usuario`, `correo`, `password`, `nombre`, `apellidos`
 --
 -- Índices para tablas volcadas
 --
+
+--
+-- Indices de la tabla `actividad_evento`
+--
+ALTER TABLE `actividad_evento`
+  ADD PRIMARY KEY (`id_actividad`),
+  ADD KEY `id_evento` (`id_evento`),
+  ADD KEY `id_usuario` (`id_usuario`),
+  ADD KEY `id_tipo` (`id_tipo`);
 
 --
 -- Indices de la tabla `administrador`
@@ -301,11 +383,23 @@ ALTER TABLE `evento`
   ADD KEY `creado_por` (`creado_por`);
 
 --
+-- Indices de la tabla `plantilla_impresion`
+--
+ALTER TABLE `plantilla_impresion`
+  ADD PRIMARY KEY (`id_plantilla`);
+
+--
 -- Indices de la tabla `proyecto`
 --
 ALTER TABLE `proyecto`
   ADD PRIMARY KEY (`id_proyecto`),
   ADD KEY `aprobado_por` (`aprobado_por`);
+
+--
+-- Indices de la tabla `tipo_actividad`
+--
+ALTER TABLE `tipo_actividad`
+  ADD PRIMARY KEY (`id_tipo`);
 
 --
 -- Indices de la tabla `usuario`
@@ -317,6 +411,12 @@ ALTER TABLE `usuario`
 --
 -- AUTO_INCREMENT de las tablas volcadas
 --
+
+--
+-- AUTO_INCREMENT de la tabla `actividad_evento`
+--
+ALTER TABLE `actividad_evento`
+  MODIFY `id_actividad` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `administrador`
@@ -355,10 +455,22 @@ ALTER TABLE `evento`
   MODIFY `id_evento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
+-- AUTO_INCREMENT de la tabla `plantilla_impresion`
+--
+ALTER TABLE `plantilla_impresion`
+  MODIFY `id_plantilla` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT de la tabla `proyecto`
 --
 ALTER TABLE `proyecto`
   MODIFY `id_proyecto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT de la tabla `tipo_actividad`
+--
+ALTER TABLE `tipo_actividad`
+  MODIFY `id_tipo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `usuario`
@@ -369,6 +481,14 @@ ALTER TABLE `usuario`
 --
 -- Restricciones para tablas volcadas
 --
+
+--
+-- Filtros para la tabla `actividad_evento`
+--
+ALTER TABLE `actividad_evento`
+  ADD CONSTRAINT `actividad_evento_ibfk_1` FOREIGN KEY (`id_evento`) REFERENCES `evento` (`id_evento`) ON DELETE CASCADE,
+  ADD CONSTRAINT `actividad_evento_ibfk_2` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`) ON DELETE CASCADE,
+  ADD CONSTRAINT `actividad_evento_ibfk_3` FOREIGN KEY (`id_tipo`) REFERENCES `tipo_actividad` (`id_tipo`);
 
 --
 -- Filtros para la tabla `alumno`
