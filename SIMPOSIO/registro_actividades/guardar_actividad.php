@@ -43,7 +43,7 @@ if($conflicto->num_rows > 0){
 $ruta_pdf = NULL;
 if(!empty($_FILES['archivo_pdf']['name'])){
     $nombre = time()."_".$_FILES['archivo_pdf']['name'];
-    $destino = "pdfs/".$nombre;
+    $destino = "../pdfs/".$nombre;
     move_uploaded_file( $_FILES['archivo_pdf']['tmp_name'], $destino );
     $ruta_pdf = $destino;
 }

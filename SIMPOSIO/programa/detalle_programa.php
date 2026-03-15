@@ -129,7 +129,7 @@ $bloque_fin = date("H:i", strtotime("+30 minutes", $hora_actual));
     <div>
         Disponible
 
-        <?php if(isset($_SESSION['tipo_usuario']) && $_SESSION['tipo_usuario']=="docente"): ?>
+        <?php if(isset($_SESSION['tipo_usuario']) && $_SESSION['tipo_usuario']=="docente" || $_SESSION['tipo_usuario']=="alumno"): ?>
 
         <br><br>
 
