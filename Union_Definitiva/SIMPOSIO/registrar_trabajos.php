@@ -10,6 +10,11 @@ if (!esta_logeado()) {
     exit;
 }
 
+if (es_empresa()) {
+    header('Location: index.html');
+    exit;
+}
+
 $mensaje = '';
 $tipo_mensaje = '';
 
@@ -819,6 +824,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             <option value="">Seleccione...</option>
                             <option value="ENSEÑANZA DE LAS MATEMÁTICAS">ENSEÑANZA DE LAS MATEMÁTICAS</option>
                             <option value="MATEMÁTICAS APLICADAS">MATEMÁTICAS APLICADAS</option>
+                            <option value="MATEMÁTICAS APLICADAS">MATEMÁTICAS PURA</option>
+                            <option value="MATEMÁTICAS APLICADAS">ESTADISTICA</option>
+                            <option value="MATEMÁTICAS APLICADAS">COMPUTACION</option>
+                            <option value="MATEMÁTICAS APLICADAS">FISICA</option>
+                            <option value="MATEMÁTICAS APLICADAS">INGENIERIA</option>
+                            <option value="MATEMÁTICAS APLICADAS">ECONOMIA</option>
                             <!-- ... resto de categorías ... -->
                         </select>
                     </div>
