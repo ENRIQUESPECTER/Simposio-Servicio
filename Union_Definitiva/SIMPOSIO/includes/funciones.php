@@ -8,7 +8,7 @@
  */
 function duracion_tipo_trabajo($tipo) {
     $duraciones = [
-        'cartel'    => 60,   // 1 hora (ajusta según necesites)
+        'cartel'    => 30,   // (ajustar según los trabajos)
         'ponencia'  => 30,
         'taller'    => 120,
         'prototipo' => 60

@@ -434,6 +434,41 @@ $color_tipo = $colores_tipo[$tipo_trabajo] ?? $colores_tipo['ponencia'];
         .btn-principal { background: #293e6b; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; }
         .btn-principal.activo { background: #28a745; }
         .acciones { display: flex; gap: 15px; justify-content: space-between; margin-top: 30px; }
+        .imagen-actions {
+    padding: 8px;
+    background: #f8f9fa;
+    border-radius: 0 0 10px 10px;
+}
+.imagen-item {
+    border: 2px solid #dee2e6;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: 0.3s;
+}
+.imagen-item.principal {
+    border-color: #293e6b;
+    border-width: 3px;
+}
+.imagen-item.marcado-eliminar {
+    border-color: #dc3545;
+    background-color: #f8d7da;
+}
+.imagen-item img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+}
+.imagen-badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: #293e6b;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    z-index: 1;
+}
     </style>
 </head>
 <body>
@@ -520,7 +555,11 @@ $color_tipo = $colores_tipo[$tipo_trabajo] ?? $colores_tipo['ponencia'];
                     </div>
 
                     <!-- Horario (se llenará vía AJAX) -->
-                    <div class="form-group" id="horario-group" style="display: <?php echo in_array($proyecto['tipo_trabajo'], ['ponencia','taller','cartel','prototipo']) ? 'block' : 'none'; ?>;">
+                    <?php
+                        // Definir qué tipos de trabajo tienen horario (todos los que están en tipo_actividad)
+                        $tipos_con_horario = ['ponencia', 'taller', 'cartel', 'prototipo'];
+                        ?>
+                        <div class="form-group" id="horario-group" style="display: <?php echo in_array($proyecto['tipo_trabajo'], $tipos_con_horario) ? 'block' : 'none'; ?>;">
                         <label><i class="fas fa-clock me-2"></i>Horario de presentación *</label>
                         <select class="form-select" name="hora_inicio" id="hora_inicio" <?php echo in_array($proyecto['tipo_trabajo'], ['ponencia','taller','cartel','prototipo']) ? 'required' : 'disabled'; ?>>
                             <option value="">Seleccione horario</option>
@@ -595,22 +634,34 @@ $color_tipo = $colores_tipo[$tipo_trabajo] ?? $colores_tipo['ponencia'];
                     <?php if (!empty($imagenes)): ?>
                     <div class="galeria-container">
                         <h5><i class="fas fa-images me-2"></i>Imágenes actuales</h5>
+                        <div class="mb-2">
+                            <button type="button" class="btn btn-sm btn-secondary" id="seleccionar-todas">Seleccionar todas</button>
+                            <button type="button" class="btn btn-sm btn-secondary" id="deseleccionar-todas">Deseleccionar todas</button>
+                        </div>
                         <div class="imagenes-grid">
                             <?php foreach ($imagenes as $img): ?>
-                            <div class="imagen-item <?php echo $img['es_principal'] ? 'principal' : ''; ?>">
+                            <div class="imagen-item <?php echo $img['es_principal'] ? 'principal' : ''; ?>" data-id="<?php echo $img['id_imagen']; ?>">
                                 <?php if ($img['es_principal']): ?>
-                                <span class="imagen-badge"><i class="fas fa-star me-1"></i>Principal</span>
+                                    <span class="imagen-badge"><i class="fas fa-star me-1"></i>Principal</span>
                                 <?php endif; ?>
-                                <div class="imagen-checkbox">
-                                    <input type="checkbox" name="eliminar_imagenes[]" value="<?php echo $img['id_imagen']; ?>" id="img_<?php echo $img['id_imagen']; ?>">
-                                </div>
                                 <a href="uploads/proyectos/<?php echo $img['nombre_archivo']; ?>" data-lightbox="proyecto">
                                     <img src="uploads/proyectos/<?php echo $img['nombre_archivo']; ?>" alt="Imagen">
                                 </a>
-                                <div class="imagen-overlay">
-                                    <button type="button" class="btn-principal <?php echo $img['es_principal'] ? 'activo' : ''; ?>" onclick="setPrincipal(<?php echo $img['id_imagen']; ?>)" <?php echo $img['es_principal'] ? 'disabled' : ''; ?>>
-                                        <i class="fas <?php echo $img['es_principal'] ? 'fa-check' : 'fa-star'; ?> me-1"></i>
-                                        <?php echo $img['es_principal'] ? 'Principal' : 'Hacer principal'; ?>
+                                <div class="imagen-actions mt-2">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="eliminar_imagenes[]" value="<?php echo $img['id_imagen']; ?>" id="img_<?php echo $img['id_imagen']; ?>">
+                                        <label class="form-check-label text-danger" for="img_<?php echo $img['id_imagen']; ?>">
+                                            <i class="fas fa-trash-alt me-1"></i>Eliminar
+                                        </label>
+                                    </div>
+                                    <button type="button" class="btn btn-sm <?php echo $img['es_principal'] ? 'btn-success' : 'btn-primary'; ?> mt-1 btn-principal" 
+                                        onclick="setPrincipal(<?php echo $img['id_imagen']; ?>)" 
+                                        <?php echo $img['es_principal'] ? 'disabled' : ''; ?>>
+                                        <?php if ($img['es_principal']): ?>
+                                            <i class="fas fa-check me-1"></i>Principal
+                                        <?php else: ?>
+                                            <i class="fas fa-star me-1"></i>Hacer principal
+                                        <?php endif; ?>
                                     </button>
                                 </div>
                             </div>
@@ -686,17 +737,17 @@ $color_tipo = $colores_tipo[$tipo_trabajo] ?? $colores_tipo['ponencia'];
             $('.tipo-btn').on('click', function() {
                 $('.tipo-btn').removeClass('active');
                 $(this).addClass('active');
-                // Mostrar/ocultar horario según tipo
                 var tipo = $(this).find('input').val();
-                if (tipo === 'ponencia' || tipo === 'taller') {
+                // Tipos que requieren horario (debe coincidir con $tipos_con_horario)
+                var tiposConHorario = ['ponencia', 'taller', 'cartel', 'prototipo'];
+                if (tiposConHorario.includes(tipo)) {
                     $('#horario-group').show();
                     $('#hora_inicio').prop('required', true).prop('disabled', false);
+                    cargarHorarios(); // Recargar horarios disponibles para este tipo
                 } else {
                     $('#horario-group').hide();
                     $('#hora_inicio').prop('required', false).prop('disabled', true);
                 }
-                // Cargar horarios si cambia el tipo (y hay evento seleccionado)
-                cargarHorarios();
             });
 
             // Cargar horarios al cambiar evento
@@ -705,9 +756,10 @@ $color_tipo = $colores_tipo[$tipo_trabajo] ?? $colores_tipo['ponencia'];
             function cargarHorarios() {
                 var id_evento = $('#id_evento').val();
                 var tipo = $('input[name="tipo"]:checked').val();
-                if (id_evento && tipo && (tipo === 'ponencia' || tipo === 'taller')) {
+                if (id_evento && tipo) {
+                    var $select = $('#hora_inicio');
+                    $select.prop('disabled', true).html('<option>Cargando horarios...</option>');
                     $.getJSON('ajax/horarios_disponibles.php', { id_evento: id_evento, tipo_trabajo: tipo }, function(data) {
-                        var $select = $('#hora_inicio');
                         var valorActual = $select.data('actual') || '<?php echo $actividad['hora_inicio'] ?? ''; ?>';
                         $select.empty().append('<option value="">Seleccione horario</option>');
                         if (data.length > 0) {
@@ -720,6 +772,8 @@ $color_tipo = $colores_tipo[$tipo_trabajo] ?? $colores_tipo['ponencia'];
                             $select.append('<option value="">No hay horarios disponibles</option>');
                             $select.prop('disabled', true);
                         }
+                    }).fail(function() {
+                        $select.html('<option>Error al cargar horarios</option>');
                     });
                 }
             }
@@ -772,6 +826,21 @@ $color_tipo = $colores_tipo[$tipo_trabajo] ?? $colores_tipo['ponencia'];
                 });
             };
         });
+
+        // Resaltar imágenes marcadas para eliminar
+            $(document).on('change', 'input[name="eliminar_imagenes[]"]', function() {
+                $(this).closest('.imagen-item').toggleClass('marcado-eliminar', this.checked);
+            });
+
+// Seleccionar / deseleccionar todas
+            $('#seleccionar-todas').click(function() {
+                $('input[name="eliminar_imagenes[]"]:not(:disabled)').prop('checked', true).trigger('change');
+            });
+            $('#deseleccionar-todas').click(function() {
+                $('input[name="eliminar_imagenes[]"]').prop('checked', false).trigger('change');
+            });
+
+            
     </script>
 </body>
-</html>
+</html> 
