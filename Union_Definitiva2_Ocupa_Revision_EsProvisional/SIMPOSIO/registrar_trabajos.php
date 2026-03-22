@@ -845,13 +845,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             <option value="">Seleccione...</option>
                             <option value="ENSEÑANZA DE LAS MATEMÁTICAS">ENSEÑANZA DE LAS MATEMÁTICAS</option>
                             <option value="MATEMÁTICAS APLICADAS">MATEMÁTICAS APLICADAS</option>
-                            <option value="MATEMÁTICAS APLICADAS">MATEMÁTICAS PURA</option>
-                            <option value="MATEMÁTICAS APLICADAS">ESTADISTICA</option>
-                            <option value="MATEMÁTICAS APLICADAS">COMPUTACION</option>
-                            <option value="MATEMÁTICAS APLICADAS">FISICA</option>
-                            <option value="MATEMÁTICAS APLICADAS">INGENIERIA</option>
-                            <option value="MATEMÁTICAS APLICADAS">ECONOMIA</option>
-                            <!-- ... resto de categorías ... -->
+                            <option value="MATEMÁTICAS PURAS">MATEMÁTICAS PURAS</option>
+                            <option value="ESTADÍSTICA">ESTADÍSTICA</option>
+                            <option value="COMPUTACIÓN">COMPUTACIÓN</option>
+                            <option value="FÍSICA">FÍSICA</option>
+                            <option value="INGENIERÍA">INGENIERÍA</option>
+                            <option value="ECONOMÍA">ECONOMÍA</option>
                         </select>
                     </div>
 
