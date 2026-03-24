@@ -1041,16 +1041,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <template id="coautor-externo-template">
         <div class="coautor-item">
             <div class="coautor-externo-grid">
-                <input type="text" class="form-control" name="coautores_externos[][nombre]" 
-                       placeholder="Nombre completo">
-                <input type="text" class="form-control" name="coautores_externos[][rfc]" 
-                       placeholder="RFC (opcional)" maxlength="13" 
-                       pattern="[A-Z&Ñ]{3,4}[0-9]{6}[A-Z0-9]{3}" 
-                       title="Formato: 4 letras + 6 dígitos + 3 dígitos">
-                <input type="email" class="form-control" name="coautores_externos[][email]" 
-                       placeholder="Email (opcional)">
-                <input type="text" class="form-control" name="coautores_externos[][institucion]" 
-                       placeholder="Institución (opcional)">
+                <input type="text" class="form-control coautor-nombre" name="coautores_externos[INDEX][nombre]" placeholder="Nombre completo">
+                <input type="text" class="form-control coautor-rfc" name="coautores_externos[INDEX][rfc]" placeholder="RFC (opcional)" maxlength="13">
+                <input type="email" class="form-control coautor-email" name="coautores_externos[INDEX][email]" placeholder="Email (opcional)">
+                <input type="text" class="form-control coautor-institucion" name="coautores_externos[INDEX][institucion]" placeholder="Institución (opcional)">
             </div>
             <button type="button" class="btn-remove" onclick="this.closest('.coautor-item').remove()">
                 <i class="fas fa-times"></i>
@@ -1167,9 +1161,20 @@ $(document).ready(function() {
     });
 
     // Agregar coautor externo
+    // Contador para índices de coautores externos
+    let coautorExternoIndex = 0;
+
     $('#btn-add-coautor-externo').click(function() {
         var template = document.getElementById('coautor-externo-template').content.cloneNode(true);
+        // Reemplazar INDEX por el número actual en los nombres de los inputs
+        $(template).find('input').each(function() {
+            var name = $(this).attr('name');
+            if (name) {
+                $(this).attr('name', name.replace('INDEX', coautorExternoIndex));
+            }
+        });
         $('#coautores-externos-list').append(template);
+        coautorExternoIndex++;
     });
 
     // Quitar todos los coautores internos
