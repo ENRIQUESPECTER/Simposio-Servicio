@@ -22,6 +22,11 @@ $sql_tipo = "SELECT COUNT(*) as total FROM tipo_actividad";
 $res_tipo = $conexion->query($sql_tipo);
 $tipos = $res_tipo->fetch_assoc()['total'];
 
+
+$stmt = $conexion->prepare("SELECT COUNT(*) as pendientes FROM articulo WHERE estado = 'pendiente'");
+$stmt->execute();
+$pendientes = $stmt->get_result()->fetch_assoc()['pendientes'];
+
 ?>
 
 <!DOCTYPE html>
@@ -53,6 +58,11 @@ $tipos = $res_tipo->fetch_assoc()['total'];
             <div class="card">
                 <h2>-</h2>
                 <p>Espacios libres</p>
+            </div>
+            <div class="card">
+                <h2><?php echo $pendientes; ?></h2>
+                <p>Trabajos pendientes de aprobación</p>
+                <a href="trabajos/pendientes.php" class="btn btn-primary">Revisar</a>
             </div>
         </div>
         

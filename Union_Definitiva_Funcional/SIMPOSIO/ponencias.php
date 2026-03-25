@@ -7,7 +7,7 @@ require_once 'includes/funciones.php';
 $mensaje = '';
 $tipo_mensaje = '';
 
-// Obtener todos los artículos aprobados que tengan actividad (horario) asignada
+// Obtener artículos aprobados que tengan actividad asignada
 $sql = "
     SELECT 
         a.id_articulo,
@@ -23,17 +23,21 @@ $sql = "
         ae.descripcion,
         ae.referencias,
         ae.archivo_pdf,
-        s.nombre as nombre_salon,
+        s.nombre as salon_nombre,
         e.titulo as nombre_evento
     FROM articulo a
     INNER JOIN actividad_evento ae ON a.id_articulo = ae.id_articulo
-    INNER JOIN evento e ON a.id_evento = e.id_evento
     LEFT JOIN salones s ON ae.id_salon = s.id_salon
+    INNER JOIN evento e ON a.id_evento = e.id_evento
     WHERE a.estado = 'pendiente'
     ORDER BY ae.fecha, ae.hora_inicio
 ";
 
 $result = $conexion->query($sql);
+if (!$result) {
+    die("Error en la consulta principal: " . $conexion->error);
+}
+
 $articulos = [];
 while ($row = $result->fetch_assoc()) {
     $articulos[] = $row;
@@ -43,35 +47,56 @@ while ($row = $result->fetch_assoc()) {
 foreach ($articulos as $key => $art) {
     $id = $art['id_articulo'];
 
-    // Autores principales (alumnos con rol autor)
+    // Autores principales (alumnos con rol autor, docentes, empresa)
     $autores = [];
+    // Alumnos autores
     $stmt = $conexion->prepare("
         SELECT u.id_usuario, u.nombre, u.apellidos, u.correo, u.tipo_usuario,
-               a.matricula, a.carrera, d.especialidad, d.grado_academico, e.nombre_empresa
+               a.matricula, a.carrera, NULL as especialidad, NULL as grado_academico, NULL as nombre_empresa
         FROM articulo_alumno aa
-        JOIN alumno al ON aa.id_alumno = al.id_alumno
-        JOIN usuario u ON al.id_usuario = u.id_usuario
+        JOIN alumno a ON aa.id_alumno = a.id_alumno
+        JOIN usuario u ON a.id_usuario = u.id_usuario
         WHERE aa.id_articulo = ? AND aa.rol = 'autor'
-        UNION
-        SELECT u.id_usuario, u.nombre, u.apellidos, u.correo, u.tipo_usuario,
-               NULL as matricula, NULL as carrera, d.especialidad, d.grado_academico, NULL
-        FROM articulo_docente ad
-        JOIN docente d ON ad.id_docente = d.id_docente
-        JOIN usuario u ON d.id_usuario = u.id_usuario
-        WHERE ad.id_articulo = ?
-        UNION
-        SELECT u.id_usuario, u.nombre, u.apellidos, u.correo, u.tipo_usuario,
-               NULL, NULL, NULL, NULL, e.nombre_empresa
-        FROM usuario u
-        LEFT JOIN empresa e ON u.id_usuario = e.id_usuario
-        WHERE u.id_usuario = (SELECT id_usuario FROM articulo WHERE id_articulo = ?)
     ");
-    $stmt->bind_param("iii", $id, $id, $id);
+    $stmt->bind_param("i", $id);
     $stmt->execute();
     $result_autores = $stmt->get_result();
     while ($row = $result_autores->fetch_assoc()) {
         $autores[] = $row;
     }
+
+    // Docentes autores
+    $stmt = $conexion->prepare("
+        SELECT u.id_usuario, u.nombre, u.apellidos, u.correo, u.tipo_usuario,
+               NULL as matricula, NULL as carrera, d.especialidad, d.grado_academico, NULL as nombre_empresa
+        FROM articulo_docente ad
+        JOIN docente d ON ad.id_docente = d.id_docente
+        JOIN usuario u ON d.id_usuario = u.id_usuario
+        WHERE ad.id_articulo = ?
+    ");
+    $stmt->bind_param("i", $id);
+    $stmt->execute();
+    $result_autores = $stmt->get_result();
+    while ($row = $result_autores->fetch_assoc()) {
+        $autores[] = $row;
+    }
+
+    // Empresa (si existe como autor)
+    $stmt = $conexion->prepare("
+        SELECT u.id_usuario, u.nombre, u.apellidos, u.correo, u.tipo_usuario,
+               NULL as matricula, NULL as carrera, NULL as especialidad, NULL as grado_academico, e.nombre_empresa
+        FROM articulo a
+        LEFT JOIN usuario u ON a.id_usuario = u.id_usuario
+        LEFT JOIN empresa e ON u.id_usuario = e.id_usuario
+        WHERE a.id_articulo = ? AND u.tipo_usuario = 'empresa'
+    ");
+    $stmt->bind_param("i", $id);
+    $stmt->execute();
+    $result_autores = $stmt->get_result();
+    while ($row = $result_autores->fetch_assoc()) {
+        $autores[] = $row;
+    }
+
     $articulos[$key]['autores'] = $autores;
 
     // Coautores internos (alumnos con rol coautor)
@@ -114,7 +139,7 @@ foreach ($articulos as $key => $art) {
     }
     $articulos[$key]['imagenes'] = $imagenes;
 
-    // Verificar si el usuario actual es autor (para mostrar botón editar)
+    // Verificar si el usuario actual es autor (para mostrar botón de detalles)
     $es_autor = false;
     if (esta_logeado()) {
         foreach ($autores as $autor) {
@@ -184,6 +209,12 @@ $colores_tipo = [
         .ver-mas { color: #293e6b; cursor: pointer; font-weight: 600; margin-top: 10px; display: inline-block; }
         .btn-ver-detalle { background: linear-gradient(135deg, #293e6b, #1a2b4a); color: white; border: none; padding: 8px 20px; border-radius: 8px; text-decoration: none; display: inline-block; }
         .empty-state { text-align: center; padding: 60px 20px; background: white; border-radius: 20px; }
+        .icons-fondo {
+            background: #28a745;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+        }
     </style>
 </head>
 <body>
@@ -246,13 +277,13 @@ $colores_tipo = [
                         </div>
                         <?php endif; ?>
 
-                        <!-- Horario -->
+                        <!-- Horario y salón -->
                         <div class="horario-info">
-                            <div><i class="fas fa-clock me-2"></i><?php echo substr($art['hora_inicio'],0,5); ?> - <?php echo substr($art['hora_fin'],0,5); ?></div>
-                            <?php if (!empty($art['salon'])): ?>
-                            <div><i class="fas fa-door-open me-2"></i><?php echo htmlspecialchars($art['salon']); ?></div>
+                            <div><i class="fas fa-clock me-2 icons-fondo"></i><?php echo substr($art['hora_inicio'],0,5); ?> - <?php echo substr($art['hora_fin'],0,5); ?></div>
+                            <?php if (!empty($art['salon_nombre'])): ?>
+                            <div><i class="fas fa-door-open me-2 icons-fondo"></i><?php echo htmlspecialchars($art['salon_nombre']); ?></div>
                             <?php endif; ?>
-                            <div><i class="fas fa-calendar-week me-2"></i><?php echo htmlspecialchars($art['nombre_evento']); ?></div>
+                            <div><i class="fas fa-calendar-week me-2 icons-fondo"></i><?php echo htmlspecialchars($art['nombre_evento']); ?></div>
                         </div>
 
                         <!-- Autores y coautores -->
@@ -312,6 +343,29 @@ $colores_tipo = [
                             <?php endif; ?>
                         </div>
 
+                        <!-- Descripción, referencias y PDF -->
+                        <?php if (!empty($art['descripcion'])): ?>
+                        <div class="mt-3">
+                            <h6 class="fw-bold">Descripción</h6>
+                            <p><?php echo nl2br(htmlspecialchars($art['descripcion'])); ?></p>
+                        </div>
+                        <?php endif; ?>
+
+                        <?php if (!empty($art['referencias'])): ?>
+                        <div class="mt-3">
+                            <h6 class="fw-bold">Referencias</h6>
+                            <p><?php echo nl2br(htmlspecialchars($art['referencias'])); ?></p>
+                        </div>
+                        <?php endif; ?>
+
+                        <?php if (!empty($art['archivo_pdf'])): ?>
+                        <div class="mt-3">
+                            <a href="<?php echo htmlspecialchars($art['archivo_pdf']); ?>" target="_blank" class="btn btn-info btn-sm">
+                                <i class="fas fa-file-pdf me-2"></i>Ver PDF
+                            </a>
+                        </div>
+                        <?php endif; ?>
+
                         <!-- Resumen expandible -->
                         <?php if (!empty($art['resumen'])): ?>
                         <div class="resumen" id="resumen-<?php echo $art['id_articulo']; ?>">
@@ -338,6 +392,9 @@ $colores_tipo = [
             </div>
             <?php endforeach; ?>
         <?php endif; ?>
+        <div class="d-flex justify-content-between">
+            <a href="index.php" class="btn-ver-detalle"><i class="fas fa-arrow-left me-2"></i>Volver</a>
+        </div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
