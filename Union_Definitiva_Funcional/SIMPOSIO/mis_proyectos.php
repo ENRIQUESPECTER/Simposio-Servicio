@@ -199,7 +199,7 @@ $colores_tipo = [
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
-    <link rel="stylesheet" href="Css/estilo1.css">
+    <link rel="stylesheet" href="Css/interfaz_usuario.css">
     <title>Mis Proyectos - SIMPOSIO</title>
     <style>
         /* Estilos adicionales (puedes copiar los que ya tenías) */
@@ -212,7 +212,7 @@ $colores_tipo = [
         .stat-icon { font-size: 2.5rem; color: #293e6b; }
         .stat-number { font-size: 2rem; font-weight: bold; color: #293e6b; }
         .btn-agregar { background: #28a745; color: white; padding: 12px 30px; border-radius: 10px; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; }
-        .btn-agregar:hover { background: #218838; }
+        .btn-agregar:hover { background: #218838; transform: translateY(-2px); }
         .table-container { background: white; border-radius: 15px; padding: 20px; border: 1px solid #e9ecef; overflow-x: auto; }
         .table thead th { background: #293e6b; color: white; border: none; padding: 15px; }
         .badge-tipo { padding: 5px 10px; border-radius: 20px; color: white; display: inline-block; }
@@ -227,7 +227,6 @@ $colores_tipo = [
     </style>
 </head>
 <body>
-    <!-- Aquí puedes incluir tu navbar personalizada (la de parte 1) -->
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav" style="background-color: #293e6b;">
     <div class="container-fluid">
         <a class="navbar-brand" href="index.php">

@@ -36,59 +36,59 @@ $horarios = $stmt->get_result();
 
 <h2>Editar Actividad</h2>
 
-<form action="actualizar_actividad.php" method="POST">
+    <form action="actualizar_actividad.php" method="POST">
 
-<input type="hidden" name="id_actividad"
-value="<?php echo $actividad['id_actividad']; ?>">
+    <input type="hidden" name="id_actividad"
+    value="<?php echo $actividad['id_actividad']; ?>">
 
-<label>Titulo</label>
-<input type="text" name="titulo"
-value="<?php echo $actividad['titulo']; ?>" required>
+    <label>Titulo</label>
+    <input type="text" name="titulo"
+    value="<?php echo $actividad['titulo']; ?>" required>
 
-<label>Evento</label>
+    <label>Evento</label>
 
-<select name="id_evento">
+    <select name="id_evento">
 
-<?php while($evento = $eventos->fetch_assoc()): ?>
+    <?php while($evento = $eventos->fetch_assoc()): ?>
 
-<option value="<?php echo $evento['id_evento']; ?>"
+    <option value="<?php echo $evento['id_evento']; ?>"
 
-<?php if($evento['id_evento'] == $actividad['id_evento']) echo "selected"; ?>>
+    <?php if($evento['id_evento'] == $actividad['id_evento']) echo "selected"; ?>>
 
-<?php echo $evento['titulo']; ?>
+    <?php echo $evento['titulo']; ?>
 
-</option>
+    </option>
 
-<?php endwhile; ?>
+    <?php endwhile; ?>
 
-</select>
+    </select>
 
-<label>Tipo de actividad</label>
+    <label>Tipo de actividad</label>
 
-<select name="id_tipo">
+    <select name="id_tipo">
 
-<?php while($tipo = $tipos->fetch_assoc()): ?>
+    <?php while($tipo = $tipos->fetch_assoc()): ?>
 
-<option value="<?php echo $tipo['id_tipo']; ?>"
+    <option value="<?php echo $tipo['id_tipo']; ?>"
 
-<?php if($tipo['id_tipo'] == $actividad['id_tipo']) echo "selected"; ?>>
+    <?php if($tipo['id_tipo'] == $actividad['id_tipo']) echo "selected"; ?>>
 
-<?php echo $tipo['nombre']; ?>
+    <?php echo $tipo['nombre']; ?>
 
-</option>
+    </option>
 
-<?php endwhile; ?>
+    <?php endwhile; ?>
 
-</select>
+    </select>
 
-<label>Hora inicio</label>
-<input type="time" name="hora_inicio"
-value="<?php echo $actividad['hora_inicio']; ?>">
+    <label>Hora inicio</label>
+    <input type="time" name="hora_inicio"
+    value="<?php echo $actividad['hora_inicio']; ?>">
 
 
-<button type="submit">Actualizar actividad</button>
+    <button type="submit">Actualizar actividad</button>
 
-</form>
+    </form>
 
 <h3>Horarios ocupados en este evento</h3>
 

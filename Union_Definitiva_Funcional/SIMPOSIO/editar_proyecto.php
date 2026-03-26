@@ -430,7 +430,7 @@ $color_tipo = $colores_tipo[$tipo_trabajo] ?? $colores_tipo['ponencia'];
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css">
-    <link rel="stylesheet" href="Css/estilo1.css">
+    <link rel="stylesheet" href="Css/interfaz_usuario.css">
     <title>Editar Proyecto - SIMPOSIO</title>
     <style>
         /* Estilos similares a registrar_trabajos.php */
@@ -440,21 +440,6 @@ $color_tipo = $colores_tipo[$tipo_trabajo] ?? $colores_tipo['ponencia'];
         .editar-header h2 { margin: 0; font-size: 2rem; padding-right: 100px; }
         .tipo-badge { position: absolute; top: 30px; right: 30px; padding: 10px 20px; border-radius: 30px; background: <?php echo $color_tipo['bg']; ?>; color: white; display: flex; align-items: center; gap: 10px; }
         .editar-body { padding: 40px; }
-        .form-group { margin-bottom: 25px; }
-        .form-group label { font-weight: 600; color: #293e6b; display: block; margin-bottom: 8px; }
-        .tipo-trabajo { display: grid; grid-template-columns: repeat(4,1fr); gap: 15px; }
-        .tipo-btn { padding: 20px 10px; background: #f8f9fa; border: 2px solid #dee2e6; border-radius: 15px; text-align: center; cursor: pointer; transition: 0.3s; }
-        .tipo-btn input[type="radio"] { position: absolute; opacity: 0; }
-        .tipo-btn i { font-size: 2rem; color: #293e6b; margin-bottom: 10px; display: block; }
-        .tipo-btn.active { border-color: #293e6b; background: #e9ecef; transform: translateY(-3px); }
-        .tipo-btn.active i { color: #D59F0F; }
-        .horarios-container { background: #f8f9fa; border-radius: 15px; padding: 20px; border: 2px solid #dee2e6; display: none; }
-        .horarios-container.mostrar { display: block; }
-        .coautores-section { background: #f8f9fa; border-radius: 15px; padding: 20px; margin-top: 20px; border: 2px solid #dee2e6; }
-        .btn-add { background: #28a745; color: white; border: none; padding: 10px 20px; border-radius: 8px; display: inline-flex; align-items: center; gap: 8px; cursor: pointer; margin-right: 10px; }
-        .btn-remove { background: #dc3545; color: white; border: none; width: 38px; height: 38px; border-radius: 8px; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; }
-        .coautor-item { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; padding: 15px; background: white; border-radius: 10px; border: 1px solid #dee2e6; }
-        .coautor-externo-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 10px; flex: 1; }
         .galeria-container { background: #f8f9fa; border-radius: 15px; padding: 20px; margin-bottom: 25px; border: 2px solid #dee2e6; }
         .imagenes-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px,1fr)); gap: 20px; margin-top: 20px; }
         .imagen-item { position: relative; border-radius: 10px; overflow: hidden; border: 2px solid #dee2e6; }
@@ -464,42 +449,18 @@ $color_tipo = $colores_tipo[$tipo_trabajo] ?? $colores_tipo['ponencia'];
         .imagen-item:hover .imagen-overlay { opacity:1; }
         .btn-principal { background: #293e6b; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; }
         .btn-principal.activo { background: #28a745; }
-        .acciones { display: flex; gap: 15px; justify-content: space-between; margin-top: 30px; }
-        .imagen-actions {
-    padding: 8px;
-    background: #f8f9fa;
-    border-radius: 0 0 10px 10px;
-}
-.imagen-item {
-    border: 2px solid #dee2e6;
-    border-radius: 10px;
-    overflow: hidden;
-    transition: 0.3s;
-}
-.imagen-item.principal {
-    border-color: #293e6b;
-    border-width: 3px;
-}
-.imagen-item.marcado-eliminar {
-    border-color: #dc3545;
-    background-color: #f8d7da;
-}
-.imagen-item img {
-    width: 100%;
-    height: 150px;
-    object-fit: cover;
-}
-.imagen-badge {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    background: #293e6b;
-    color: white;
-    padding: 5px 10px;
-    border-radius: 20px;
-    font-size: 0.8rem;
-    z-index: 1;
-}
+        .imagen-actions { padding: 8px; background: #f8f9fa; border-radius: 0 0 10px 10px;
+        }
+        .imagen-item { border: 2px solid #dee2e6; border-radius: 10px; overflow: hidden; transition: 0.3s;
+        }
+        .imagen-item.principal { border-color: #293e6b; border-width: 3px;
+        }
+        .imagen-item.marcado-eliminar { border-color: #dc3545; background-color: #f8d7da;
+        }
+        .imagen-item img { width: 100%; height: 150px; object-fit: cover;
+        }
+        .imagen-badge { position: absolute; top: 10px; left: 10px; background: #293e6b; color: white; padding: 5px 10px; border-radius: 20px; font-size: 0.8rem; z-index: 1;
+        }
     </style>
 </head>
 <body>

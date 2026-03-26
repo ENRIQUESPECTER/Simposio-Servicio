@@ -34,7 +34,7 @@ if($resultado->num_rows === 1){
         $_SESSION['tipo_usuario'] = $usuario['tipo_usuario'];
 
         // Redirección inteligente
-        header("Location: programa/index_programa.php");
+        header("Location: index.php");
         exit();
 
     } else {
