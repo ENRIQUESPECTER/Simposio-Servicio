@@ -111,7 +111,6 @@ $result = $conexion->query($sql);
     <div class="container mt-5">
         <h2><i class="fas fa-clock me-2"></i>Trabajos pendientes de aprobación</h2>
         <p>Revisa los trabajos enviados por los usuarios y decide su estado.</p>
-
         <?php if ($result->num_rows == 0): ?>
             <div class="alert alert-success">No hay trabajos pendientes en este momento.</div>
         <?php else: ?>
@@ -137,6 +136,9 @@ $result = $conexion->query($sql);
                                 </a>
                                 <a href="ver.php?id=<?php echo $row['id_articulo']; ?>" class="btn btn-info btn-sm">
                                     <i class="fas fa-eye"></i> Ver detalles
+                                </a>
+                                <a href="ver.php?id=<?php echo $row['id_articulo']; ?>" class="btn btn-primary btn-sm">
+                                    <i class="fas fa-eye"></i> Asignar Docente
                                 </a>
                             </div>
                         </div>

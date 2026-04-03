@@ -38,11 +38,11 @@ function obtener_horarios_disponibles($conexion, $id_evento, $duracion_minutos, 
     $ocupados = [];
     if ($id_salon !== null) {
         // Verificar en todos los eventos de la misma fecha con el mismo salón
-        $stmt = $conexion->prepare("SELECT hora_inicio, hora_fin FROM actividad_evento WHERE fecha = ? AND id_salon = ?");
+        $stmt = $conexion->prepare("SELECT hora_inicio, hora_fin FROM actividad_evento WHERE fecha = ? AND id_salon = ? AND visible = 1");
         $stmt->bind_param("si", $fecha, $id_salon);
     } else {
         // Solo en el evento actual
-        $stmt = $conexion->prepare("SELECT hora_inicio, hora_fin FROM actividad_evento WHERE id_evento = ?");
+        $stmt = $conexion->prepare("SELECT hora_inicio, hora_fin FROM actividad_evento WHERE id_evento = ? AND visible = 1");
         $stmt->bind_param("i", $id_evento);
     }
     $stmt->execute();

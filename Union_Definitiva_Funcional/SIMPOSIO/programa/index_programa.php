@@ -23,8 +23,8 @@ $result = $conexion->query($query);
     
     <?php while($evento = $result->fetch_assoc()): ?>
 
-<!--<?php if(esta_logeado() && (es_docente() || es_alumno())): ?>
-        <a href="../registro_actividades/registrar_actividad.php?id_evento=<?= $evento['id_evento'] ?>" 
+<?php if(esta_logeado() && (es_docente() || es_alumno())): ?>
+        <!--<a href="../registro_actividades/registrar_actividad.php?id_evento=<?= $evento['id_evento'] ?>" 
         class="btn btn-success">
         Registrar Actividad
         </a>-->

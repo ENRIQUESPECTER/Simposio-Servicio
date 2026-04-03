@@ -42,7 +42,7 @@ if (isset($_GET['hora']) && !empty($_GET['hora'])) {
           AND (
               (hora_inicio < ? AND hora_fin > ?)
               OR (hora_inicio = ?)
-          )
+          ) AND visible = 1
     ");
     $stmt->bind_param("ssss", $fecha_evento, $hora_fin, $hora, $hora);
     $stmt->execute();
