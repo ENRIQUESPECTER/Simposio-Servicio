@@ -367,13 +367,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         <select class="form-select" id="categoria" name="categoria" required>
                             <option value="">Seleccione...</option>
                             <option value="ENSEÑANZA DE LAS MATEMÁTICAS">ENSEÑANZA DE LAS MATEMÁTICAS</option>
-                            <option value="MATEMÁTICAS APLICADAS">MATEMÁTICAS APLICADAS</option>
+                            <option value="CIBERSEGURIDAD">CIBERSEGURIDAD</option>
                             <option value="MATEMÁTICAS PURAS">MATEMÁTICAS PURAS</option>
                             <option value="ESTADÍSTICA">ESTADÍSTICA</option>
                             <option value="COMPUTACIÓN">COMPUTACIÓN</option>
-                            <option value="FÍSICA">FÍSICA</option>
+                            <option value="INTELIGENCIA ARTIFICIAL">INTELIGENCIA ARTIFICIAL</option>
                             <option value="INGENIERÍA">INGENIERÍA</option>
-                            <option value="ECONOMÍA">ECONOMÍA</option>
+                            <option value="MINERIA DE DATOS">MINERIA DE DATOS</option>
                         </select>
                     </div>
 

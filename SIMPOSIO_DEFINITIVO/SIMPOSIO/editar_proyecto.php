@@ -559,13 +559,13 @@ $color_tipo = $colores_tipo[$tipo_trabajo] ?? $colores_tipo['ponencia'];
                         <select class="form-select" id="categoria" name="categoria" required>
                             <option value="">Seleccione...</option>
                             <option value="ENSEÑANZA DE LAS MATEMÁTICAS" <?php echo ($proyecto['categoria'] == 'ENSEÑANZA DE LAS MATEMÁTICAS') ? 'selected' : ''; ?>>ENSEÑANZA DE LAS MATEMÁTICAS</option>
-                            <option value="MATEMÁTICAS APLICADAS" <?php echo ($proyecto['categoria'] == 'MATEMÁTICAS APLICADAS') ? 'selected' : ''; ?>>MATEMÁTICAS APLICADAS</option>
+                            <option value="CIBERSEGURIDAD" <?php echo ($proyecto['categoria'] == 'CIBERSEGURIDAD') ? 'selected' : ''; ?>>CIBERSEGURIDAD</option>
                             <option value="MATEMÁTICAS PURAS" <?php echo ($proyecto['categoria'] == 'MATEMÁTICAS PURAS') ? 'selected' : ''; ?>>MATEMÁTICAS PURAS</option>
                             <option value="ESTADÍSTICA" <?php echo ($proyecto['categoria'] == 'ESTADÍSTICA') ? 'selected' : ''; ?>>ESTADÍSTICA</option>
                             <option value="COMPUTACIÓN" <?php echo ($proyecto['categoria'] == 'COMPUTACIÓN') ? 'selected' : ''; ?>>COMPUTACIÓN</option>
-                            <option value="FÍSICA" <?php echo ($proyecto['categoria'] == 'FÍSICA') ? 'selected' : ''; ?>>FÍSICA</option>
+                            <option value="INTELIGENCIA ARTIFICIAL" <?php echo ($proyecto['categoria'] == 'INTELIGENCIA ARTIFICIAL') ? 'selected' : ''; ?>>INTELIGENCIA ARTIFICIAL</option>
                             <option value="INGENIERÍA" <?php echo ($proyecto['categoria'] == 'INGENIERÍA') ? 'selected' : ''; ?>>INGENIERÍA</option>
-                            <option value="ECONOMÍA" <?php echo ($proyecto['categoria'] == 'ECONOMÍA') ? 'selected' : ''; ?>>ECONOMÍA</option>
+                            <option value="MINERIA DE DATOS" <?php echo ($proyecto['categoria'] == 'MINERIA DE DATOS') ? 'selected' : ''; ?>>MINERIA DE DATOS</option>
                         </select>
                     </div>
 

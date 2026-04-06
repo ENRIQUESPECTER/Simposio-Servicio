@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 03-04-2026 a las 23:49:59
+-- Tiempo de generación: 06-04-2026 a las 08:30:27
 -- Versión del servidor: 10.4.16-MariaDB
 -- Versión de PHP: 7.4.12
 
@@ -54,8 +54,8 @@ INSERT INTO `actividad_evento` (`id_actividad`, `id_evento`, `id_usuario`, `id_t
 (4, 1, 10, 2, NULL, 'Sistemas de software', 'sfsdfsdg', 'sdgsdgsdg', 'dsgsdgsdg', 'uploads/actividades/1773373968_actividad web.pdf', '2026-03-24', '14:00:00', '15:00:00', NULL, 1),
 (8, 2, 11, 3, 5, 'PRUEBA GOD', '', 'ESTO SI', '', NULL, '2026-12-24', '17:00:00', '19:00:00', 3, 1),
 (28, 2, 11, 4, 28, 'INFINITO', 'nada', 'am', 'nada', 'uploads/actividades/69c0a56bb4731_1774232939_Gantt.pdf', '2026-12-24', '11:30:00', '12:00:00', 3, 1),
-(33, 3, 11, 5, 33, 'ROBOT', 'malditoshumanosmonos', 'Prueba de coautores externos', 'odiolavida', 'uploads/actividades/69c20f4ea8796_1774325582_Gantt.pdf', '2026-12-24', '13:30:00', '14:30:00', 4, 1),
-(35, 2, 11, 4, 35, 'PRUEBA', 'ejffew', 'djfhusdhhsdi', 'jsfhiesdf', 'uploads/actividades/69c57df443b04_1774550516_Gantt.pdf', '2026-12-24', '11:00:00', '11:30:00', 1, 1),
+(33, 3, 11, 5, 33, 'ROBOT', 'malditoshumanosmonos haciendopruebas', 'Prueba de coautores externos y solucionando', 'odiolavida y esta carrera', 'uploads/actividades/69c20f4ea8796_1774325582_Gantt.pdf', '2026-12-24', '13:30:00', '14:30:00', 4, 1),
+(35, 2, 11, 4, 35, 'Magia De Barreras', 'LINUX', 'Protección con magia de barreras en el software :0 y recuperando el proyecto ._.', 'Jujutsu Kaisen Claramente xd', 'uploads/actividades/69c57df443b04_1774550516_Gantt.pdf', '2026-12-24', '11:00:00', '11:30:00', 1, 1),
 (37, 3, 11, 5, 36, 'NEW PRUEBA APROBACION', 'nada', 'checar que sirva aprobar y rechazar articulos', 'nada', NULL, '2026-12-24', '10:00:00', '11:00:00', 1, 1),
 (38, 3, 11, 1, 37, 'Programación en C#', 'juegos en c#', 'Aprender codigo de C#', 'Fortnite', NULL, '2026-12-24', '11:00:00', '11:30:00', 3, 1);
 
@@ -149,14 +149,14 @@ CREATE TABLE `articulo` (
 -- Volcado de datos para la tabla `articulo`
 --
 
-INSERT INTO `articulo` (`id_articulo`, `id_evento`, `id_usuario`, `titulo`, `resumen`, `tipo_trabajo`, `categoria`, `fecha_registro`, `estado`, `aprobado_por`, `fecha_aprobacion`, `asignado_a`) VALUES
-(5, 2, NULL, 'PRUEBA GOD', 'ESTO SI', 'taller', 'ENSEÑANZA DE LAS MATEMÁTICAS', '2026-03-16 22:57:09', 'aprobado', 1, '2026-03-31 16:53:46', NULL),
-(10, 3, 8, 'PRUEBA 8', '0', 'ponencia', 'MATEMÁTICAS APLICADAS', '2026-03-17 16:58:29', 'rechazado', 1, '2026-03-26 17:03:13', NULL),
-(28, 2, 11, 'INFINITO', 'am', 'cartel', 'MATEMÁTICAS PURAS', '2026-03-23 02:28:59', 'aprobado', 1, '2026-03-26 12:50:14', NULL),
-(33, 3, 11, 'ROBOT', 'Prueba de coautores externos', 'prototipo', 'INGENIERÍA', '2026-03-24 04:13:02', 'aprobado', 1, '2026-03-26 11:20:16', NULL),
-(35, 2, 11, 'PRUEBA', 'djfhusdhhsdi', 'cartel', 'FÍSICA', '2026-03-26 18:41:56', 'pendiente', NULL, NULL, NULL),
-(36, 3, 11, 'NEW PRUEBA APROBACION', 'checar que sirva aprobar y rechazar articulos', 'prototipo', 'FÍSICA', '2026-03-31 22:57:07', 'pendiente', 1, '2026-04-02 13:32:31', NULL),
-(37, 3, 11, 'Programación en C#', 'Aprender codigo de C#', 'ponencia', 'COMPUTACIÓN', '2026-04-03 03:02:09', 'pendiente', 1, '2026-04-02 23:21:43', NULL);
+INSERT INTO `articulo` (`id_articulo`, `id_evento`, `id_usuario`, `titulo`, `resumen`, `tipo_trabajo`, `categoria`, `fecha_registro`, `estado`, `aprobado_por`, `fecha_aprobacion`) VALUES
+(5, 2, NULL, 'PRUEBA GOD', 'ESTO SI', 'taller', 'ENSEÑANZA DE LAS MATEMÁTICAS', '2026-03-16 22:57:09', 'aprobado', 1, '2026-03-31 16:53:46'),
+(10, 3, 8, 'PRUEBA 8', '0', 'ponencia', 'MATEMÁTICAS APLICADAS', '2026-03-17 16:58:29', 'rechazado', 1, '2026-03-26 17:03:13'),
+(28, 2, 11, 'INFINITO', 'am', 'cartel', 'MATEMÁTICAS PURAS', '2026-03-23 02:28:59', 'aprobado', 1, '2026-03-26 12:50:14'),
+(33, 3, 11, 'ROBOT', 'Prueba de coautores externos y solucionando', 'prototipo', 'INTELIGENCIA ARTIFICIAL', '2026-03-24 04:13:02', 'aprobado', 1, '2026-03-26 11:20:16'),
+(35, 2, 11, 'Magia De Barreras', 'Protección con magia de barreras en el software :0 y recuperando el proyecto ._.', 'cartel', 'MINERIA DE DATOS', '2026-03-26 18:41:56', 'pendiente', NULL, NULL),
+(36, 3, 11, 'NEW PRUEBA APROBACION', 'checar que sirva aprobar y rechazar articulos', 'prototipo', 'COMPUTACIÓN', '2026-03-31 22:57:07', 'pendiente', 1, '2026-04-02 13:32:31'),
+(37, 3, 11, 'Programación en C#', 'Aprender codigo de C#', 'ponencia', 'INGENIERÍA', '2026-04-03 03:02:09', 'pendiente', 1, '2026-04-02 23:21:43');
 
 -- --------------------------------------------------------
 
@@ -197,6 +197,22 @@ CREATE TABLE `articulo_docente` (
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `asignacion_revision`
+--
+
+CREATE TABLE `asignacion_revision` (
+  `id_asignacion` int(11) NOT NULL,
+  `id_articulo` int(11) NOT NULL,
+  `id_docente` int(11) NOT NULL,
+  `id_admin_asignador` int(11) DEFAULT NULL,
+  `fecha_asignacion` timestamp NOT NULL DEFAULT current_timestamp(),
+  `estado_revision` enum('pendiente','aprobado','rechazado') NOT NULL DEFAULT 'pendiente',
+  `comentarios` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `coautor_externo`
 --
 
@@ -214,8 +230,6 @@ CREATE TABLE `coautor_externo` (
 --
 
 INSERT INTO `coautor_externo` (`id_coautor`, `id_articulo`, `nombre`, `rfc`, `email`, `institucion`) VALUES
-(42, 33, 'Daniel Farfan', 'KARY040712T37', 'karyrap@gmail.com', 'UNAM'),
-(45, 35, 'Daniel Farfan', 'KARY040712T37', 'karyrap@gmail.com', 'UNAM'),
 (46, 5, 'Daniel Farfan', NULL, NULL, NULL),
 (52, 28, 'Daniel Farfan', NULL, NULL, NULL);
 
@@ -238,7 +252,8 @@ CREATE TABLE `docente` (
 
 INSERT INTO `docente` (`id_docente`, `id_usuario`, `especialidad`, `grado_academico`) VALUES
 (1, 2, 'Ciberseguridad', 'Doctorado'),
-(2, 10, 'Mineria de Datos', 'Doctorado');
+(2, 10, 'Mineria de Datos', 'Doctorado'),
+(3, 13, 'Ingenieria de Software', 'Maestría');
 
 -- --------------------------------------------------------
 
@@ -411,10 +426,10 @@ INSERT INTO `proyecto_imagen` (`id_imagen`, `id_articulo`, `nombre_archivo`, `ar
 (10, 5, '69ba109a1b4e8_1773801626.jpg', 'AKAZA INFINITY CASTLE.jpg', '', 468999, 1, '2026-03-18 02:40:26'),
 (38, 33, '69c20f4ea9550_1774325582.jpg', 'SATORU VS SUKUNA DOMAINS.jpg', '', 116891, 1, '2026-03-24 04:13:02'),
 (39, 5, '69c3121317dad_1774391827.jpg', 'SATORU WALLPAPER.jpg', '', 236311, 0, '2026-03-24 22:37:07'),
-(41, 35, '69c57df445774_1774550516.png', 'CSS.png', '', 38197, 1, '2026-03-26 18:41:56'),
 (43, 36, '69cc51433fb53_1774997827.jpg', 'akaza_saludo.jpg', '', 8431, 1, '2026-03-31 22:57:07'),
 (47, 28, '69cc56b62e056_1774999222.jpg', 'SATORU POSE COMBATE.jpg', '', 306046, 1, '2026-03-31 23:20:22'),
-(48, 37, '69cf2db13ee3a_1775185329.jpg', 'TOJI.jpg', '', 73365, 1, '2026-04-03 03:02:09');
+(48, 37, '69cf2db13ee3a_1775185329.jpg', 'TOJI.jpg', '', 73365, 1, '2026-04-03 03:02:09'),
+(68, 35, '69d0b131d0b72_1775284529.jpg', 'SATORU AURA.jpg', '', 97447, 1, '2026-04-04 06:35:29');
 
 -- --------------------------------------------------------
 
@@ -490,7 +505,8 @@ INSERT INTO `usuario` (`id_usuario`, `correo`, `password`, `nombre`, `apellidos`
 (8, 'luigienrique04@gmail.com', '$2y$10$gycHz9xfs8fVjA/9f6HUM.dExr6aTx8EEkMiFY96OgX0AlJaelHWi', 'Luis Enrique', 'Padilla Salmoran', 'Coacalco de Berriozabal', 'alumno'),
 (10, 'cynthia@gmail.com', '$2y$10$dvOvsyy2Xm7Sbj0scD9eS.hhdf/uEclKKO2SwwTT0TtNZ9pmFMIby', 'Cynthia', 'Leticia Otero', 'Polanco CDMX', 'docente'),
 (11, 'jujutsu@gmail.com', '$2y$10$pHoXWSC0RazBX1JTzSzRQOl8Bteorn9mewO93VEaliQbOKGNG6ba6', 'Satoru', 'Gojo', 'Tokio, Japón', 'alumno'),
-(12, 'suguru@gmail.com', '$2y$10$y0/MUI8rlr3GG55MCnsv4.RG.8pUJ0tpNpBOPy.iQzeloZ0FxRc2q', 'Suguru', 'Geto', 'Tokio, Japón', 'empresa');
+(12, 'suguru@gmail.com', '$2y$10$y0/MUI8rlr3GG55MCnsv4.RG.8pUJ0tpNpBOPy.iQzeloZ0FxRc2q', 'Suguru', 'Geto', 'Tokio, Japón', 'empresa'),
+(13, 'kento@gmail.com', '$2y$10$lpg8GeLUe7wcHKTOh1403eAhxPkVAd47dbo6NVps0juzylXqMNEjW', 'Nanamin', 'Kento', 'Tokio, Japón', 'docente');
 
 --
 -- Índices para tablas volcadas
@@ -540,6 +556,14 @@ ALTER TABLE `articulo_alumno`
 --
 ALTER TABLE `articulo_docente`
   ADD PRIMARY KEY (`id_articulo`,`id_docente`),
+  ADD KEY `id_docente` (`id_docente`);
+
+--
+-- Indices de la tabla `asignacion_revision`
+--
+ALTER TABLE `asignacion_revision`
+  ADD PRIMARY KEY (`id_asignacion`),
+  ADD KEY `id_articulo` (`id_articulo`),
   ADD KEY `id_docente` (`id_docente`);
 
 --
@@ -626,7 +650,7 @@ ALTER TABLE `usuario`
 -- AUTO_INCREMENT de la tabla `actividad_evento`
 --
 ALTER TABLE `actividad_evento`
-  MODIFY `id_actividad` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `id_actividad` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
 
 --
 -- AUTO_INCREMENT de la tabla `administrador`
@@ -644,19 +668,25 @@ ALTER TABLE `alumno`
 -- AUTO_INCREMENT de la tabla `articulo`
 --
 ALTER TABLE `articulo`
-  MODIFY `id_articulo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `id_articulo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
+
+--
+-- AUTO_INCREMENT de la tabla `asignacion_revision`
+--
+ALTER TABLE `asignacion_revision`
+  MODIFY `id_asignacion` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `coautor_externo`
 --
 ALTER TABLE `coautor_externo`
-  MODIFY `id_coautor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
+  MODIFY `id_coautor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
 
 --
 -- AUTO_INCREMENT de la tabla `docente`
 --
 ALTER TABLE `docente`
-  MODIFY `id_docente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_docente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `empresa`
@@ -692,7 +722,7 @@ ALTER TABLE `proyecto`
 -- AUTO_INCREMENT de la tabla `proyecto_imagen`
 --
 ALTER TABLE `proyecto_imagen`
-  MODIFY `id_imagen` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
+  MODIFY `id_imagen` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=84;
 
 --
 -- AUTO_INCREMENT de la tabla `salones`
@@ -710,7 +740,7 @@ ALTER TABLE `tipo_actividad`
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- Restricciones para tablas volcadas
@@ -736,7 +766,6 @@ ALTER TABLE `alumno`
 -- Filtros para la tabla `articulo`
 --
 ALTER TABLE `articulo`
-  ADD CONSTRAINT `articulo_ibfk_1` FOREIGN KEY (`asignado_a`) REFERENCES `docente` (`id_docente`) ON DELETE SET NULL,
   ADD CONSTRAINT `articulo_ibfk_admin` FOREIGN KEY (`aprobado_por`) REFERENCES `administrador` (`id_admin`) ON DELETE SET NULL,
   ADD CONSTRAINT `articulo_ibfk_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`) ON DELETE SET NULL;
 
@@ -753,6 +782,13 @@ ALTER TABLE `articulo_alumno`
 ALTER TABLE `articulo_docente`
   ADD CONSTRAINT `articulo_docente_ibfk_1` FOREIGN KEY (`id_articulo`) REFERENCES `articulo` (`id_articulo`) ON DELETE CASCADE,
   ADD CONSTRAINT `articulo_docente_ibfk_2` FOREIGN KEY (`id_docente`) REFERENCES `docente` (`id_docente`) ON DELETE CASCADE;
+
+--
+-- Filtros para la tabla `asignacion_revision`
+--
+ALTER TABLE `asignacion_revision`
+  ADD CONSTRAINT `asignacion_revision_ibfk_1` FOREIGN KEY (`id_articulo`) REFERENCES `articulo` (`id_articulo`) ON DELETE CASCADE,
+  ADD CONSTRAINT `asignacion_revision_ibfk_2` FOREIGN KEY (`id_docente`) REFERENCES `docente` (`id_docente`);
 
 --
 -- Filtros para la tabla `coautor_externo`
