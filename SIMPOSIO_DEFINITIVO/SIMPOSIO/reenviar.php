@@ -69,6 +69,10 @@ try {
     $stmt2->bind_param("i", $id);
     $stmt2->execute();
 
+    $stmt2 = $conexion->prepare("UPDATE asignacion_revision SET estado_revision = 'pendiente' WHERE id_articulo = ?");
+    $stmt2->bind_param("i", $id);
+    $stmt2->execute();
+
     $conexion->commit();
     $_SESSION['mensaje'] = "Trabajo reenviado para aprobación.";
     $_SESSION['tipo_mensaje'] = "success";

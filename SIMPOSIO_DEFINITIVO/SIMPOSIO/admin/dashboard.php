@@ -37,7 +37,7 @@ $pendientes = $stmt->get_result()->fetch_assoc()['pendientes'];
     </head>
     
     <body>
-        <div class="header">
+        <div class="header" style="margin-top: 5rem;">
             <h1>Dashboard del Simposio</h1>
             <p>Administrador: <?php echo $_SESSION['usuario']; ?></p>
         </div>
@@ -75,5 +75,6 @@ $pendientes = $stmt->get_result()->fetch_assoc()['pendientes'];
             <a class="btn" href="logout.php">Cerrar sesión</a>
         </div>
         
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
     </body>
 </html>

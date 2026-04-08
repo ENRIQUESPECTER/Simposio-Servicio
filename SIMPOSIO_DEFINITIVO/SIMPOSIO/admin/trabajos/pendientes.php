@@ -31,12 +31,14 @@ $sql = "
     SELECT a.id_articulo, a.titulo, a.tipo_trabajo, a.categoria, a.fecha_registro, ar.estado_revision,
            u.nombre as autor_nombre, u.apellidos as autor_apellidos,
            e.titulo as evento_titulo, e.fecha as evento_fecha,
-           d.nombre as docente_asignado_nombre, d.apellidos as docente_asignado_apellidos
+           d.nombre as docente_asignado_nombre, d.apellidos as docente_asignado_apellidos,
+           doc.id_docente
     FROM articulo a
     LEFT JOIN asignacion_revision ar ON a.id_articulo = ar.id_articulo
     LEFT JOIN usuario u ON a.id_usuario = u.id_usuario
     LEFT JOIN evento e ON a.id_evento = e.id_evento
-    LEFT JOIN usuario d ON a.id_usuario = d.id_usuario
+    LEFT JOIN docente doc ON ar.id_docente = doc.id_docente
+    LEFT JOIN usuario d ON doc.id_usuario = d.id_usuario
     WHERE a.estado = 'pendiente'
     ORDER BY a.fecha_registro DESC
 ";

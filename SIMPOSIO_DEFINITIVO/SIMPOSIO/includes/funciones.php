@@ -126,4 +126,13 @@ function obtener_id_especifico($usuario) {
     }
     return null;
 }
+
+/*** Cuenta los trabajos pendientes de revisión para un docente*/
+function contar_revisiones_docente($conexion, $id_docente) {
+    $stmt = $conexion->prepare("SELECT COUNT(*) FROM asignacion_revision WHERE id_docente = ? AND estado_revision = 'pendiente'");
+    $stmt->bind_param("i", $id_docente);
+    $stmt->execute();
+    return $stmt->get_result()->fetch_row()[0];
+}
+
 ?>

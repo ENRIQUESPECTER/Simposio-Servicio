@@ -58,106 +58,106 @@ $hora_fin_evento = strtotime($evento['hora_fin']);
 </head>
 <body style="margin-top: 9rem;">
 
-<h1><?php echo $evento['titulo']; ?></h1>
+    <h1><?php echo $evento['titulo']; ?></h1>
 
-<div class="contenedor">
+    <div class="contenedor">
 
-    <p>
-        <strong>Fecha:</strong>
-        <?php echo date("d/m/Y", strtotime($evento['fecha'])); ?>
-    </p>
+        <p>
+            <strong>Fecha:</strong>
+            <?php echo date("d/m/Y", strtotime($evento['fecha'])); ?>
+        </p>
 
-    <div class="agenda-container">
+        <div class="agenda-container">
 
-    <?php while($hora_actual < $hora_fin_evento): ?>
+        <?php while($hora_actual < $hora_fin_evento): ?>
 
-<?php
-$bloque_inicio = date("H:i", $hora_actual);
-$actividad_actual = null;
+    <?php
+    $bloque_inicio = date("H:i", $hora_actual);
+    $actividad_actual = null;
 
-foreach($actividades as $act){
+    foreach($actividades as $act){
 
-    if($bloque_inicio == substr($act['hora_inicio'],0,5)){
-        $actividad_actual = $act;
-        break;
+        if($bloque_inicio == substr($act['hora_inicio'],0,5)){
+            $actividad_actual = $act;
+            break;
+        }
+
     }
 
-}
+    ?>
 
-?>
+    <?php if($actividad_actual): ?>
 
-<?php if($actividad_actual): ?>
+    <?php
+    $hora_inicio_act = strtotime($actividad_actual['hora_inicio']);
+    $hora_fin_act = strtotime($actividad_actual['hora_fin']);
 
-<?php
-$hora_inicio_act = strtotime($actividad_actual['hora_inicio']);
-$hora_fin_act = strtotime($actividad_actual['hora_fin']);
+    $duracion = ($hora_fin_act - $hora_inicio_act) / 60;
+    ?>
 
-$duracion = ($hora_fin_act - $hora_inicio_act) / 60;
-?>
+    <div class="bloque-horario bloque-ocupado">
 
-<div class="bloque-horario bloque-ocupado">
+        <div>
+            <strong>
+            <?php echo date("H:i",$hora_inicio_act)." - ".date("H:i",$hora_fin_act); ?>
+            </strong>
+        </div>
 
-    <div>
-        <strong>
-        <?php echo date("H:i",$hora_inicio_act)." - ".date("H:i",$hora_fin_act); ?>
-        </strong>
-    </div>
-
-    <div>
-        <?php echo $actividad_actual['titulo']; ?>
-        (<?php echo $actividad_actual['tipo']; ?>)
-    </div>
-
-</div>
-
-<?php
-$hora_actual = $hora_fin_act;
-?>
-
-<?php else: ?>
-
-<?php
-$bloque_fin = date("H:i", strtotime("+30 minutes", $hora_actual));
-?>
-
-<div class="bloque-horario bloque-disponible">
-
-    <div>
-        <strong><?php echo $bloque_inicio." - ".$bloque_fin; ?></strong>
-    </div>
-
-    <div>
-        Disponible
-
-        <?php if(isset($_SESSION['tipo_usuario']) && $_SESSION['tipo_usuario']=="docente" || $_SESSION['tipo_usuario']=="alumno"): ?>
-
-        <br><br>
-
-        <a class="btn-registrar"
-        href="../registrar_trabajos.php?id_evento=<?php echo $id_evento; ?>&fecha=<?php echo $evento['fecha']; ?>
-        &hora_inicio=<?php echo $bloque_inicio; ?>&hora_fin=<?php echo $bloque_fin; ?>">
-            Registrar actividad
-        </a>
-
-        <?php endif; ?>
+        <div>
+            <?php echo $actividad_actual['titulo']; ?>
+            (<?php echo $actividad_actual['tipo']; ?>)
+        </div>
 
     </div>
 
-</div>
+    <?php
+    $hora_actual = $hora_fin_act;
+    ?>
 
-<?php
-$hora_actual = strtotime("+30 minutes", $hora_actual);
-?>
+    <?php else: ?>
 
-<?php endif; ?>
+    <?php
+    $bloque_fin = date("H:i", strtotime("+30 minutes", $hora_actual));
+    ?>
 
-<?php endwhile; ?>
+    <div class="bloque-horario bloque-disponible">
+
+        <div>
+            <strong><?php echo $bloque_inicio." - ".$bloque_fin; ?></strong>
+        </div>
+
+        <div>
+            Disponible
+
+            <?php if(isset($_SESSION['tipo_usuario']) && $_SESSION['tipo_usuario']=="docente" || $_SESSION['tipo_usuario']=="alumno"): ?>
+
+            <br><br>
+
+            <a class="btn-registrar"
+            href="../registrar_trabajos.php?id_evento=<?php echo $id_evento; ?>&fecha=<?php echo $evento['fecha']; ?>
+            &hora_inicio=<?php echo $bloque_inicio; ?>&hora_fin=<?php echo $bloque_fin; ?>">
+                Registrar actividad
+            </a>
+
+            <?php endif; ?>
+
+        </div>
 
     </div>
 
-    <a href="index_programa.php" class="btn-volver">← Volver</a>
+    <?php
+    $hora_actual = strtotime("+30 minutes", $hora_actual);
+    ?>
 
-</div>
+    <?php endif; ?>
 
-</body>
+    <?php endwhile; ?>
+
+        </div>
+
+        <a href="index_programa.php" class="btn-volver">← Volver</a>
+
+    </div>
+
+    </body>
 </html>
