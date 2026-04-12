@@ -135,4 +135,9 @@ function contar_revisiones_docente($conexion, $id_docente) {
     return $stmt->get_result()->fetch_row()[0];
 }
 
+function contar_pendientes_admin($conexion) {
+    $result = $conexion->query("SELECT COUNT(*) FROM articulo WHERE estado = 'pendiente'");
+    return $result->fetch_row()[0];
+}
+
 ?>
