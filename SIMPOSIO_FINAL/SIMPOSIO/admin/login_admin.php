@@ -25,7 +25,7 @@ if($resultado->num_rows == 1){
         $_SESSION['id_admin'] = $admin['id_admin'];
         $_SESSION['usuario'] = $admin['usuario'];
 
-        header("Location: dashboard.php");
+        header("Location: index.php");
         exit();
 
     } else {
