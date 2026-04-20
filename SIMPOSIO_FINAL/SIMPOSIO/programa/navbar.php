@@ -18,7 +18,7 @@
                 </span>
                 <a href="../logout.php" class="btn-logout">Cerrar sesión</a>
             <?php else: ?>
-                <a href="../login.html" class="btn-login">Iniciar sesión</a>
+                <a href="../login.php" class="btn-login">Iniciar sesión</a>
             <?php endif; ?>
         </div>
     </div>

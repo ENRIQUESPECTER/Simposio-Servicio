@@ -425,10 +425,10 @@ if (es_docente()) {
             <div class="col-md-4">
                 <h5 class="mb-3"><i class="fas fa-share-alt me-2"></i>Síguenos</h5>
                 <div class="d-flex gap-3">
-                    <a href="#" class="text-white fs-3"><i class="fab fa-facebook"></i></a>
-                    <a href="#" class="text-white fs-3"><i class="fab fa-twitter"></i></a>
-                    <a href="#" class="text-white fs-3"><i class="fab fa-instagram"></i></a>
-                    <a href="#" class="text-white fs-3"><i class="fab fa-youtube"></i></a>
+                    <a href="https://www.facebook.com/fescunamoficial/about?locale=es_LA" class="text-white fs-3"><i class="fab fa-facebook"></i></a>
+                    <a href="https://x.com/FESC_UNAM?fbclid=IwY2xjawQyQHxleHRuA2FlbQIxMABicmlkETFvUEhaR0VMQmo5UEQ1b0M0c3J0YwZhcHBfaWQQMjIyMDM5MTc4ODIwMDg5MgABHunbJB2FGEliNtdbtCRQ5rraIYqxrw-P_F1GfK3vbH2iH1LCVWqhSXpl2LP7_aem_vLlrun1rax8EMbKR0qgxBQ" class="text-white fs-3"><i class="fab fa-twitter"></i></a>
+                    <a href="https://www.instagram.com/fescunamoficial?fbclid=IwY2xjawQyQnJleHRuA2FlbQIxMABicmlkETFjOU9lY2lsNWhBREVmV1Nxc3J0YwZhcHBfaWQQMjIyMDM5MTc4ODIwMDg5MgABHvwGr8ZN8ksdMDFGCUCpjhMbJJW9cbvuMXJ5qhpo6m2tuK4zV1DqLw3vk0vB_aem_XcaPSOTLV8iGNi3yf750EQ" class="text-white fs-3"><i class="fab fa-instagram"></i></a>
+                    <a href="https://youtube.com/@fescunamoficial9877?si=J4aNbVU3BTRfEzd7" class="text-white fs-3"><i class="fab fa-youtube"></i></a>
                 </div>
             </div>
         </div>
