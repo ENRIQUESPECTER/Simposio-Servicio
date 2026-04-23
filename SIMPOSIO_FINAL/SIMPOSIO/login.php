@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
     try{
         if (empty($correo) || empty($password) || empty($tipo)) {
             $error = 'Por favor complete todos los campos obligatorios';
-        } elseif($resultado->num_rows === 1){
+        } elseif ($resultado->num_rows === 1){
 
             $usuario = $resultado->fetch_assoc();
 

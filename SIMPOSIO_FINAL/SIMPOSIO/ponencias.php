@@ -170,6 +170,17 @@ $colores_tipo = [
     'taller'    => ['bg' => '#28a745', 'icon' => 'fa-tools'],
     'prototipo' => ['bg' => '#6f42c1', 'icon' => 'fa-cube']
 ];
+
+$revisiones_pendientes = 0;
+if (es_docente()) {
+    $stmt = $conexion->prepare("SELECT id_docente FROM docente WHERE id_usuario = ?");
+    $stmt->bind_param("i", $_SESSION['id_usuario']);
+    $stmt->execute();
+    $docente = $stmt->get_result()->fetch_assoc();
+    if ($docente) {
+        $revisiones_pendientes = contar_revisiones_docente($conexion, $docente['id_docente']);
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -242,6 +253,15 @@ $colores_tipo = [
                         <ul class="dropdown-menu dropdown-menu-end">
                             <li><a class="dropdown-item" href="perfil.php"><i class="fas fa-id-card me-2"></i>Mi Perfil</a></li>
                             <li><a class="dropdown-item" href="mis_proyectos.php"><i class="fas fa-project-diagram me-2"></i>Mis Proyectos</a></li>
+                            <?php if (es_docente()): ?>
+                                <li class="nav-item">
+                                    <a class="dropdown-item" href="revisiones.php"><i class="fas fa-tasks me-1"></i>Mis revisiones
+                                    <?php if ($revisiones_pendientes > 0): ?>
+                                        <span class="badge bg-danger rounded-pill ms-1"><?php echo $revisiones_pendientes; ?></span>
+                                    <?php endif; ?>
+                                    </a>
+                                </li>
+                            <?php endif; ?>
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item" href="logout.php"><i class="fas fa-sign-out-alt me-2"></i>Cerrar sesión</a></li>
                         </ul>

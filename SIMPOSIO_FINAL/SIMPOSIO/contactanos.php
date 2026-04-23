@@ -3,6 +3,16 @@ session_start();
 require_once 'includes/conexion.php';
 require_once 'includes/auth.php';
 require_once 'includes/funciones.php';
+$revisiones_pendientes = 0;
+if (es_docente()) {
+    $stmt = $conexion->prepare("SELECT id_docente FROM docente WHERE id_usuario = ?");
+    $stmt->bind_param("i", $_SESSION['id_usuario']);
+    $stmt->execute();
+    $docente = $stmt->get_result()->fetch_assoc();
+    if ($docente) {
+        $revisiones_pendientes = contar_revisiones_docente($conexion, $docente['id_docente']);
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -10,11 +20,8 @@ require_once 'includes/funciones.php';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     
-    <!-- Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-    
     <!-- Estilos externos -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
     <link rel="stylesheet" href="Css/contactanos.css">
     <link rel="stylesheet" href="Css/interfaz_usuario.css"> 

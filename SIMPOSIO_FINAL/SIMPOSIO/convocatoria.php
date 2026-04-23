@@ -3,6 +3,16 @@ session_start();
 require_once 'includes/conexion.php';
 require_once 'includes/auth.php';
 require_once 'includes/funciones.php';
+$revisiones_pendientes = 0;
+if (es_docente()) {
+    $stmt = $conexion->prepare("SELECT id_docente FROM docente WHERE id_usuario = ?");
+    $stmt->bind_param("i", $_SESSION['id_usuario']);
+    $stmt->execute();
+    $docente = $stmt->get_result()->fetch_assoc();
+    if ($docente) {
+        $revisiones_pendientes = contar_revisiones_docente($conexion, $docente['id_docente']);
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
