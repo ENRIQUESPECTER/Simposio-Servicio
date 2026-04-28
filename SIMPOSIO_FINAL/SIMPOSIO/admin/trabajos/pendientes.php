@@ -50,11 +50,57 @@ $result = $conexion->query($sql);
     <meta charset="UTF-8">
     <title>Trabajos pendientes - Admin</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
     <style>
         /* admin.css */
         body {
             background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin-top: 5.5rem;
+        }
+        #mainNav {
+            background-color: #293e6b !important;
+            padding: 10px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .navbar-brand { 
+            color: white !important; 
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+
+        .nav-link { 
+            color: white !important;
+            font-weight: 500;
+        }
+        .nav-tabs {
+            border-bottom: 2px solid #dee2e6;
+            margin-bottom: 20px;
+        }
+
+        .nav-tabs .nav-link {
+            color: #495057;
+            font-weight: 600;
+            border: none;
+            padding: 10px 20px;
+            margin-right: 5px;
+            border-radius: 10px 10px 0 0;
+            background: #e9ecef;
+        }
+
+        .nav-tabs .nav-link:hover {
+            color: #293e6b;
+            background: #dee2e6;
+        }
+
+        .nav-tabs .nav-link.active {
+            color: #293e6b;
+            background: white;
+            border: 2px solid #dee2e6;
+            border-bottom-color: white;
+            transform: translateY(2px);
         }
 
         .admin-navbar {
@@ -131,6 +177,33 @@ $result = $conexion->query($sql);
     </style>
 </head>
 <body>
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav" style="background-color: #293e6b;">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="../index.php">
+            <i class="fas fa-calculator me-2"></i>SIMPOSIO FESC C4
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" href="../index.php"><i class="fas fa-home me-1"></i>Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link" href="../eventos/lista_eventos.php"><i class="fas fa-scroll me-1"></i>Lista Eventos</a></li>
+                <li class="nav-item"><a class="nav-link" href="../actividades/lista_actividades.php"><i class="fas fa-chalkboard me-1"></i>Agenda Actividades</a></li>
+                <li class="nav-item"><a class="nav-link" href="../trabajos/pendientes.php"><i class="fas fa-calendar me-1"></i>Evaluación de Trabajos</a></li>
+                <li class="nav-item"><a class="nav-link" href="../trabajos/evaluacion.php"><i class="fas fa-calendar me-1"></i>Evaluación Extensos</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+                            <i class="fas fa-user-circle me-1"></i> <?php echo $_SESSION['usuario']  ?>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="../logout.php"><i class="fas fa-sign-out-alt me-2"></i>Cerrar sesión</a></li>
+                        </ul>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</nav>
     <div class="container mt-5">
         <h2><i class="fas fa-clock me-2"></i>Trabajos pendientes de aprobación</h2>
         <?php if (isset($mensaje_asignacion)): ?>

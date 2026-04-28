@@ -18,6 +18,21 @@ if (!$id_proyecto) {
 
 $mensaje = '';
 $tipo_mensaje = '';
+// Obtener información del usuario
+$stmt = $conexion->prepare("SELECT u.*, 
+    a.id_alumno, a.matricula, a.carrera, a.semestre,
+    d.id_docente, d.especialidad, d.grado_academico,
+    e.id_empresa, e.nombre_empresa, e.sector
+    FROM usuario u
+    LEFT JOIN alumno a ON u.id_usuario = a.id_usuario
+    LEFT JOIN docente d ON u.id_usuario = d.id_usuario
+    LEFT JOIN empresa e ON u.id_usuario = e.id_usuario
+    WHERE u.id_usuario = ?");
+$stmt->bind_param("i", $_SESSION['id_usuario']);
+$stmt->execute();
+$usuario = $stmt->get_result()->fetch_assoc();
+$tipo_usuario = $usuario['tipo_usuario'];
+$id_especifico = obtener_id_especifico($usuario);
 
 // Obtener información del proyecto
 $stmt = $conexion->prepare("
@@ -256,6 +271,28 @@ $color_tipo = $colores_tipo[$tipo_trabajo] ?? $colores_tipo['ponencia'];
                             <?php echo ucfirst($proyecto['estado']); ?>
                         </span>
                     </p>
+                    <?php if ($proyecto['estado'] == 'rechazado'): ?>
+                        <div class="alert alert-warning mt-3">
+                            <strong><i class="fas fa-info-circle"></i> Tu trabajo fue rechazado.</strong><br>
+                            Observaciones del revisor:
+                            <ul>
+                            <?php
+                            $stmt_det = $conexion->prepare("SELECT criterio, detalle FROM revision_detalles WHERE id_articulo = ?");
+                            $stmt_det->bind_param("i", $id_proyecto);
+                            $stmt_det->execute();
+                            $detalles = $stmt_det->get_result();
+                            if ($detalles->num_rows > 0):
+                                while ($det = $detalles->fetch_assoc()):
+                                    echo "<li><strong>" . htmlspecialchars($det['criterio']) . ":</strong> " . nl2br(htmlspecialchars($det['detalle'])) . "</li>";
+                                endwhile;
+                            else:
+                                echo "<li>No hay observaciones detalladas.</li>";
+                            endif;
+                            ?>
+                            </ul>
+                            <p>Puedes corregir los aspectos señalados y reenviar el trabajo usando el botón "Reenviar para aprobación".</p>
+                        </div>
+                    <?php endif; ?>
                 </div>
 
                 <!-- Horario (si existe) -->
@@ -327,7 +364,9 @@ $color_tipo = $colores_tipo[$tipo_trabajo] ?? $colores_tipo['ponencia'];
                 <!-- Botones de acción -->
                 <div class="d-flex justify-content-between">
                     <a href="mis_proyectos.php" class="btn-volver"><i class="fas fa-arrow-left me-2"></i>Volver</a>
+                    <?php if($proyecto['id_usuario'] == $_SESSION{'id_usuario'}): ?>
                     <a href="editar_proyecto.php?id=<?php echo $id_proyecto; ?>" class="btn-editar"><i class="fas fa-edit me-2"></i>Editar</a>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>
