@@ -34,6 +34,51 @@ if (!$usuario) {
 $tipo_usuario = $usuario['tipo_usuario'];
 $id_especifico = obtener_id_especifico($usuario);
 
+// Procesar respuesta a solicitud de patrocinio (aceptar/rechazar)
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['accion_patrocinio'])) {
+    $id_patrocinio = intval($_POST['id_patrocinio']);
+    $nuevo_estado = $_POST['accion_patrocinio']; // 'aceptado' o 'rechazado'
+    $comentarios = trim($_POST['comentarios_respuesta'] ?? '');
+    // Verificar que el usuario sea autor del proyecto relacionado
+    $stmt = $conexion->prepare("
+        SELECT p.id_patrocinio, a.id_usuario as autor_id
+        FROM patrocinios p
+        JOIN articulo a ON p.id_articulo = a.id_articulo
+        WHERE p.id_patrocinio = ?
+    ");
+    $stmt->bind_param("i", $id_patrocinio);
+    $stmt->execute();
+    $patrocinio = $stmt->get_result()->fetch_assoc();
+    if ($patrocinio && ($patrocinio['autor_id'] == $_SESSION['id_usuario'] || es_autor_proyecto($conexion, $patrocinio['autor_id'], $_SESSION['id_usuario']))) {
+        $stmt = $conexion->prepare("UPDATE patrocinios SET estado = ?, comentarios_autor = ?, fecha_respuesta = NOW() WHERE id_patrocinio = ?");
+        $stmt->bind_param("ssi", $nuevo_estado, $comentarios, $id_patrocinio);
+        if ($stmt->execute()) {
+            $mensaje = "Has " . ($nuevo_estado == 'aceptado' ? 'aceptado' : 'rechazado') . " la solicitud de patrocinio.";
+            $tipo_mensaje = "success";
+        } else {
+            $mensaje = "Error al procesar la solicitud.";
+            $tipo_mensaje = "danger";
+        }
+    } else {
+        $mensaje = "No tienes permiso para responder a esta solicitud.";
+        $tipo_mensaje = "warning";
+    }
+}
+// Función auxiliar para verificar si un usuario es autor de un proyecto (alumno/docente)
+function es_autor_proyecto($conexion, $id_articulo, $id_usuario) {
+    // Verificar si es alumno autor
+    $stmt = $conexion->prepare("SELECT 1 FROM articulo_alumno aa JOIN alumno a ON aa.id_alumno = a.id_alumno WHERE aa.id_articulo = ? AND a.id_usuario = ? AND aa.rol = 'autor'");
+    $stmt->bind_param("ii", $id_articulo, $id_usuario);
+    $stmt->execute();
+    if ($stmt->get_result()->num_rows > 0) return true;
+    
+    // Verificar si es docente autor
+    $stmt = $conexion->prepare("SELECT 1 FROM articulo_docente ad JOIN docente d ON ad.id_docente = d.id_docente WHERE ad.id_articulo = ? AND d.id_usuario = ?");
+    $stmt->bind_param("ii", $id_articulo, $id_usuario);
+    $stmt->execute();
+    return $stmt->get_result()->num_rows > 0;
+}
+
 // Procesar eliminación si se solicita
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['accion']) && $_POST['accion'] == 'eliminar') {
     $id_proyecto = intval($_POST['id_proyecto']);
@@ -348,6 +393,7 @@ if (es_docente()) {
                                 <th>Tipo</th>
                                 <th>Participación</th>
                                 <th>Coautores</th>
+                                <th>Patrocinadores</th>
                                 <th>Horario</th>
                                 <th>Acciones</th>
                                 <th>Estado</th>
@@ -391,6 +437,33 @@ if (es_docente()) {
                                         <span class="text-muted">Sin coautores</span>
                                     <?php endif; ?>
                                 </td>
+                                <!-- Celda de Patrocinadores -->
+                                <td data-label="Patrocinadores">
+                                    <?php
+                                    $num_patrocinadores = contar_patrocinadores_proyecto($conexion, $p['id_articulo']);
+                                    if ($num_patrocinadores > 0):
+                                    ?>
+                                        <div class="patrocinadores-badge">
+                                            <span class="badge bg-success">
+                                                <i class="fas fa-hand-holding-heart me-1"></i>
+                                                <?php echo $num_patrocinadores; ?> Patrocinador(es)
+                                            </span>
+                                            <?php if ($p['participacion'] == 'Autor'): ?>
+                                            <button type="button" class="btn btn-sm btn-outline-success mt-1" data-bs-toggle="modal" data-bs-target="#modalVerPatrocinadores" data-id="<?php echo $p['id_articulo']; ?>" data-titulo="<?php echo htmlspecialchars($p['titulo']); ?>">
+                                                <i class="fas fa-eye"></i> Ver
+                                            </button>
+                                            <?php endif; ?>
+                                        </div>
+                                    <?php else: ?>
+                                        <span class="text-muted">
+                                            <i class="fas fa-gem me-1"></i>Sin patrocinadores
+                                        </span>
+                                        <?php if ($p['participacion'] == 'Autor'): ?>
+                                        <a href="patrocinar_proyectos.php" class="btn btn-sm btn-outline-secondary mt-1" target="_blank">
+                                            <i class="fas fa-search"></i> Buscar
+                                        </a>
+                                        <?php endif; ?>
+                                    <?php endif; ?>
                                 <td>
                                     <?php if ($p['tiene_horario'] > 0): ?>
                                     <span class="badge bg-success">Asignado</span>
@@ -439,6 +512,58 @@ if (es_docente()) {
             </div>
         </div>
     </div>
+    
+    <!-- Modal para responder solicitud de patrocinio -->
+    <div class="modal fade" id="modalRespuestaPatrocinio" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form method="POST">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Responder Solicitud de Patrocinio</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" name="id_patrocinio" id="id_patrocinio_modal">
+                        <input type="hidden" name="accion_patrocinio" id="accion_patrocinio_modal">
+                        <p>¿Estás seguro de <strong id="accion_texto_modal"></strong> la solicitud de patrocinio de la empresa <strong id="empresa_nombre_modal"></strong>?</p>
+                        <div class="mb-3">
+                            <label for="comentarios_respuesta" class="form-label">Comentarios (opcional)</label>
+                            <textarea class="form-control" name="comentarios_respuesta" rows="3" placeholder="Escribe un mensaje para la empresa..."></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">Confirmar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Modal para ver patrocinadores del proyecto -->
+    <div class="modal fade" id="modalVerPatrocinadores" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title">
+                        <i class="fas fa-hand-holding-heart me-2"></i>
+                        Patrocinadores del proyecto: <span id="modalProyectoTitulo"></span>
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body" id="modalPatrocinadoresContent">
+                    <div class="text-center p-4">
+                        <div class="spinner-border text-success" role="status">
+                            <span class="visually-hidden">Cargando...</span>
+                        </div>
+                        <p class="mt-2">Cargando información de patrocinadores...</p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
@@ -458,6 +583,132 @@ if (es_docente()) {
         }
         function editarProyecto(id) {
             window.location.href = 'editar_proyecto.php?id=' + id;
+        }
+    </script>
+    <script>
+        // Pasar datos al modal de respuesta
+        var modalRespuesta = document.getElementById('modalRespuestaPatrocinio');
+        modalRespuesta.addEventListener('show.bs.modal', function(event) {
+            var button = event.relatedTarget;
+            var idPatrocinio = button.getAttribute('data-id');
+            var empresaNombre = button.getAttribute('data-empresa');
+            var accion = button.getAttribute('data-accion');
+            document.getElementById('id_patrocinio_modal').value = idPatrocinio;
+            document.getElementById('accion_patrocinio_modal').value = accion;
+            document.getElementById('empresa_nombre_modal').textContent = empresaNombre;
+            document.getElementById('accion_texto_modal').textContent = accion === 'aceptado' ? 'ACEPTAR' : 'RECHAZAR';
+        });
+        
+        // Función para cargar patrocinadores vía AJAX
+        function cargarPatrocinadores(idArticulo, titulo) {
+            document.getElementById('modalProyectoTitulo').textContent = titulo;
+            document.getElementById('modalPatrocinadoresContent').innerHTML = `
+                <div class="text-center p-4">
+                    <div class="spinner-border text-success" role="status">
+                        <span class="visually-hidden">Cargando...</span>
+                    </div>
+                    <p class="mt-2">Cargando información de patrocinadores...</p>
+                </div>
+            `;
+            
+            fetch(`ajax/obtener_patrocinadores.php?id=${idArticulo}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        if (data.patrocinadores.length > 0) {
+                            let html = '<div class="row">';
+                            data.patrocinadores.forEach(patro => {
+                                html += `
+                                    <div class="col-md-6 mb-3">
+                                        <div class="card border-success h-100">
+                                            <div class="card-body">
+                                                <div class="d-flex align-items-center mb-3">
+                                                    <div class="bg-success rounded-circle p-3 me-3">
+                                                        <i class="fas fa-building text-white fa-lg"></i>
+                                                    </div>
+                                                    <div>
+                                                        <h5 class="card-title mb-0">${escapeHtml(patro.nombre_empresa)}</h5>
+                                                        <small class="text-muted">
+                                                            <i class="fas fa-user me-1"></i>${escapeHtml(patro.nombre)} ${escapeHtml(patro.apellidos || '')}
+                                                        </small>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-12 mb-2">
+                                                        <i class="fas fa-envelope text-success me-2"></i>
+                                                        <a href="mailto:${escapeHtml(patro.correo)}">${escapeHtml(patro.correo)}</a>
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <i class="fas fa-calendar-check text-success me-2"></i>
+                                                        Patrocinio aceptado: ${formatDate(patro.fecha_respuesta)}
+                                                    </div>
+                                                    ${patro.comentarios_empresa ? `
+                                                    <div class="col-12 mt-2">
+                                                        <i class="fas fa-comment text-success me-2"></i>
+                                                        <small>"${escapeHtml(patro.comentarios_empresa)}"</small>
+                                                    </div>
+                                                    ` : ''}
+                                                </div>
+                                            </div>
+                                            <div class="card-footer bg-transparent border-success">
+                                                <span class="badge bg-success"><i class="fas fa-gem me-1"></i>Patrocinador Oficial</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                `;
+                            });
+                            html += '</div>';
+                            document.getElementById('modalPatrocinadoresContent').innerHTML = html;
+                        } else {
+                            document.getElementById('modalPatrocinadoresContent').innerHTML = `
+                                <div class="alert alert-info text-center">
+                                    <i class="fas fa-info-circle fa-2x mb-2"></i>
+                                    <p>Este proyecto no tiene patrocinadores aún.</p>
+                                    <a href="patrocinar_proyectos.php" class="btn btn-primary">Buscar patrocinadores</a>
+                                </div>
+                            `;
+                        }
+                    } else {
+                        document.getElementById('modalPatrocinadoresContent').innerHTML = `
+                            <div class="alert alert-danger text-center">
+                                <i class="fas fa-exclamation-triangle fa-2x mb-2"></i>
+                                <p>Error al cargar los patrocinadores.</p>
+                            </div>
+                        `;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    document.getElementById('modalPatrocinadoresContent').innerHTML = `
+                        <div class="alert alert-danger text-center">
+                            <i class="fas fa-exclamation-triangle fa-2x mb-2"></i>
+                            <p>Error de conexión al cargar los patrocinadores.</p>
+                        </div>
+                    `;
+                });
+        }
+        // Función auxiliar para escapar HTML
+        function escapeHtml(text) {
+            if (!text) return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+        // Función auxiliar para formatear fecha
+        function formatDate(dateString) {
+            if (!dateString) return 'N/A';
+            const date = new Date(dateString);
+            return date.toLocaleDateString('es-MX');
+        }
+        // Event listener para el modal
+        var modalPatrocinadores = document.getElementById('modalVerPatrocinadores');
+        if (modalPatrocinadores) {
+            modalPatrocinadores.addEventListener('show.bs.modal', function(event) {
+                var button = event.relatedTarget;
+                var idArticulo = button.getAttribute('data-id');
+                var titulo = button.getAttribute('data-titulo');
+                cargarPatrocinadores(idArticulo, titulo);
+            });
         }
     </script>
 </body>

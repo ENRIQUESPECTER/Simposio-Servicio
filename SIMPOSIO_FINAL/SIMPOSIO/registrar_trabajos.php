@@ -11,7 +11,7 @@ if (!esta_logeado()) {
 }
 
 if (es_empresa()) {
-    header('Location: index.html');
+    header('Location: index.php');
     exit;
 }
 

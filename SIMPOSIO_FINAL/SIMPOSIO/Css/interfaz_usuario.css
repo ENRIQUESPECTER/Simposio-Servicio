@@ -491,6 +491,238 @@ select.form-control option {
     margin-top: 2rem;
 }
 
+/* ============================================
+   ESTILOS PARA PATROCINIOS - VERSIÓN MEJORADA
+   ============================================ */
+/* ---------- Hero Section ---------- */
+.patrocinios-hero {
+    background: linear-gradient(135deg, #293e6b 0%, #1a2b4a 100%) !important;
+    border-radius: 20px !important;
+    padding: 40px !important;
+    margin-bottom: 40px !important;
+    color: white !important;
+    position: relative !important;
+    overflow: hidden !important;
+}
+.patrocinios-hero h1,
+.patrocinios-hero .display-4,
+.patrocinios-hero p,
+.patrocinios-hero .lead {
+    color: white !important;
+}
+/* ---------- Tarjetas de Estadísticas ---------- */
+.stat-card {
+    background: white !important;
+    border-radius: 15px !important;
+    padding: 20px !important;
+    text-align: center !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.08) !important;
+    border: 1px solid #e9ecef !important;
+}
+.stat-card:hover {
+    transform: translateY(-5px) !important;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15) !important;
+}
+.stat-icon {
+    width: 60px !important;
+    height: 60px !important;
+    border-radius: 50% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin: 0 auto 15px !important;
+    font-size: 24px !important;
+}
+.stat-number {
+    font-size: 28px !important;
+    font-weight: bold !important;
+    margin-bottom: 5px !important;
+    color: #293e6b !important;
+}
+.stat-label {
+    color: #6c757d !important;
+    font-size: 14px !important;
+}
+/* ---------- Tarjetas de Proyectos ---------- */
+.proyecto-card {
+    border: none !important;
+    border-radius: 20px !important;
+    overflow: hidden !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08) !important;
+    background: white !important;
+    height: 100% !important;
+}
+.proyecto-card:hover {
+    transform: translateY(-8px) !important;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.15) !important;
+}
+.proyecto-img {
+    height: 180px !important;
+    object-fit: cover !important;
+    width: 100% !important;
+}
+.proyecto-img-placeholder {
+    height: 180px !important;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+.proyecto-badge {
+    position: absolute !important;
+    top: 15px !important;
+    right: 15px !important;
+    padding: 5px 12px !important;
+    border-radius: 20px !important;
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    z-index: 1 !important;
+}
+/* Badges por tipo de trabajo */
+.badge-cartel { background: #ffc107 !important; color: #000 !important; }
+.badge-ponencia { background: #17a2b8 !important; color: #fff !important; }
+.badge-taller { background: #28a745 !important; color: #fff !important; }
+.badge-prototipo { background: #6f42c1 !important; color: #fff !important; }
+/* Botón de patrocinio */
+.btn-patrocinar {
+    background: linear-gradient(135deg, #D59F0F, #b8860b) !important;
+    border: none !important;
+    transition: all 0.3s ease !important;
+    color: white !important;
+    font-weight: 600 !important;
+    padding: 10px 20px !important;
+    border-radius: 10px !important;
+}
+.btn-patrocinar:hover {
+    transform: scale(1.02) !important;
+    box-shadow: 0 5px 15px rgba(213,159,15,0.4) !important;
+    color: white !important;
+}
+/* ---------- Tabla de Solicitudes ---------- */
+.solicitudes-table {
+    border-radius: 15px !important;
+    overflow: hidden !important;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08) !important;
+    width: 100% !important;
+}
+.solicitudes-table thead {
+    background: linear-gradient(135deg, #293e6b, #1a2b4a) !important;
+    color: white !important;
+}
+.solicitudes-table th {
+    padding: 15px !important;
+    font-weight: 600 !important;
+    border: none !important;
+    color: white !important;
+}
+.solicitudes-table td {
+    padding: 12px 15px !important;
+    vertical-align: middle !important;
+    background: white !important;
+}
+.solicitudes-table tbody tr:hover td {
+    background-color: rgba(213,159,15,0.05) !important;
+}
+/* Estados de solicitudes */
+.estado-pendiente {
+    background: #ffc107 !important;
+    color: #000 !important;
+    padding: 5px 12px !important;
+    border-radius: 20px !important;
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 5px !important;
+}
+.estado-aceptado {
+    background: #28a745 !important;
+    color: #fff !important;
+    padding: 5px 12px !important;
+    border-radius: 20px !important;
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 5px !important;
+}
+.estado-rechazado {
+    background: #dc3545 !important;
+    color: #fff !important;
+    padding: 5px 12px !important;
+    border-radius: 20px !important;
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 5px !important;
+}
+/* ---------- Estado Vacío ---------- */
+.empty-state {
+    text-align: center !important;
+    padding: 60px 20px !important;
+    background: #f8f9fa !important;
+    border-radius: 20px !important;
+}
+.empty-state i {
+    font-size: 60px !important;
+    color: #dee2e6 !important;
+    margin-bottom: 20px !important;
+}
+.empty-state h4 {
+    color: #293e6b !important;
+    margin-bottom: 10px !important;
+}
+/* ---------- Patrocinadores en Mis Proyectos ---------- */
+.patrocinadores-badge {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 5px !important;
+}
+/* ---------- Responsive ---------- */
+@media (max-width: 768px) {
+    .patrocinios-hero {
+        padding: 25px !important;
+        text-align: center !important;
+    }
+    
+    .patrocinios-hero .display-4 {
+        font-size: 28px !important;
+    }
+    
+    .stat-number {
+        font-size: 22px !important;
+    }
+    
+    .stat-icon {
+        width: 45px !important;
+        height: 45px !important;
+        font-size: 18px !important;
+    }
+    
+    .solicitudes-table {
+        font-size: 14px !important;
+    }
+    
+    .solicitudes-table th,
+    .solicitudes-table td {
+        padding: 8px 10px !important;
+    }
+}
+@media (max-width: 576px) {
+    .proyecto-img,
+    .proyecto-img-placeholder {
+        height: 150px !important;
+    }
+    
+    .patrocinios-hero {
+        padding: 20px !important;
+    }
+}
+
 @media (max-width: 768px) {
     .registro-body {
         padding: 20px;

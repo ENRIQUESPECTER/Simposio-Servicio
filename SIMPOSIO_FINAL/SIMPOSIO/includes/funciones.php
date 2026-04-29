@@ -248,4 +248,85 @@ Contenido del PDF:
     return json_decode($matches[0], true);
 }
 
+// ==================== FUNCIONES DE PATROCINIO ====================
+/**
+ * Verifica si una empresa ya ha solicitado patrocinio para un proyecto específico.
+ */
+function ya_solicito_patrocinio($conexion, $id_articulo, $id_empresa) {
+    $stmt = $conexion->prepare("SELECT COUNT(*) FROM patrocinios WHERE id_articulo = ? AND id_empresa = ?");
+    $stmt->bind_param("ii", $id_articulo, $id_empresa);
+    $stmt->execute();
+    $count = $stmt->get_result()->fetch_row()[0];
+    return $count > 0;
+}
+/**
+ * Obtiene el estado de una solicitud de patrocinio para un proyecto y empresa.
+ */
+function obtener_estado_patrocinio($conexion, $id_articulo, $id_empresa) {
+    $stmt = $conexion->prepare("SELECT estado FROM patrocinios WHERE id_articulo = ? AND id_empresa = ?");
+    $stmt->bind_param("ii", $id_articulo, $id_empresa);
+    $stmt->execute();
+    $resultado = $stmt->get_result()->fetch_assoc();
+    return $resultado ? $resultado['estado'] : null;
+}
+/**
+ * Obtiene todas las solicitudes de patrocinio hechas por una empresa.
+ */
+function obtener_solicitudes_empresa($conexion, $id_empresa) {
+    $sql = "SELECT p.*, a.titulo as proyecto_titulo, u.nombre as autor_nombre, u.apellidos as autor_apellidos
+            FROM patrocinios p
+            JOIN articulo a ON p.id_articulo = a.id_articulo
+            JOIN usuario u ON a.id_usuario = u.id_usuario
+            WHERE p.id_empresa = ?
+            ORDER BY p.fecha_solicitud DESC";
+    $stmt = $conexion->prepare($sql);
+    $stmt->bind_param("i", $id_empresa);
+    $stmt->execute();
+    return $stmt->get_result();
+}
+/**
+ * Obtiene todas las solicitudes de patrocinio recibidas para los proyectos de un usuario (alumno/docente).
+ */
+function obtener_solicitudes_recibidas($conexion, $id_usuario) {
+    $sql = "SELECT p.*, a.titulo as proyecto_titulo, e.nombre_empresa, u_e.nombre as empresa_nombre
+            FROM patrocinios p
+            JOIN articulo a ON p.id_articulo = a.id_articulo
+            JOIN empresa e ON p.id_empresa = e.id_empresa
+            JOIN usuario u_e ON e.id_usuario = u_e.id_usuario
+            WHERE a.id_usuario = ? OR a.id_articulo IN (
+                SELECT id_articulo FROM articulo_alumno aa JOIN alumno al ON aa.id_alumno = al.id_alumno WHERE al.id_usuario = ?
+            ) OR a.id_articulo IN (
+                SELECT id_articulo FROM articulo_docente ad JOIN docente d ON ad.id_docente = d.id_docente WHERE d.id_usuario = ?
+            )
+            ORDER BY p.fecha_solicitud DESC";
+    $stmt = $conexion->prepare($sql);
+    $stmt->bind_param("iii", $id_usuario, $id_usuario, $id_usuario);
+    $stmt->execute();
+    return $stmt->get_result();
+}
+/**
+ * Obtiene los patrocinadores de un proyecto
+ */
+function obtener_patrocinadores_proyecto($conexion, $id_articulo) {
+    $sql = "SELECT p.*, e.nombre_empresa, u.nombre, u.apellidos, u.correo
+            FROM patrocinios p
+            JOIN empresa e ON p.id_empresa = e.id_empresa
+            JOIN usuario u ON e.id_usuario = u.id_usuario
+            WHERE p.id_articulo = ? AND p.estado = 'aceptado'
+            ORDER BY p.fecha_respuesta DESC";
+    $stmt = $conexion->prepare($sql);
+    $stmt->bind_param("i", $id_articulo);
+    $stmt->execute();
+    return $stmt->get_result();
+}
+/**
+ * Cuenta cuántos patrocinadores tiene un proyecto
+ */
+function contar_patrocinadores_proyecto($conexion, $id_articulo) {
+    $sql = "SELECT COUNT(*) FROM patrocinios WHERE id_articulo = ? AND estado = 'aceptado'";
+    $stmt = $conexion->prepare($sql);
+    $stmt->bind_param("i", $id_articulo);
+    $stmt->execute();
+    return $stmt->get_result()->fetch_row()[0];
+}
 ?>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 25-04-2026 a las 03:17:58
+-- Tiempo de generación: 29-04-2026 a las 04:58:43
 -- Versión del servidor: 10.4.16-MariaDB
 -- Versión de PHP: 7.4.12
 
@@ -160,7 +160,7 @@ INSERT INTO `articulo` (`id_articulo`, `id_evento`, `id_usuario`, `titulo`, `res
 (36, 3, 11, 'NEW PRUEBA APROBACION', 'checar que sirva aprobar y rechazar articulos', 'prototipo', 'INGENIERÍA', '2026-03-31 22:57:07', 'pendiente', 1, '2026-04-02 13:32:31'),
 (37, 3, 11, 'Programación en C#', 'Aprender codigo de C#', 'ponencia', 'INGENIERÍA', '2026-04-03 03:02:09', 'pendiente', 1, '2026-04-06 20:23:18'),
 (45, 3, 11, 'Priueba 9 abril', 'jdsafu9hfiewf', 'cartel', 'INGENIERÍA', '2026-04-09 18:29:49', 'pendiente', 1, '2026-04-09 12:34:10'),
-(46, 3, 13, 'Mineria de Datos', 'prueba con el docente sobre el registro de trabajos', 'ponencia', 'MINERIA DE DATOS', '2026-04-09 18:40:28', 'pendiente', NULL, NULL);
+(46, 3, 13, 'Mineria de Datos', 'prueba con el docente sobre el registro de trabajos', 'ponencia', 'MINERIA DE DATOS', '2026-04-09 18:40:28', 'pendiente', 1, '2026-04-26 20:03:33');
 
 -- --------------------------------------------------------
 
@@ -344,6 +344,23 @@ CREATE TABLE `horario_ponencia` (
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `patrocinios`
+--
+
+CREATE TABLE `patrocinios` (
+  `id_patrocinio` int(11) NOT NULL,
+  `id_articulo` int(11) NOT NULL COMMENT 'Proyecto a patrocinar',
+  `id_empresa` int(11) NOT NULL COMMENT 'Empresa que patrocina',
+  `fecha_solicitud` timestamp NOT NULL DEFAULT current_timestamp(),
+  `estado` enum('pendiente','aceptado','rechazado') NOT NULL DEFAULT 'pendiente' COMMENT 'Estado de la solicitud por parte del autor del proyecto',
+  `comentarios_empresa` text DEFAULT NULL COMMENT 'Mensaje de la empresa al solicitar',
+  `comentarios_autor` text DEFAULT NULL COMMENT 'Respuesta del autor del proyecto',
+  `fecha_respuesta` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `plantilla_impresion`
 --
 
@@ -454,6 +471,27 @@ INSERT INTO `proyecto_imagen` (`id_imagen`, `id_articulo`, `nombre_archivo`, `ar
 (84, 46, '69d7f29ce7f63_1775760028.jpg', 'GOKU UI DIVIDED 4K.jpg', '', 234073, 1, '2026-04-09 18:40:28'),
 (85, 28, '69dd34312d8ca_1776104497.jpg', 'SATORU POSE COMBATE.jpg', '', 306046, 1, '2026-04-13 18:21:37'),
 (86, 5, '69dd349f2799d_1776104607.jpg', 'SATORU WALLPAPER.jpg', '', 236311, 0, '2026-04-13 18:23:27');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `revision_detalles`
+--
+
+CREATE TABLE `revision_detalles` (
+  `id_detalle` int(11) NOT NULL,
+  `id_articulo` int(11) NOT NULL,
+  `criterio` varchar(100) NOT NULL,
+  `detalle` text DEFAULT NULL,
+  `fecha` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `revision_detalles`
+--
+
+INSERT INTO `revision_detalles` (`id_detalle`, `id_articulo`, `criterio`, `detalle`, `fecha`) VALUES
+(1, 46, 'El documento tiene exactamente 8 páginas (cuartillas).', 'Fatlan Cuartillas', '2026-04-28 21:15:48');
 
 -- --------------------------------------------------------
 
@@ -627,6 +665,14 @@ ALTER TABLE `horario_ponencia`
   ADD KEY `id_articulo` (`id_articulo`);
 
 --
+-- Indices de la tabla `patrocinios`
+--
+ALTER TABLE `patrocinios`
+  ADD PRIMARY KEY (`id_patrocinio`),
+  ADD KEY `id_articulo` (`id_articulo`),
+  ADD KEY `id_empresa` (`id_empresa`);
+
+--
 -- Indices de la tabla `plantilla_impresion`
 --
 ALTER TABLE `plantilla_impresion`
@@ -644,6 +690,13 @@ ALTER TABLE `proyecto`
 --
 ALTER TABLE `proyecto_imagen`
   ADD PRIMARY KEY (`id_imagen`),
+  ADD KEY `id_articulo` (`id_articulo`);
+
+--
+-- Indices de la tabla `revision_detalles`
+--
+ALTER TABLE `revision_detalles`
+  ADD PRIMARY KEY (`id_detalle`),
   ADD KEY `id_articulo` (`id_articulo`);
 
 --
@@ -731,6 +784,12 @@ ALTER TABLE `horario_ponencia`
   MODIFY `id_horario` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT de la tabla `patrocinios`
+--
+ALTER TABLE `patrocinios`
+  MODIFY `id_patrocinio` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT de la tabla `plantilla_impresion`
 --
 ALTER TABLE `plantilla_impresion`
@@ -747,6 +806,12 @@ ALTER TABLE `proyecto`
 --
 ALTER TABLE `proyecto_imagen`
   MODIFY `id_imagen` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=87;
+
+--
+-- AUTO_INCREMENT de la tabla `revision_detalles`
+--
+ALTER TABLE `revision_detalles`
+  MODIFY `id_detalle` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `salones`
@@ -845,6 +910,13 @@ ALTER TABLE `horario_ponencia`
   ADD CONSTRAINT `horario_ponencia_ibfk_1` FOREIGN KEY (`id_articulo`) REFERENCES `articulo` (`id_articulo`) ON DELETE CASCADE;
 
 --
+-- Filtros para la tabla `patrocinios`
+--
+ALTER TABLE `patrocinios`
+  ADD CONSTRAINT `patrocinios_ibfk_1` FOREIGN KEY (`id_articulo`) REFERENCES `articulo` (`id_articulo`) ON DELETE CASCADE,
+  ADD CONSTRAINT `patrocinios_ibfk_2` FOREIGN KEY (`id_empresa`) REFERENCES `empresa` (`id_empresa`) ON DELETE CASCADE;
+
+--
 -- Filtros para la tabla `proyecto`
 --
 ALTER TABLE `proyecto`
@@ -855,6 +927,12 @@ ALTER TABLE `proyecto`
 --
 ALTER TABLE `proyecto_imagen`
   ADD CONSTRAINT `proyecto_imagen_ibfk_1` FOREIGN KEY (`id_articulo`) REFERENCES `articulo` (`id_articulo`) ON DELETE CASCADE;
+
+--
+-- Filtros para la tabla `revision_detalles`
+--
+ALTER TABLE `revision_detalles`
+  ADD CONSTRAINT `revision_detalles_ibfk_1` FOREIGN KEY (`id_articulo`) REFERENCES `articulo` (`id_articulo`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
