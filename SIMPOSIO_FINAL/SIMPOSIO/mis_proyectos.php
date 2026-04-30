@@ -464,6 +464,7 @@ if (es_docente()) {
                                         </a>
                                         <?php endif; ?>
                                     <?php endif; ?>
+                                </td>
                                 <td>
                                     <?php if ($p['tiene_horario'] > 0): ?>
                                     <span class="badge bg-success">Asignado</span>
