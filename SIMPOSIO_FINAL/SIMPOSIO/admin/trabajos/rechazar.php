@@ -23,6 +23,20 @@ try {
     $stmt->bind_param("ii", $_SESSION['id_admin'], $id);
     $stmt->execute();
 
+    
+    // Obtener ruta del PDF
+    $stmt_pdf = $conexion->prepare("SELECT archivo_pdf FROM actividad_evento WHERE id_articulo = ?");
+    $stmt_pdf->bind_param("i", $id);
+    $stmt_pdf->execute();
+    $pdf_row = $stmt_pdf->get_result()->fetch_assoc();
+    if ($pdf_row && !empty($pdf_row['archivo_pdf'])) {
+        $ruta = '../../' . $pdf_row['archivo_pdf'];
+        if (file_exists($ruta)) unlink($ruta);
+        $stmt_up = $conexion->prepare("UPDATE actividad_evento SET archivo_pdf = NULL WHERE id_articulo = ?");
+        $stmt_up->bind_param("i", $id);
+        $stmt_up->execute();
+    }
+
     // Ocultar la actividad asociada
     $stmt2 = $conexion->prepare("UPDATE actividad_evento SET visible = 0 WHERE id_articulo = ?");
     $stmt2->bind_param("i", $id);

@@ -41,7 +41,7 @@ $trabajos = obtener_trabajos_con_pdf($conexion, null); // todos los que tienen P
                 <li class="nav-item"><a class="nav-link" href="../trabajos/evaluacion.php"><i class="fas fa-calendar me-1"></i>Evaluación Extensos</a></li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
-                            <i class="fas fa-user-circle me-1"></i> <?php echo $_SESSION['usuario']  ?>
+                            <i class="fas fa-user-circle me-1"></i> <?php echo $_SESSION['usuario'];  ?>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end">
                             <li><a class="dropdown-item" href="../logout.php"><i class="fas fa-sign-out-alt me-2"></i>Cerrar sesión</a></li>

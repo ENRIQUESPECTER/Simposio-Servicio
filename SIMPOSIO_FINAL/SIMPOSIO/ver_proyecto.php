@@ -150,6 +150,17 @@ $colores_tipo = [
     'prototipo' => ['bg' => '#6f42c1', 'icon' => 'fa-cube', 'texto' => 'Prototipo']
 ];
 $color_tipo = $colores_tipo[$tipo_trabajo] ?? $colores_tipo['ponencia'];
+
+$revisiones_pendientes = 0;
+if (es_docente()) {
+    $stmt = $conexion->prepare("SELECT id_docente FROM docente WHERE id_usuario = ?");
+    $stmt->bind_param("i", $_SESSION['id_usuario']);
+    $stmt->execute();
+    $docente = $stmt->get_result()->fetch_assoc();
+    if ($docente) {
+        $revisiones_pendientes = contar_revisiones_docente($conexion, $docente['id_docente']);
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -199,15 +210,32 @@ $color_tipo = $colores_tipo[$tipo_trabajo] ?? $colores_tipo['ponencia'];
                 <li class="nav-item"><a class="nav-link" href="ponencias.php"><i class="fas fa-chalkboard me-1"></i>Ponencias</a></li>
                 <li class="nav-item"><a class="nav-link" href="programa/index_programa.php"><i class="fas fa-calendar me-1"></i>Programa</a></li>
                 <?php if (esta_logeado()): ?>
+                    <?php if (es_empresa()): ?>
+                            <!-- EMPRESA: enlace a Patrocinar -->
+                            <li class="nav-item"><a class="nav-link" href="patrocinar_proyectos.php"><i class="fas fa-hand-holding-usd me-2"></i>Patrocinar</a></li>
+                    <?php endif; ?>
+                    <?php if (es_alumno() || es_docente()): ?>
                     <li class="nav-item"><a class="nav-link" href="mis_proyectos.php"><i class="fas fa-project-diagram me-1"></i>Mis Proyectos</a></li>
                     <li class="nav-item"><a class="nav-link" href="registrar_trabajos.php"><i class="fas fa-upload me-1"></i>Registrar Trabajo</a></li>
+                    <?php endif; ?>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
                             <i class="fas fa-user-circle me-1"></i> <?php echo htmlspecialchars($_SESSION['nombre'] ?? 'Usuario'); ?>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end">
                             <li><a class="dropdown-item" href="perfil.php"><i class="fas fa-id-card me-2"></i>Mi Perfil</a></li>
+                            <?php if (es_alumno() || es_docente()): ?>
                             <li><a class="dropdown-item" href="mis_proyectos.php"><i class="fas fa-project-diagram me-2"></i>Mis Proyectos</a></li>
+                            <?php endif; ?>
+                            <?php if (es_docente()): ?>
+                                <li class="nav-item">
+                                    <a class="dropdown-item" href="revisiones.php"><i class="fas fa-tasks me-1"></i>Mis revisiones
+                                    <?php if ($revisiones_pendientes > 0): ?>
+                                        <span class="badge bg-danger rounded-pill ms-1"><?php echo $revisiones_pendientes; ?></span>
+                                    <?php endif; ?>
+                                    </a>
+                                </li>
+                            <?php endif; ?>
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item" href="logout.php"><i class="fas fa-sign-out-alt me-2"></i>Cerrar sesión</a></li>
                         </ul>
@@ -272,7 +300,7 @@ $color_tipo = $colores_tipo[$tipo_trabajo] ?? $colores_tipo['ponencia'];
                         </span>
                     </p>
                     <?php if ($proyecto['estado'] == 'rechazado'): ?>
-                        <div class="alert alert-warning mt-3">
+                        <div class="alert alert-danger mt-3">
                             <strong><i class="fas fa-info-circle"></i> Tu trabajo fue rechazado.</strong><br>
                             Observaciones del revisor:
                             <ul>
@@ -291,6 +319,28 @@ $color_tipo = $colores_tipo[$tipo_trabajo] ?? $colores_tipo['ponencia'];
                             ?>
                             </ul>
                             <p>Puedes corregir los aspectos señalados y reenviar el trabajo usando el botón "Reenviar para aprobación".</p>
+                        </div>
+                    <?php endif; ?>
+                    <?php if ($proyecto['estado'] == 'pendiente'): ?>
+                        <div class="alert alert-warning mt-3">
+                            <strong><i class="fas fa-info-circle"></i> Tu trabajo fue reenviado y esta pendiente de revisión.</strong><br>
+                            Observaciones del revisor:
+                            <ul>
+                            <?php
+                            $stmt_det = $conexion->prepare("SELECT criterio, detalle FROM revision_detalles WHERE id_articulo = ?");
+                            $stmt_det->bind_param("i", $id_proyecto);
+                            $stmt_det->execute();
+                            $detalles = $stmt_det->get_result();
+                            if ($detalles->num_rows > 0):
+                                while ($det = $detalles->fetch_assoc()):
+                                    echo "<li><strong>" . htmlspecialchars($det['criterio']) . ":</strong> " . nl2br(htmlspecialchars($det['detalle'])) . "</li>";
+                                endwhile;
+                            else:
+                                echo "<li>No hay observaciones detalladas.</li>";
+                            endif;
+                            ?>
+                            </ul>
+                            <p>Espera a que el trabajo sea evaluado y aprobado o rechazado según sea el caso.</p>
                         </div>
                     <?php endif; ?>
                 </div>

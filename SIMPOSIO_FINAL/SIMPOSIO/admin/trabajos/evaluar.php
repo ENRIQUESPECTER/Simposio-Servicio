@@ -12,7 +12,7 @@ if (!es_admin()) {
 
 $id = intval($_GET['id'] ?? 0);
 if (!$id) {
-    header('Location: index.php');
+    header('Location: evaluacion.php');
     exit;
 }
 
@@ -65,6 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['evaluar_ia'])) {
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['rechazar'])) {
     // Guardar detalles de cada criterio
     $detalles = $_POST['detalles'] ?? [];
+    $detalles_guardados = [];
     if (!empty($detalles)) {
         // Eliminar detalles anteriores si existían (opcional, pero mejor limpiar)
         $stmt_d = $conexion->prepare("DELETE FROM revision_detalles WHERE id_articulo = ?");
@@ -82,8 +83,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['rechazar'])) {
                 }
                 $stmt_det->bind_param("iss", $id, $criterio_nombre, $texto);
                 $stmt_det->execute();
+                // Guardar para el historial
+                $detalles_guardados[] = ['criterio' => $criterio_nombre, 'detalle' => $texto];
             }
         }
+    }
+     // 1. Eliminar archivo PDF físicamente
+    $ruta_pdf = '../../' . $trabajo['archivo_pdf'];
+    if (file_exists($ruta_pdf)) {
+        unlink($ruta_pdf);
+    }
+    
+    // 2. Guardar historial con los detalles (en JSON)
+    if (!empty($detalles_guardados)) {
+        $json_detalles = json_encode($detalles_guardados, JSON_UNESCAPED_UNICODE);
+        $stmt_hist = $conexion->prepare("INSERT INTO historial_revisiones (id_articulo, fecha_rechazo, detalles_json) VALUES (?, NOW(), ?)");
+        $stmt_hist->bind_param("is", $id, $json_detalles);
+        $stmt_hist->execute();
     }
     
     // Ahora ejecutar el rechazo (cambiar estado y ocultar actividad)
@@ -92,7 +108,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['rechazar'])) {
         $stmt = $conexion->prepare("UPDATE articulo SET estado = 'rechazado' WHERE id_articulo = ?");
         $stmt->bind_param("i", $id);
         $stmt->execute();
-        $stmt2 = $conexion->prepare("UPDATE actividad_evento SET visible = 0 WHERE id_articulo = ?");
+        $stmt2 = $conexion->prepare("UPDATE actividad_evento SET archivo_pdf = NULL, visible = 0 WHERE id_articulo = ?");
         $stmt2->bind_param("i", $id);
         $stmt2->execute();
         $conexion->commit();
@@ -156,7 +172,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['rechazar'])) {
                 <li class="nav-item"><a class="nav-link" href="../trabajos/evaluacion.php"><i class="fas fa-calendar me-1"></i>Evaluación Extensos</a></li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
-                            <i class="fas fa-user-circle me-1"></i> <?php echo $_SESSION['usuario']  ?>
+                            <i class="fas fa-user-circle me-1"></i> <?php echo $_SESSION['usuario'];  ?>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end">
                             <li><a class="dropdown-item" href="../logout.php"><i class="fas fa-sign-out-alt me-2"></i>Cerrar sesión</a></li>
@@ -181,7 +197,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['rechazar'])) {
             <div class="card-body">
                 <embed class="pdf-viewer" src="../../<?php echo $trabajo['archivo_pdf']; ?>" type="application/pdf">
                 <div class="text-center mt-2">
-                    <a href="../../<?php echo $trabajo['archivo_pdf']; ?>" target="_blank" class="btn btn-sm btn-info">Abrir en nueva pestaña</a>
+                    <a href="../../<?php echo $trabajo['archivo_pdf']; ?>" target="_blank" class="btn btn-sm btn-primary">Abrir en nueva pestaña</a>
+                    <a href="../../historial_cambios.php?id=<?php echo $id; ?>" class="btn btn-primary btn-sm"><i class="fas fa-history me-1"></i> Ver historial completo de correcciones</a>
                 </div>
             </div>
         </div>

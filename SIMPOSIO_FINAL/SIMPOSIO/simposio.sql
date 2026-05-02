@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 29-04-2026 a las 04:58:43
+-- Tiempo de generación: 02-05-2026 a las 05:50:03
 -- Versión del servidor: 10.4.16-MariaDB
 -- Versión de PHP: 7.4.12
 
@@ -53,13 +53,13 @@ INSERT INTO `actividad_evento` (`id_actividad`, `id_evento`, `id_usuario`, `id_t
 (3, 1, 2, 3, NULL, 'Taller de Desarrollo Web Seguro', 'Taller práctico sobre seguridad en aplicaciones web.', 'Prácticas OWASP.', 'OWASP Top 10', 'taller_web.pdf', '2026-02-26', '11:00:00', '13:00:00', NULL, 1),
 (4, 1, 10, 2, NULL, 'Sistemas de software', 'sfsdfsdg', 'sdgsdgsdg', 'dsgsdgsdg', 'uploads/actividades/1773373968_actividad web.pdf', '2026-03-24', '14:00:00', '15:00:00', NULL, 1),
 (8, 2, 11, 3, 5, 'PRUEBA GOD', '', 'ESTO SI', '', NULL, '2026-12-24', '17:00:00', '19:00:00', 3, 1),
-(28, 2, 11, 4, 28, 'INFINITO', 'nada', 'am', 'nada', 'uploads/actividades/69c0a56bb4731_1774232939_Gantt.pdf', '2026-12-24', '11:30:00', '12:00:00', 3, 1),
-(33, 3, 11, 5, 33, 'ROBOT', 'malditoshumanosmonos haciendopruebas', 'Prueba de coautores externos y solucionando', 'odiolavida y esta carrera', 'uploads/actividades/69c20f4ea8796_1774325582_Gantt.pdf', '2026-12-24', '13:30:00', '14:30:00', 4, 1),
+(28, 2, 11, 4, 28, 'INFINITO', 'nada', 'am', 'nada', 'uploads/actividades/69f4fbee322ff_1777662958_presentacion_NutriHealth_IA.pdf', '2026-12-24', '11:30:00', '12:00:00', 3, 1),
+(33, 3, 11, 5, 33, 'ROBOT', 'malditoshumanosmonos haciendopruebas', 'Prueba de coautores externos y solucionando', 'odiolavida y esta carrera', 'uploads/actividades/69f4fb940d48d_1777662868_presentacion_NutriHealth_IA.pdf', '2026-12-24', '13:30:00', '14:30:00', 4, 1),
 (35, 2, 11, 4, 35, 'Magia De Barreras', 'LINUX', 'Protección con magia de barreras en el software :0 y recuperando el proyecto ._.', 'Jujutsu Kaisen Claramente xd', 'uploads/actividades/69c57df443b04_1774550516_Gantt.pdf', '2026-12-24', '11:00:00', '11:30:00', 1, 1),
 (37, 3, 11, 5, 36, 'NEW PRUEBA APROBACION', 'nada', 'checar que sirva aprobar y rechazar articulos', 'nada', NULL, '2026-12-24', '10:00:00', '11:00:00', 1, 1),
 (38, 3, 11, 1, 37, 'Programación en C#', 'juegos en c#', 'Aprender codigo de C#', 'Fortnite', NULL, '2026-12-24', '11:00:00', '11:30:00', 3, 1),
 (66, 3, 11, 4, 45, 'Priueba 9 abril', 'fjnewfuiwenifn', 'jdsafu9hfiewf', 'oanfieowfnew', NULL, '2026-12-24', '11:30:00', '12:00:00', 4, 1),
-(67, 3, 13, 1, 46, 'Mineria de Datos', 'ampm', 'prueba con el docente sobre el registro de trabajos', 'Ingenieria de Software', 'uploads/actividades/69d7f29ce6809_1775760028_Ejercicio de Machine Learning con Árboles de Decisión y OpenIA.pdf', '2026-12-24', '12:00:00', '12:30:00', 2, 1);
+(67, 3, 13, 1, 46, 'Mineria de Datos', 'ampm', 'prueba con el docente sobre el registro de trabajos', 'Ingenieria de Software', 'uploads/actividades/69f55446846fd_1777685574_Ejercicio de Machine Learning con Árboles de Decisión y OpenIA.pdf', '2026-12-24', '12:00:00', '12:30:00', 2, 1);
 
 -- --------------------------------------------------------
 
@@ -252,9 +252,9 @@ CREATE TABLE `coautor_externo` (
 --
 
 INSERT INTO `coautor_externo` (`id_coautor`, `id_articulo`, `nombre`, `rfc`, `email`, `institucion`) VALUES
-(62, 46, 'Luigi Enrique', 'PASL040715T36', 'luigienrique04@gmail.com', 'UNAM'),
-(64, 28, 'Daniel Farfan', NULL, NULL, NULL),
-(66, 5, 'Daniel Farfan', NULL, NULL, NULL);
+(66, 5, 'Daniel Farfan', NULL, NULL, NULL),
+(67, 28, 'Daniel Farfan', NULL, NULL, NULL),
+(69, 46, 'Luigi Enrique', NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -327,6 +327,26 @@ INSERT INTO `evento` (`id_evento`, `titulo`, `descripcion`, `fecha`, `hora_inici
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `historial_revisiones`
+--
+
+CREATE TABLE `historial_revisiones` (
+  `id_historial` int(11) NOT NULL,
+  `id_articulo` int(11) NOT NULL,
+  `fecha_rechazo` datetime NOT NULL,
+  `detalles_json` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `historial_revisiones`
+--
+
+INSERT INTO `historial_revisiones` (`id_historial`, `id_articulo`, `fecha_rechazo`, `detalles_json`) VALUES
+(1, 46, '2026-05-01 19:31:08', '[{\"criterio\":\"El documento tiene exactamente 8 páginas (cuartillas).\",\"detalle\":\"Faltan cuartillas, prueba nueva con la nueva tabla del historial\"}]');
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `horario_ponencia`
 --
 
@@ -357,6 +377,13 @@ CREATE TABLE `patrocinios` (
   `comentarios_autor` text DEFAULT NULL COMMENT 'Respuesta del autor del proyecto',
   `fecha_respuesta` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `patrocinios`
+--
+
+INSERT INTO `patrocinios` (`id_patrocinio`, `id_articulo`, `id_empresa`, `fecha_solicitud`, `estado`, `comentarios_empresa`, `comentarios_autor`, `fecha_respuesta`) VALUES
+(3, 35, 2, '2026-04-30 00:44:00', 'pendiente', 'ME INTERESA', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -491,7 +518,7 @@ CREATE TABLE `revision_detalles` (
 --
 
 INSERT INTO `revision_detalles` (`id_detalle`, `id_articulo`, `criterio`, `detalle`, `fecha`) VALUES
-(1, 46, 'El documento tiene exactamente 8 páginas (cuartillas).', 'Fatlan Cuartillas', '2026-04-28 21:15:48');
+(9, 46, 'El documento tiene exactamente 8 páginas (cuartillas).', 'Faltan cuartillas, prueba nueva con la nueva tabla del historial', '2026-05-02 01:31:08');
 
 -- --------------------------------------------------------
 
@@ -657,6 +684,13 @@ ALTER TABLE `evento`
   ADD KEY `creado_por` (`creado_por`);
 
 --
+-- Indices de la tabla `historial_revisiones`
+--
+ALTER TABLE `historial_revisiones`
+  ADD PRIMARY KEY (`id_historial`),
+  ADD KEY `id_articulo` (`id_articulo`);
+
+--
 -- Indices de la tabla `horario_ponencia`
 --
 ALTER TABLE `horario_ponencia`
@@ -757,7 +791,7 @@ ALTER TABLE `asignacion_revision`
 -- AUTO_INCREMENT de la tabla `coautor_externo`
 --
 ALTER TABLE `coautor_externo`
-  MODIFY `id_coautor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
+  MODIFY `id_coautor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
 
 --
 -- AUTO_INCREMENT de la tabla `docente`
@@ -778,6 +812,12 @@ ALTER TABLE `evento`
   MODIFY `id_evento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
+-- AUTO_INCREMENT de la tabla `historial_revisiones`
+--
+ALTER TABLE `historial_revisiones`
+  MODIFY `id_historial` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT de la tabla `horario_ponencia`
 --
 ALTER TABLE `horario_ponencia`
@@ -787,7 +827,7 @@ ALTER TABLE `horario_ponencia`
 -- AUTO_INCREMENT de la tabla `patrocinios`
 --
 ALTER TABLE `patrocinios`
-  MODIFY `id_patrocinio` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_patrocinio` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `plantilla_impresion`
@@ -811,7 +851,7 @@ ALTER TABLE `proyecto_imagen`
 -- AUTO_INCREMENT de la tabla `revision_detalles`
 --
 ALTER TABLE `revision_detalles`
-  MODIFY `id_detalle` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_detalle` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de la tabla `salones`
@@ -902,6 +942,12 @@ ALTER TABLE `empresa`
 --
 ALTER TABLE `evento`
   ADD CONSTRAINT `evento_ibfk_1` FOREIGN KEY (`creado_por`) REFERENCES `administrador` (`id_admin`);
+
+--
+-- Filtros para la tabla `historial_revisiones`
+--
+ALTER TABLE `historial_revisiones`
+  ADD CONSTRAINT `historial_revisiones_ibfk_1` FOREIGN KEY (`id_articulo`) REFERENCES `articulo` (`id_articulo`) ON DELETE CASCADE;
 
 --
 -- Filtros para la tabla `horario_ponencia`

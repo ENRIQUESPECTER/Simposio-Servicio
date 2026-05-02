@@ -2,6 +2,7 @@
 session_start();
 require_once '../../includes/conexion.php';
 require_once '../../includes/auth.php';
+require_once '../../includes/funciones.php';
 
 if (!es_admin()) {
     header('Location: ../login_admin.php');
@@ -43,6 +44,8 @@ $sql = "
     ORDER BY a.fecha_registro DESC
 ";
 $result = $conexion->query($sql);
+// Obtener trabajos con PDF (pendientes o aprobados)
+$trabajos = obtener_trabajos_con_pdf($conexion, null); // todos los que tienen PDF
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -261,6 +264,11 @@ $result = $conexion->query($sql);
                                 <a href="ver.php?id=<?php echo $row['id_articulo']; ?>" class="btn btn-info btn-sm">
                                     <i class="fas fa-eye"></i> Ver detalles
                                 </a>
+                                <?php if ($trabajos->fetch_assoc()): ?>
+                                <a href="evaluacion.php" class="btn btn-primary btn-sm">
+                                    <i class="fas fa-eye"></i> Evaluar extenso (pdf)
+                                </a>
+                                <?php endif; ?>
                             </div>
                         </div>
                     </div>

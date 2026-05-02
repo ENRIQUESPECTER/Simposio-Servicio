@@ -262,7 +262,7 @@ if (es_docente()) {
     <title>Mis Proyectos - SIMPOSIO</title>
     <style>
         /* Estilos adicionales (puedes copiar los que ya tenías) */
-        .proyectos-container { max-width: 1200px; margin: 100px auto; padding: 0 20px; }
+        .proyectos-container { max-width: 1400px; margin: 100px auto; padding: 0 20px; }
         .proyectos-card { background: white; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.1); overflow: hidden; }
         .proyectos-header { background: linear-gradient(135deg, #293e6b, #1a2b4a); color: white; padding: 30px; text-align: center; }
         .proyectos-body { padding: 40px; }
@@ -394,7 +394,7 @@ if (es_docente()) {
                                 <th>Participación</th>
                                 <th>Coautores</th>
                                 <th>Patrocinadores</th>
-                                <th>Horario</th>
+                                <!--<th>Horario</th>-->
                                 <th>Acciones</th>
                                 <th>Estado</th>
                             </tr>
@@ -465,13 +465,13 @@ if (es_docente()) {
                                         <?php endif; ?>
                                     <?php endif; ?>
                                 </td>
-                                <td>
+                                <!--<td>
                                     <?php if ($p['tiene_horario'] > 0): ?>
                                     <span class="badge bg-success">Asignado</span>
                                     <?php else: ?>
                                     <span class="text-muted">-</span>
                                     <?php endif; ?>
-                                </td>
+                                </td>-->
                                 <td>
                                     <button class="btn-accion btn-ver" onclick="verProyecto(<?php echo $p['id_articulo']; ?>)">
                                         <i class="fas fa-eye"></i>
