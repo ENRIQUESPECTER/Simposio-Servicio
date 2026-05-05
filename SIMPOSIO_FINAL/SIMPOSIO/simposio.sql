@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 02-05-2026 a las 05:50:03
+-- Tiempo de generación: 05-05-2026 a las 08:34:23
 -- Versión del servidor: 10.4.16-MariaDB
 -- Versión de PHP: 7.4.12
 
@@ -50,7 +50,7 @@ CREATE TABLE `actividad_evento` (
 --
 
 INSERT INTO `actividad_evento` (`id_actividad`, `id_evento`, `id_usuario`, `id_tipo`, `id_articulo`, `titulo`, `descripcion`, `resumen`, `referencias`, `archivo_pdf`, `fecha`, `hora_inicio`, `hora_fin`, `id_salon`, `visible`) VALUES
-(3, 1, 2, 3, NULL, 'Taller de Desarrollo Web Seguro', 'Taller práctico sobre seguridad en aplicaciones web.', 'Prácticas OWASP.', 'OWASP Top 10', 'taller_web.pdf', '2026-02-26', '11:00:00', '13:00:00', NULL, 1),
+(3, 1, 2, 3, NULL, 'Taller de Desarrollo Web SeguroXDD', 'Taller práctico sobre seguridad en aplicaciones web.XD', 'Prácticas OWASP.XD', 'OWASP Top 10XD', 'taller_web.pdf', '2026-02-26', '11:00:00', '13:00:00', NULL, 1),
 (4, 1, 10, 2, NULL, 'Sistemas de software', 'sfsdfsdg', 'sdgsdgsdg', 'dsgsdgsdg', 'uploads/actividades/1773373968_actividad web.pdf', '2026-03-24', '14:00:00', '15:00:00', NULL, 1),
 (8, 2, 11, 3, 5, 'PRUEBA GOD', '', 'ESTO SI', '', NULL, '2026-12-24', '17:00:00', '19:00:00', 3, 1),
 (28, 2, 11, 4, 28, 'INFINITO', 'nada', 'am', 'nada', 'uploads/actividades/69f4fbee322ff_1777662958_presentacion_NutriHealth_IA.pdf', '2026-12-24', '11:30:00', '12:00:00', 3, 1),
@@ -59,7 +59,7 @@ INSERT INTO `actividad_evento` (`id_actividad`, `id_evento`, `id_usuario`, `id_t
 (37, 3, 11, 5, 36, 'NEW PRUEBA APROBACION', 'nada', 'checar que sirva aprobar y rechazar articulos', 'nada', NULL, '2026-12-24', '10:00:00', '11:00:00', 1, 1),
 (38, 3, 11, 1, 37, 'Programación en C#', 'juegos en c#', 'Aprender codigo de C#', 'Fortnite', NULL, '2026-12-24', '11:00:00', '11:30:00', 3, 1),
 (66, 3, 11, 4, 45, 'Priueba 9 abril', 'fjnewfuiwenifn', 'jdsafu9hfiewf', 'oanfieowfnew', NULL, '2026-12-24', '11:30:00', '12:00:00', 4, 1),
-(67, 3, 13, 1, 46, 'Mineria de Datos', 'ampm', 'prueba con el docente sobre el registro de trabajos', 'Ingenieria de Software', 'uploads/actividades/69f55446846fd_1777685574_Ejercicio de Machine Learning con Árboles de Decisión y OpenIA.pdf', '2026-12-24', '12:00:00', '12:30:00', 2, 1);
+(67, 3, 13, 1, 46, 'Mineria de Datos', 'ampm', 'prueba con el docente sobre el registro de trabajos', 'Ingenieria de Software', 'uploads/actividades/69f91c1a1730c_1777933338_Ejercicio de Machine Learning con Árboles de Decisión y OpenIA.pdf', '2026-12-24', '12:00:00', '12:30:00', 2, 1);
 
 -- --------------------------------------------------------
 
@@ -160,7 +160,7 @@ INSERT INTO `articulo` (`id_articulo`, `id_evento`, `id_usuario`, `titulo`, `res
 (36, 3, 11, 'NEW PRUEBA APROBACION', 'checar que sirva aprobar y rechazar articulos', 'prototipo', 'INGENIERÍA', '2026-03-31 22:57:07', 'pendiente', 1, '2026-04-02 13:32:31'),
 (37, 3, 11, 'Programación en C#', 'Aprender codigo de C#', 'ponencia', 'INGENIERÍA', '2026-04-03 03:02:09', 'pendiente', 1, '2026-04-06 20:23:18'),
 (45, 3, 11, 'Priueba 9 abril', 'jdsafu9hfiewf', 'cartel', 'INGENIERÍA', '2026-04-09 18:29:49', 'pendiente', 1, '2026-04-09 12:34:10'),
-(46, 3, 13, 'Mineria de Datos', 'prueba con el docente sobre el registro de trabajos', 'ponencia', 'MINERIA DE DATOS', '2026-04-09 18:40:28', 'pendiente', 1, '2026-04-26 20:03:33');
+(46, 3, 13, 'Mineria de Datos', 'prueba con el docente sobre el registro de trabajos', 'ponencia', 'MINERIA DE DATOS', '2026-04-09 18:40:28', 'pendiente', 1, '2026-05-04 16:16:56');
 
 -- --------------------------------------------------------
 
@@ -254,7 +254,7 @@ CREATE TABLE `coautor_externo` (
 INSERT INTO `coautor_externo` (`id_coautor`, `id_articulo`, `nombre`, `rfc`, `email`, `institucion`) VALUES
 (66, 5, 'Daniel Farfan', NULL, NULL, NULL),
 (67, 28, 'Daniel Farfan', NULL, NULL, NULL),
-(69, 46, 'Luigi Enrique', NULL, NULL, NULL);
+(80, 46, 'Luigi Enrique', NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -320,7 +320,7 @@ CREATE TABLE `evento` (
 --
 
 INSERT INTO `evento` (`id_evento`, `titulo`, `descripcion`, `fecha`, `hora_inicio`, `hora_fin`, `anio`, `creado_por`) VALUES
-(1, 'Simposio de Tecnología 2026', 'Evento anual enfocado en innovación tecnológica.', '2026-03-24', '09:00:00', '19:00:00', 2026, 1),
+(1, 'Simposio de Tecnología 2026', 'Evento anual enfocado en innovación tecnológica.XD', '2026-03-26', '10:00:00', '19:00:00', 0, 1),
 (2, 'Jujutsu Kaisen', 'OPENINGS Y ENDINGS', '2026-12-24', '09:00:00', '19:00:00', 2026, 1),
 (3, 'Sistemas de software', 'sdgfdsfgsdgsd', '2026-12-24', '10:00:00', '19:00:00', 2026, 1);
 
@@ -791,7 +791,7 @@ ALTER TABLE `asignacion_revision`
 -- AUTO_INCREMENT de la tabla `coautor_externo`
 --
 ALTER TABLE `coautor_externo`
-  MODIFY `id_coautor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
+  MODIFY `id_coautor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=81;
 
 --
 -- AUTO_INCREMENT de la tabla `docente`
@@ -809,7 +809,7 @@ ALTER TABLE `empresa`
 -- AUTO_INCREMENT de la tabla `evento`
 --
 ALTER TABLE `evento`
-  MODIFY `id_evento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_evento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `historial_revisiones`
@@ -863,7 +863,7 @@ ALTER TABLE `salones`
 -- AUTO_INCREMENT de la tabla `tipo_actividad`
 --
 ALTER TABLE `tipo_actividad`
-  MODIFY `id_tipo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_tipo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `usuario`
