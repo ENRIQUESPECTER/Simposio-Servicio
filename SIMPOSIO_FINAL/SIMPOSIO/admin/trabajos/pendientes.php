@@ -33,19 +33,18 @@ $sql = "
            u.nombre as autor_nombre, u.apellidos as autor_apellidos,
            e.titulo as evento_titulo, e.fecha as evento_fecha,
            d.nombre as docente_asignado_nombre, d.apellidos as docente_asignado_apellidos,
-           doc.id_docente
+           doc.id_docente, ae.archivo_pdf
     FROM articulo a
     LEFT JOIN asignacion_revision ar ON a.id_articulo = ar.id_articulo
     LEFT JOIN usuario u ON a.id_usuario = u.id_usuario
     LEFT JOIN evento e ON a.id_evento = e.id_evento
     LEFT JOIN docente doc ON ar.id_docente = doc.id_docente
     LEFT JOIN usuario d ON doc.id_usuario = d.id_usuario
+    LEFT JOIN actividad_evento ae ON a.id_articulo = ae.id_articulo
     WHERE a.estado = 'pendiente'
     ORDER BY a.fecha_registro DESC
 ";
 $result = $conexion->query($sql);
-// Obtener trabajos con PDF (pendientes o aprobados)
-$trabajos = obtener_trabajos_con_pdf($conexion, null); // todos los que tienen PDF
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -264,7 +263,7 @@ $trabajos = obtener_trabajos_con_pdf($conexion, null); // todos los que tienen P
                                 <a href="ver.php?id=<?php echo $row['id_articulo']; ?>" class="btn btn-info btn-sm">
                                     <i class="fas fa-eye"></i> Ver detalles
                                 </a>
-                                <?php if ($trabajos->fetch_assoc()): ?>
+                                <?php if ($row['archivo_pdf']): ?>
                                 <a href="evaluacion.php" class="btn btn-primary btn-sm">
                                     <i class="fas fa-eye"></i> Evaluar extenso (pdf)
                                 </a>

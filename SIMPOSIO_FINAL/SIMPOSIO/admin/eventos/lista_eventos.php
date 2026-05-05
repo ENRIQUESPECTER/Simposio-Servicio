@@ -32,8 +32,40 @@ $result=$conexion->query($sql);
             font-family: 'Inter', sans-serif;
             background: linear-gradient(135deg, #f0f4fc 0%, #e9eef5 100%);
             min-height: 100vh;
-            padding: 3.5rem 2rem 3rem;
+            padding: 5.5rem 2rem 3rem;
             color: #1a2c3e;
+        }
+        .action-btn {
+            background: #f8fafd;
+            border: 1px solid #e2edf7;
+            padding: 0.50rem 0.8rem;
+            border-radius: 3rem;
+            font-weight: 600;
+            color: #1f5e86;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.9rem;
+            transition: all 0.25s;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+        }
+        .action-btn i {
+            font-size: 1.1rem;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+        }
+        .table-admin {
+            background: white;
+            box-shadow: 0 15px 35px rgba(0, 20, 30, 0.38);
+            transition: transform 0.25s ease, box-shadow 0.3s;
+            border: 2px solid rgba(166, 194, 220, 0.3);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(2px);
         }
     </style>   
     </head>    
@@ -64,9 +96,9 @@ $result=$conexion->query($sql);
                 </div>
             </div>
         </nav>
-        <div class="container">     
-            <h2>Eventos registrados</h2>        
-            <table border="1">            
+        <h2>Eventos registrados</h2>     
+        <div class="container">        
+            <table border="1" class="table-admin">            
                 <tr>                
                     <th>Nombre</th>
                     <th>Fecha</th>
@@ -83,17 +115,17 @@ $result=$conexion->query($sql);
                         </td>
 
                         <td>
-                            <a class="" href="editar_evento.php?id_evento=<?php echo $evento['id_evento']; ?>">
+                            <a class="action-btn btn-warning" href="editar_evento.php?id_evento=<?php echo $evento['id_evento']; ?>">
                                 Editar
                             </a>
-                            <a class="" href="eliminar_evento.php?id_evento=<?php echo $evento['id_evento']; ?>"onclick="return confirm('¿Eliminar esta actividad?');">
+                            <a class="action-btn btn-danger" href="eliminar_evento.php?id_evento=<?php echo $evento['id_evento']; ?>"onclick="return confirm('¿Eliminar esta actividad?');">
                                 Eliminar
                             </a>
                         </td>
                     </tr>
                 <?php endwhile; ?>
-                <a class="btn" href="../index.php" style="">Regresar</a>
             </table>
+            <a class="action-btn" href="../index.php" style="margin: 1.5rem 2.6rem 0rem; background-color: #293e6b; color: white;"><i class="fas fa-undo"></i>Regresar</a>
         </div>
     </body>
 </html>

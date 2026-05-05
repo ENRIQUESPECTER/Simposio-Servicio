@@ -223,11 +223,41 @@ if (es_docente()) {
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
                             <i class="fas fa-user-circle me-1"></i> <?php echo htmlspecialchars($_SESSION['nombre'] ?? 'Usuario'); ?>
+                            <?php // Después de contar revisiones de docente, añadir:
+                                if (esta_logeado()) {
+                                    $stmt_notif = $conexion->prepare("SELECT COUNT(DISTINCT a.id_articulo) 
+                                        FROM articulo a 
+                                        JOIN revision_detalles rd ON a.id_articulo = rd.id_articulo 
+                                        WHERE a.id_usuario = ? AND a.estado = 'rechazado'");
+                                    $stmt_notif->bind_param("i", $_SESSION['id_usuario']);
+                                    $stmt_notif->execute();
+                                    $notif_count = $stmt_notif->get_result()->fetch_row()[0];
+                                    if ($notif_count > 0) {
+                                        echo '<span class="badge bg-danger rounded-pill ms-1">' . $notif_count . '</span>';
+                                    }
+                                } 
+                            ?>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end">
                             <li><a class="dropdown-item" href="perfil.php"><i class="fas fa-id-card me-2"></i>Mi Perfil</a></li>
                             <?php if (es_alumno() || es_docente()): ?>
-                            <li><a class="dropdown-item" href="mis_proyectos.php"><i class="fas fa-project-diagram me-2"></i>Mis Proyectos</a></li>
+                            <li><a class="dropdown-item" href="mis_proyectos.php"><i class="fas fa-project-diagram me-2"></i>Mis Proyectos
+                                    <?php // Después de contar revisiones de docente, añadir:
+                                        if (esta_logeado()) {
+                                            $stmt_notif = $conexion->prepare("SELECT COUNT(DISTINCT a.id_articulo) 
+                                                FROM articulo a 
+                                                JOIN revision_detalles rd ON a.id_articulo = rd.id_articulo 
+                                                WHERE a.id_usuario = ? AND a.estado = 'rechazado'");
+                                            $stmt_notif->bind_param("i", $_SESSION['id_usuario']);
+                                            $stmt_notif->execute();
+                                            $notif_count = $stmt_notif->get_result()->fetch_row()[0];
+                                            if ($notif_count > 0) {
+                                                echo '<span class="badge bg-danger rounded-pill ms-1">' . $notif_count . '</span>';
+                                            }
+                                        } 
+                                    ?>
+                                </a>
+                            </li>
                             <?php endif; ?>
                             <?php if (es_docente()): ?>
                                 <li class="nav-item">

@@ -404,9 +404,6 @@ $pendientes = $stmt->get_result()->fetch_assoc()['pendientes'];
             <a class="action-btn" href="tipos/lista_tipos.php">
                 <i class="fas fa-layer-group"></i> Tipos de actividad
             </a>
-            <a class="action-btn" href="agenda_admin.php">
-                <i class="fas fa-clock"></i> Agenda General
-            </a>
             <a class="action-btn logout-btn" href="logout.php">
                 <i class="fas fa-sign-out-alt"></i> Cerrar sesión
             </a>

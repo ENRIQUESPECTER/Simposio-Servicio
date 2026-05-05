@@ -420,6 +420,17 @@ $colores_tipo = [
     'prototipo' => ['bg' => '#6f42c1', 'icon' => 'fa-cube', 'texto' => 'Prototipo']
 ];
 $color_tipo = $colores_tipo[$tipo_trabajo] ?? $colores_tipo['ponencia'];
+
+$revisiones_pendientes = 0;
+if (es_docente()) {
+    $stmt = $conexion->prepare("SELECT id_docente FROM docente WHERE id_usuario = ?");
+    $stmt->bind_param("i", $_SESSION['id_usuario']);
+    $stmt->execute();
+    $docente = $stmt->get_result()->fetch_assoc();
+    if ($docente) {
+        $revisiones_pendientes = contar_revisiones_docente($conexion, $docente['id_docente']);
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -485,10 +496,49 @@ $color_tipo = $colores_tipo[$tipo_trabajo] ?? $colores_tipo['ponencia'];
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
                             <i class="fas fa-user-circle me-1"></i> <?php echo htmlspecialchars($_SESSION['nombre'] ?? 'Usuario'); ?>
+                            <?php // Después de contar revisiones de docente, añadir:
+                                if (esta_logeado()) {
+                                    $stmt_notif = $conexion->prepare("SELECT COUNT(DISTINCT a.id_articulo) 
+                                        FROM articulo a 
+                                        JOIN revision_detalles rd ON a.id_articulo = rd.id_articulo 
+                                        WHERE a.id_usuario = ? AND a.estado = 'rechazado'");
+                                    $stmt_notif->bind_param("i", $_SESSION['id_usuario']);
+                                    $stmt_notif->execute();
+                                    $notif_count = $stmt_notif->get_result()->fetch_row()[0];
+                                    if ($notif_count > 0) {
+                                        echo '<span class="badge bg-danger rounded-pill ms-1">' . $notif_count . '</span>';
+                                    }
+                                } 
+                            ?>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end">
                             <li><a class="dropdown-item" href="perfil.php"><i class="fas fa-id-card me-2"></i>Mi Perfil</a></li>
-                            <li><a class="dropdown-item" href="mis_proyectos.php"><i class="fas fa-project-diagram me-2"></i>Mis Proyectos</a></li>
+                            <li><a class="dropdown-item" href="mis_proyectos.php"><i class="fas fa-project-diagram me-2"></i>Mis Proyectos
+                                    <?php // Después de contar revisiones de docente, añadir:
+                                        if (esta_logeado()) {
+                                            $stmt_notif = $conexion->prepare("SELECT COUNT(DISTINCT a.id_articulo) 
+                                                FROM articulo a 
+                                                JOIN revision_detalles rd ON a.id_articulo = rd.id_articulo 
+                                                WHERE a.id_usuario = ? AND a.estado = 'rechazado'");
+                                            $stmt_notif->bind_param("i", $_SESSION['id_usuario']);
+                                            $stmt_notif->execute();
+                                            $notif_count = $stmt_notif->get_result()->fetch_row()[0];
+                                            if ($notif_count > 0) {
+                                                echo '<span class="badge bg-danger rounded-pill ms-1">' . $notif_count . '</span>';
+                                            }
+                                        } 
+                                    ?>
+                                </a>
+                            </li>
+                            <?php if (es_docente()): ?>
+                                <li class="nav-item">
+                                    <a class="dropdown-item" href="revisiones.php"><i class="fas fa-tasks me-1"></i>Mis revisiones
+                                    <?php if ($revisiones_pendientes > 0): ?>
+                                        <span class="badge bg-danger rounded-pill ms-1"><?php echo $revisiones_pendientes; ?></span>
+                                    <?php endif; ?>
+                                    </a>
+                                </li>
+                            <?php endif; ?>
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item" href="logout.php"><i class="fas fa-sign-out-alt me-2"></i>Cerrar sesión</a></li>
                         </ul>
@@ -783,15 +833,18 @@ $color_tipo = $colores_tipo[$tipo_trabajo] ?? $colores_tipo['ponencia'];
             <button type="button" class="btn-remove" onclick="this.closest('.coautor-item').remove()"><i class="fas fa-times"></i></button>
         </div>
     </template>
+    
     <template id="coautor-externo-template">
         <div class="coautor-item">
             <div class="coautor-externo-grid">
-                <input type="text" class="form-control" name="coautores_externos[][nombre]" placeholder="Nombre completo">
-                <input type="text" class="form-control" name="coautores_externos[][rfc]" placeholder="RFC">
-                <input type="email" class="form-control" name="coautores_externos[][email]" placeholder="Email">
-                <input type="text" class="form-control" name="coautores_externos[][institucion]" placeholder="Institución">
+                <input type="text" class="form-control coautor-nombre" name="coautores_externos[INDEX][nombre]" placeholder="Nombre completo">
+                <input type="text" class="form-control coautor-rfc" name="coautores_externos[INDEX][rfc]" placeholder="RFC (opcional)" maxlength="13">
+                <input type="email" class="form-control coautor-email" name="coautores_externos[INDEX][email]" placeholder="Email (opcional)">
+                <input type="text" class="form-control coautor-institucion" name="coautores_externos[INDEX][institucion]" placeholder="Institución (opcional)">
             </div>
-            <button type="button" class="btn-remove" onclick="this.closest('.coautor-item').remove()"><i class="fas fa-times"></i></button>
+            <button type="button" class="btn-remove" onclick="this.closest('.coautor-item').remove()">
+                <i class="fas fa-times"></i>
+            </button>
         </div>
     </template>
 
@@ -872,9 +925,20 @@ $color_tipo = $colores_tipo[$tipo_trabajo] ?? $colores_tipo['ponencia'];
                 document.getElementById('coautores-internos-list').appendChild(template);
                 $('.coautor-select').last().select2({ theme: 'bootstrap-5', placeholder: 'Buscar coautor...', allowClear: true });
             });
+            // Contador para índices de coautores externos
+            let coautorExternoIndex = 0;
+
             $('#btn-add-coautor-externo').click(function() {
                 var template = document.getElementById('coautor-externo-template').content.cloneNode(true);
-                document.getElementById('coautores-externos-list').appendChild(template);
+                // Reemplazar INDEX por el número actual en los nombres de los inputs
+                $(template).find('input').each(function() {
+                    var name = $(this).attr('name');
+                    if (name) {
+                        $(this).attr('name', name.replace('INDEX', coautorExternoIndex));
+                    }
+                });
+                $('#coautores-externos-list').append(template);
+                coautorExternoIndex++;
             });
             $('#btn-remove-all-internos').click(function() {
                 if (confirm('¿Eliminar todos los coautores internos?')) $('#coautores-internos-list').empty();
