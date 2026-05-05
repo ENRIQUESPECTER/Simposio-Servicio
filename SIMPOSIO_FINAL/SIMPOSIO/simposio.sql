@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 05-05-2026 a las 08:34:23
+-- Tiempo de generación: 06-05-2026 a las 00:21:57
 -- Versión del servidor: 10.4.16-MariaDB
 -- Versión de PHP: 7.4.12
 
@@ -254,7 +254,8 @@ CREATE TABLE `coautor_externo` (
 INSERT INTO `coautor_externo` (`id_coautor`, `id_articulo`, `nombre`, `rfc`, `email`, `institucion`) VALUES
 (66, 5, 'Daniel Farfan', NULL, NULL, NULL),
 (67, 28, 'Daniel Farfan', NULL, NULL, NULL),
-(80, 46, 'Luigi Enrique', NULL, NULL, NULL);
+(80, 46, 'Luigi Enrique', 'PASL040715T36', 'luigienrique04@gmail.com', 'UNAM'),
+(81, 46, 'Daniel Farfan', 'KARY040712T37', 'karyrap@gmail.com', 'UNAM');
 
 -- --------------------------------------------------------
 
@@ -320,7 +321,7 @@ CREATE TABLE `evento` (
 --
 
 INSERT INTO `evento` (`id_evento`, `titulo`, `descripcion`, `fecha`, `hora_inicio`, `hora_fin`, `anio`, `creado_por`) VALUES
-(1, 'Simposio de Tecnología 2026', 'Evento anual enfocado en innovación tecnológica.XD', '2026-03-26', '10:00:00', '19:00:00', 0, 1),
+(1, 'Simposio de Tecnología 2026', 'Evento anual enfocado en innovación tecnológica.XD', '2026-03-26', '10:00:00', '19:00:00', 2026, 1),
 (2, 'Jujutsu Kaisen', 'OPENINGS Y ENDINGS', '2026-12-24', '09:00:00', '19:00:00', 2026, 1),
 (3, 'Sistemas de software', 'sdgfdsfgsdgsd', '2026-12-24', '10:00:00', '19:00:00', 2026, 1);
 
@@ -791,7 +792,7 @@ ALTER TABLE `asignacion_revision`
 -- AUTO_INCREMENT de la tabla `coautor_externo`
 --
 ALTER TABLE `coautor_externo`
-  MODIFY `id_coautor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=81;
+  MODIFY `id_coautor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=82;
 
 --
 -- AUTO_INCREMENT de la tabla `docente`

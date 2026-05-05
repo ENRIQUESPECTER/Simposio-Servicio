@@ -12,7 +12,9 @@ $descripcion=$_POST['descripcion'];
 $fecha=$_POST['fecha'];
 $hora_inicio=$_POST['hora_inicio'];
 $hora_fin=$_POST['hora_fin'];
+/* calcular año automáticamente */
 
+$anio = date("Y", strtotime($fecha));
 $sql = "UPDATE evento SET titulo=?, descripcion=?, fecha=?, hora_inicio=?, hora_fin=?, anio=? WHERE id_evento=?";
 $stmt = $conexion->prepare($sql);
 $stmt->bind_param("sssssii", $titulo, $descripcion, $fecha, $hora_inicio, $hora_fin, $anio, $id_evento);

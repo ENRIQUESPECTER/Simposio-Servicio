@@ -180,6 +180,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['accion'])) {
         // Archivo PDF se maneja aparte
         $coautores_internos = $_POST['coautores_internos'] ?? [];
         $coautores_externos_post = $_POST['coautores_externos'] ?? [];
+        $coautores_externos_add = $_POST['coautores_externos_add'] ?? [];
         $eliminar_imagenes = $_POST['eliminar_imagenes'] ?? [];
 
         $errores = [];
@@ -262,15 +263,29 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['accion'])) {
                     }
                 }
 
-                // --- Actualizar coautores externos ---
-                $stmt = $conexion->prepare("DELETE FROM coautor_externo WHERE id_articulo = ?");
-                $stmt->bind_param("i", $id_proyecto);
-                $stmt->execute();
-
+                // Actualizar coautores externos
                 foreach ($coautores_externos_post as $ext) {
                     if (!empty($ext['nombre'])) {
+                        $nombre = trim($ext['nombre']);
+                        $rfc = !empty($ext['rfc']) ? trim($ext['rfc']) : null;
+                        $email = !empty($ext['email']) ? trim($ext['email']) : null;
+                        $institucion = !empty($ext['institucion']) ? trim($ext['institucion']) : null;
+
+                        $stmt = $conexion->prepare("UPDATE coautor_externo SET nombre = ?, rfc = ?, email = ?, institucion = ? WHERE id_articulo = ?");
+                        $stmt->bind_param("ssssi", $nombre, $rfc, $email, $institucion, $id_proyecto);
+                        $stmt->execute();
+                    }
+                }
+                
+                // Insertar coautores externos en caso de querer añadir más
+                foreach ($coautores_externos_add as $ext) {
+                    if (!empty($ext['nombre'])) {
+                        $nombre = $ext['nombre'];
+                        $rfc = !empty($ext['rfc']) ? $ext['rfc'] : null;
+                        $email = !empty($ext['email']) ? $ext['email'] : null;
+                        $institucion = !empty($ext['institucion']) ? $ext['institucion'] : null;
                         $stmt = $conexion->prepare("INSERT INTO coautor_externo (id_articulo, nombre, rfc, email, institucion) VALUES (?, ?, ?, ?, ?)");
-                        $stmt->bind_param("issss", $id_proyecto, $ext['nombre'], $ext['rfc'], $ext['email'], $ext['institucion']);
+                        $stmt->bind_param("issss", $id_proyecto, $nombre, $rfc, $email, $institucion);
                         $stmt->execute();
                     }
                 }
@@ -736,10 +751,10 @@ if (es_docente()) {
                                     <?php foreach ($coautores_externos as $ce): ?>
                                     <div class="coautor-item">
                                         <div class="coautor-externo-grid">
-                                            <input type="text" class="form-control" name="coautores_externos[][nombre]" value="<?php echo htmlspecialchars($ce['nombre']); ?>" placeholder="Nombre completo">
-                                            <input type="text" class="form-control" name="coautores_externos[][rfc]" value="<?php echo htmlspecialchars($ce['rfc'] ?? ''); ?>" placeholder="RFC">
-                                            <input type="email" class="form-control" name="coautores_externos[][email]" value="<?php echo htmlspecialchars($ce['email'] ?? ''); ?>" placeholder="Email">
-                                            <input type="text" class="form-control" name="coautores_externos[][institucion]" value="<?php echo htmlspecialchars($ce['institucion'] ?? ''); ?>" placeholder="Institución">
+                                            <input type="text" class="form-control coautor-nombre" name="coautores_externos[INDEX][nombre]" value="<?php echo htmlspecialchars($ce['nombre']); ?>" placeholder="Nombre completo">
+                                            <input type="text" class="form-control coautor-rfc" name="coautores_externos[INDEX][rfc]" value="<?php echo htmlspecialchars($ce['rfc'] ?? ''); ?>" placeholder="RFC">
+                                            <input type="email" class="form-control coautor-email" name="coautores_externos[INDEX][email]" value="<?php echo htmlspecialchars($ce['email'] ?? ''); ?>" placeholder="Email">
+                                            <input type="text" class="form-control coautor-institucion" name="coautores_externos[INDEX][institucion]" value="<?php echo htmlspecialchars($ce['institucion'] ?? ''); ?>" placeholder="Institución">
                                         </div>
                                         <button type="button" class="btn-remove" onclick="this.closest('.coautor-item').remove()"><i class="fas fa-times"></i></button>
                                     </div>
@@ -837,10 +852,10 @@ if (es_docente()) {
     <template id="coautor-externo-template">
         <div class="coautor-item">
             <div class="coautor-externo-grid">
-                <input type="text" class="form-control coautor-nombre" name="coautores_externos[INDEX][nombre]" placeholder="Nombre completo">
-                <input type="text" class="form-control coautor-rfc" name="coautores_externos[INDEX][rfc]" placeholder="RFC (opcional)" maxlength="13">
-                <input type="email" class="form-control coautor-email" name="coautores_externos[INDEX][email]" placeholder="Email (opcional)">
-                <input type="text" class="form-control coautor-institucion" name="coautores_externos[INDEX][institucion]" placeholder="Institución (opcional)">
+                <input type="text" class="form-control coautor-nombre" name="coautores_externos_add[INDEX][nombre]" placeholder="Nombre completo">
+                <input type="text" class="form-control coautor-rfc" name="coautores_externos_add[INDEX][rfc]" placeholder="RFC (opcional)" maxlength="13">
+                <input type="email" class="form-control coautor-email" name="coautores_externos_add[INDEX][email]" placeholder="Email (opcional)">
+                <input type="text" class="form-control coautor-institucion" name="coautores_externos_add[INDEX][institucion]" placeholder="Institución (opcional)">
             </div>
             <button type="button" class="btn-remove" onclick="this.closest('.coautor-item').remove()">
                 <i class="fas fa-times"></i>
