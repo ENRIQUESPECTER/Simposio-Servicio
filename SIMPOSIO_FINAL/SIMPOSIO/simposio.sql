@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 06-05-2026 a las 00:21:57
+-- Tiempo de generación: 06-05-2026 a las 05:22:35
 -- Versión del servidor: 10.4.16-MariaDB
 -- Versión de PHP: 7.4.12
 
@@ -55,7 +55,7 @@ INSERT INTO `actividad_evento` (`id_actividad`, `id_evento`, `id_usuario`, `id_t
 (8, 2, 11, 3, 5, 'PRUEBA GOD', '', 'ESTO SI', '', NULL, '2026-12-24', '17:00:00', '19:00:00', 3, 1),
 (28, 2, 11, 4, 28, 'INFINITO', 'nada', 'am', 'nada', 'uploads/actividades/69f4fbee322ff_1777662958_presentacion_NutriHealth_IA.pdf', '2026-12-24', '11:30:00', '12:00:00', 3, 1),
 (33, 3, 11, 5, 33, 'ROBOT', 'malditoshumanosmonos haciendopruebas', 'Prueba de coautores externos y solucionando', 'odiolavida y esta carrera', 'uploads/actividades/69f4fb940d48d_1777662868_presentacion_NutriHealth_IA.pdf', '2026-12-24', '13:30:00', '14:30:00', 4, 1),
-(35, 2, 11, 4, 35, 'Magia De Barreras', 'LINUX', 'Protección con magia de barreras en el software :0 y recuperando el proyecto ._.', 'Jujutsu Kaisen Claramente xd', 'uploads/actividades/69c57df443b04_1774550516_Gantt.pdf', '2026-12-24', '11:00:00', '11:30:00', 1, 1),
+(35, 2, 11, 4, 35, 'Magia De Barreras', 'LINUX', 'Protección con magia de barreras en el software :0 y recuperando el proyecto ._.', 'Jujutsu Kaisen Claramente xd', 'uploads/actividades/69fab3ae01a6a_1778037678_Ejercicio de arbol de decision.pdf', '2026-12-24', '11:00:00', '11:30:00', 1, 1),
 (37, 3, 11, 5, 36, 'NEW PRUEBA APROBACION', 'nada', 'checar que sirva aprobar y rechazar articulos', 'nada', NULL, '2026-12-24', '10:00:00', '11:00:00', 1, 1),
 (38, 3, 11, 1, 37, 'Programación en C#', 'juegos en c#', 'Aprender codigo de C#', 'Fortnite', NULL, '2026-12-24', '11:00:00', '11:30:00', 3, 1),
 (66, 3, 11, 4, 45, 'Priueba 9 abril', 'fjnewfuiwenifn', 'jdsafu9hfiewf', 'oanfieowfnew', NULL, '2026-12-24', '11:30:00', '12:00:00', 4, 1),
