@@ -291,6 +291,8 @@ if (es_docente()) {
                                 <p><strong>Correo:</strong> <?php echo htmlspecialchars($usuario_actual['correo']); ?></p>
                             </div>
                         </div>
+                        <?php if (!es_empresa()): ?>
+                        <!-- Solo para alumnos y docentes: mostrar estadísticas de trabajos -->
                         <div class="col-md-8">
                             <div class="row">
                                 <div class="col-md-6">
@@ -309,15 +311,61 @@ if (es_docente()) {
                                 </div>
                             </div>
                         </div>
+                        <?php else: ?>
+                        <!-- Para empresas: mostrar estadísticas de patrocinios -->
+                        <div class="col-md-8">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="stats-card">
+                                        <i class="fas fa-hand-holding-usd fa-3x mb-3"></i>
+                                        <h4>Patrocinios Activos</h4>
+                                        <p class="stats-number">
+                                            <?php
+                                            $stmt = $conexion->prepare("SELECT COUNT(*) FROM patrocinios p JOIN empresa e ON p.id_empresa = e.id_empresa WHERE e.id_usuario = ? AND p.estado = 'aceptado'");
+                                            $stmt->bind_param("i", $_SESSION['id_usuario']);
+                                            $stmt->execute();
+                                            echo $stmt->get_result()->fetch_row()[0];
+                                            ?>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="stats-card">
+                                        <i class="fas fa-clock fa-3x mb-3"></i>
+                                        <h4>Solicitudes Pendientes</h4>
+                                        <p class="stats-number">
+                                            <?php
+                                            $stmt = $conexion->prepare("SELECT COUNT(*) FROM patrocinios p JOIN empresa e ON p.id_empresa = e.id_empresa WHERE e.id_usuario = ? AND p.estado = 'pendiente'");
+                                            $stmt->bind_param("i", $_SESSION['id_usuario']);
+                                            $stmt->execute();
+                                            echo $stmt->get_result()->fetch_row()[0];
+                                            ?>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <?php endif; ?>
                     </div>
                     <div class="row mt-4">
                         <div class="col-md-12 text-center">
+                            <?php if (!es_empresa()): ?>
+                                <!-- Botones para alumnos y docentes -->
                             <a href="registrar_trabajos.php" class="btn colordorado text-white btn-lg me-2">
                                 <i class="fas fa-plus-circle me-2"></i>Agregar Nuevo Trabajo
                             </a>
                             <a href="mis_proyectos.php" class="btn btn-primary btn-lg">
                                 <i class="fas fa-folder-open me-2"></i>Ver Mis Proyectos
                             </a>
+                             <?php else: ?>
+                                <!-- Botones para empresas -->
+                                <a href="patrocinar_proyectos.php" class="btn colordorado text-white btn-lg me-2">
+                                    <i class="fas fa-hand-holding-usd me-2"></i>Patrocinar Proyectos
+                                </a>
+                                <a href="patrocinar_proyectos.php#mis-solicitudes" class="btn btn-primary btn-lg">
+                                    <i class="fas fa-history me-2"></i>Ver Mis Solicitudes
+                                </a>
+                            <?php endif; ?>
                         </div>
                     </div>
                 </div>

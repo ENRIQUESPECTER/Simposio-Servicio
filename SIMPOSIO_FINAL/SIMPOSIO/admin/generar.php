@@ -15,7 +15,7 @@ use setasign\Fpdi\Fpdi;
 set_time_limit(300);
 ini_set('memory_limit', '512M');
 
-// Ruta base absoluta del proyecto (cambia 'SIMPOSIO' por el nombre real)
+// Ruta base absoluta del proyecto
 $base_path = $_SERVER['DOCUMENT_ROOT'] . '/SIMPOSIO/';
 
 $sql = "SELECT a.id_articulo, a.titulo, a.tipo_trabajo, a.categoria, a.resumen,
@@ -49,14 +49,14 @@ foreach ($result as $row) {
 
     // Portada
     $pdf->AddPage();
-    $pdf->SetFont('Helvetica', 'B', 16);
-    $pdf->Cell(0, 10, 'Trabajo: ' . mb_convert_encoding($row['titulo'], 'ISO-8859-1', 'UTF-8'), 0, 1);
+    $pdf->SetFont('Helvetica', 'B', 18);
+    $pdf->Cell(0, 10, 'Trabajo: ' . mb_convert_encoding($row['titulo'], 'ISO-8859-1', 'UTF-8'), 0, 1, 'C');
     $pdf->SetFont('Helvetica', '', 12);
-    $pdf->Cell(0, 8, 'Autor(es): ' . mb_convert_encoding($row['autor_nombre'] . ' ' . $row['autor_apellidos'], 'ISO-8859-1', 'UTF-8'), 0, 1);
-    $pdf->Cell(0, 8, 'Evento: ' . mb_convert_encoding($row['evento_titulo'] . ' (' . $row['evento_fecha'] . ')', 'ISO-8859-1', 'UTF-8'), 0, 1);
-    $pdf->Cell(0, 8, 'Tipo: ' . ucfirst($row['tipo_trabajo']) . ' | Categoría: ' . $row['categoria'], 0, 1);
+    $pdf->Cell(0, 8, 'Autor(es): ' . mb_convert_encoding($row['autor_nombre'] . ' ' . $row['autor_apellidos'], 'ISO-8859-1', 'UTF-8'), 0, 1, 'C');
+    $pdf->Cell(0, 8, 'Evento: ' . mb_convert_encoding($row['evento_titulo'] . ' (' . $row['evento_fecha'] . ')', 'ISO-8859-1', 'UTF-8'), 0, 1, 'C');
+    $pdf->Cell(0, 8, 'Tipo: ' . ucfirst($row['tipo_trabajo']) . utf8_decode(' | Categoría: ') . utf8_decode($row['categoria']), 0, 1, 'C');
     if (!empty($row['resumen'])) {
-        $pdf->MultiCell(0, 6, 'Resumen: ' . mb_convert_encoding($row['resumen'], 'ISO-8859-1', 'UTF-8'));
+        $pdf->MultiCell(0, 6, 'Resumen: ' . mb_convert_encoding($row['resumen'], 'ISO-8859-1', 'UTF-8'),0,'C');
     }
     $pdf->Ln(10);
 

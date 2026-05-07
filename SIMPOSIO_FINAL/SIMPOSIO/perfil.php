@@ -383,17 +383,21 @@ if (es_docente()) {
                 <div class="col-md-4 mb-4 mb-md-0">
                     <h5 class="mb-3"><i class="fas fa-calculator me-2"></i>SIMPOSIO FESC C4</h5>
                     <p class="text-white-50">Congreso Internacional sobre la Enseñanza y Aplicación de las Matemáticas</p>
+                    <p class="text-white-50"><i class="fas fa-map-marker-alt me-2"></i>FES Cuautitlán, UNAM</p>
                 </div>
                 <div class="col-md-4 mb-4 mb-md-0">
-                    <h5 class="mb-3">Contacto</h5>
+                    <h5 class="mb-3"><i class="fas fa-address-card me-2"></i><a class="text-white" href="contactanos.php" style="text-decoration: none;">Contactanos</a></h5>
                     <p class="text-white-50"><i class="fas fa-envelope me-2"></i>info@simposiofesc.com</p>
+                    <p class="text-white-50"><i class="fas fa-phone me-2"></i>(55) 1234-5678</p>
+                    <p class="text-white-50"><i class="fas fa-clock me-2"></i>Lun-Vie: 9:00 - 18:00</p>
                 </div>
                 <div class="col-md-4">
-                    <h5 class="mb-3">Síguenos</h5>
+                    <h5 class="mb-3"><i class="fas fa-share-alt me-2"></i>Síguenos</h5>
                     <div class="d-flex gap-3">
-                        <a href="#" class="text-white fs-3"><i class="fab fa-facebook"></i></a>
-                        <a href="#" class="text-white fs-3"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="text-white fs-3"><i class="fab fa-instagram"></i></a>
+                        <a href="https://www.facebook.com/fescunamoficial/about?locale=es_LA" class="text-white fs-3"><i class="fab fa-facebook"></i></a>
+                        <a href="https://x.com/FESC_UNAM?fbclid=IwY2xjawQyQHxleHRuA2FlbQIxMABicmlkETFvUEhaR0VMQmo5UEQ1b0M0c3J0YwZhcHBfaWQQMjIyMDM5MTc4ODIwMDg5MgABHunbJB2FGEliNtdbtCRQ5rraIYqxrw-P_F1GfK3vbH2iH1LCVWqhSXpl2LP7_aem_vLlrun1rax8EMbKR0qgxBQ" class="text-white fs-3"><i class="fab fa-twitter"></i></a>
+                        <a href="https://www.instagram.com/fescunamoficial?fbclid=IwY2xjawQyQnJleHRuA2FlbQIxMABicmlkETFjOU9lY2lsNWhBREVmV1Nxc3J0YwZhcHBfaWQQMjIyMDM5MTc4ODIwMDg5MgABHvwGr8ZN8ksdMDFGCUCpjhMbJJW9cbvuMXJ5qhpo6m2tuK4zV1DqLw3vk0vB_aem_XcaPSOTLV8iGNi3yf750EQ" class="text-white fs-3"><i class="fab fa-instagram"></i></a>
+                        <a href="https://youtube.com/@fescunamoficial9877?si=J4aNbVU3BTRfEzd7" class="text-white fs-3"><i class="fab fa-youtube"></i></a>
                     </div>
                 </div>
             </div>
