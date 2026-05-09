@@ -1,0 +1,1033 @@
+body {
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    min-height: 100vh;
+}
+
+#mainNav {
+    background-color: #293e6b !important;
+    padding: 10px 0;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.navbar-brand { 
+    color: white !important; 
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+.nav-link { 
+    color: white !important;
+    font-weight: 500;
+}
+
+.colorazul { background-color: #293e6b !important; }
+.colordorado { background-color: #D59F0F !important; }
+
+.registro-container {
+    max-width: 1200px;
+    margin: 100px auto 50px;
+    padding: 0 20px;
+}
+
+.registro-card {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+    overflow: hidden;
+    animation: slideIn 0.5s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.registro-header {
+    background: linear-gradient(135deg, #293e6b, #1a2b4a);
+    color: white;
+    padding: 30px;
+    text-align: center;
+}
+
+.registro-header h2 {
+    margin: 0;
+    font-size: 2rem;
+    font-weight: 600;
+}
+
+.registro-body {
+    padding: 40px;
+}
+
+/* Panel de límites */
+.limites-panel {
+    background: #f8f9fa;
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 30px;
+    border: 1px solid #e9ecef;
+}
+
+.limites-panel h4 {
+    color: #293e6b;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+.limite-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.limite-item:last-child {
+    border-bottom: none;
+}
+
+.limite-nombre {
+    font-weight: 600;
+    color: #495057;
+}
+
+.limite-valor {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.progreso {
+    width: 150px;
+    height: 8px;
+    background-color: #e9ecef;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.barra-progreso {
+    height: 100%;
+    background: linear-gradient(90deg, #293e6b, #D59F0F);
+    transition: width 0.3s ease;
+}
+
+.contador {
+    font-weight: 600;
+    color: #293e6b;
+    min-width: 50px;
+    text-align: right;
+}
+
+/* Grupos de formulario */
+.form-group {
+    margin-bottom: 25px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #293e6b;
+}
+
+.form-control, .form-select {
+    border: 2px solid #e9ecef;
+    border-radius: 10px;
+    padding: 12px 15px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background-color: white;
+    color: #212529;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: #293e6b;
+    box-shadow: 0 0 0 0.2rem rgba(41, 62, 107, 0.25);
+    background-color: white;
+}
+
+/* Tipo de trabajo */
+.tipo-trabajo {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.tipo-btn {
+    position: relative;
+    padding: 20px 10px;
+    background: #f8f9fa;
+    border: 2px solid #dee2e6;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.tipo-btn input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+}
+
+.tipo-btn i {
+    font-size: 2rem;
+    color: #293e6b;
+    margin-bottom: 10px;
+    display: block;
+}
+
+.tipo-btn span {
+    display: block;
+    font-weight: 600;
+    color: #495057;
+}
+
+.tipo-btn.active {
+    border-color: #293e6b;
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(41, 62, 107, 0.2);
+}
+
+.tipo-btn.active i {
+    color: #D59F0F;
+}
+
+/* Horarios */
+.horarios-container {
+    background: #f8f9fa;
+    border-radius: 15px;
+    padding: 20px;
+    border: 2px solid #dee2e6;
+    display: none;
+}
+
+.horarios-container.mostrar {
+    display: block;
+    animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.fecha-grupo {
+    margin-bottom: 20px;
+    border-bottom: 1px solid #dee2e6;
+    padding-bottom: 15px;
+}
+
+.fecha-grupo h5 {
+    color: #293e6b;
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+.horario-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 10px;
+}
+
+.horario-item {
+    position: relative;
+}
+
+.horario-item input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+}
+
+.horario-item label {
+    display: block;
+    padding: 12px;
+    background: white;
+    border: 2px solid #dee2e6;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+    margin: 0;
+}
+
+.horario-item input[type="radio"]:checked + label {
+    border-color: #293e6b;
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(41, 62, 107, 0.2);
+}
+
+.horario-item label:hover {
+    border-color: #293e6b;
+    transform: translateY(-2px);
+}
+
+.horario-hora {
+    font-weight: 600;
+    color: #293e6b;
+    margin-bottom: 5px;
+}
+
+.horario-salon {
+    font-size: 0.9rem;
+    color: #6c757d;
+}
+
+/* Coautores */
+.coautores-section {
+    background: #f8f9fa;
+    border-radius: 15px;
+    padding: 20px;
+    margin-top: 20px;
+    border: 2px solid #dee2e6;
+}
+
+.nav-tabs {
+    border-bottom: 2px solid #dee2e6;
+    margin-bottom: 20px;
+}
+
+.nav-tabs .nav-link {
+    color: #495057;
+    font-weight: 600;
+    border: none;
+    padding: 10px 20px;
+    margin-right: 5px;
+    border-radius: 10px 10px 0 0;
+    background: #e9ecef;
+}
+
+.nav-tabs .nav-link:hover {
+    color: #293e6b;
+    background: #dee2e6;
+}
+
+.nav-tabs .nav-link.active {
+    color: #293e6b;
+    background: white;
+    border: 2px solid #dee2e6;
+    border-bottom-color: white;
+    transform: translateY(2px);
+}
+
+.tab-pane {
+    padding: 20px;
+    background: white;
+    border-radius: 0 10px 10px 10px;
+    border: 2px solid #dee2e6;
+    border-top: none;
+}
+
+.coautor-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 10px;
+    border: 1px solid #dee2e6;
+}
+
+.coautor-item select,
+.coautor-item input {
+    flex: 1;
+}
+
+.coautor-externo-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    flex: 1;
+}
+
+.btn-remove {
+    background: #dc3545;
+    color: white;
+    border: none;
+    width: 38px;
+    height: 38px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-remove:hover {
+    background: #c82333;
+    transform: scale(1.05);
+}
+
+.btn-add {
+    background: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-right: 10px;
+    margin-top: 15px;
+}
+
+.btn-add:hover {
+    background: #218838;
+    transform: translateY(-2px);
+}
+
+.btn-danger {
+    background: #dc3545;
+}
+
+.btn-danger:hover {
+    background: #c82333;
+}
+
+/* Vista previa imágenes */
+.imagenes-container {
+    background: #f8f9fa;
+    border-radius: 15px;
+    padding: 20px;
+    border: 2px dashed #293e6b;
+    text-align: center;
+}
+
+.vista-previa-img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 10px;
+    border: 3px solid white;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.badge-principal {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: #293e6b;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    z-index: 1;
+}
+
+/* Acciones */
+.acciones {
+    display: flex;
+    gap: 15px;
+    justify-content: space-between;
+    margin-top: 30px;
+}
+
+.btn {
+    padding: 12px 30px;
+    border-radius: 10px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #293e6b, #1a2b4a);
+    border: none;
+    color: white;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(41, 62, 107, 0.3);
+}
+
+.btn-secondary {
+    background: #6c757d;
+    border: none;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background: #5a6268;
+    transform: translateY(-2px);
+}
+
+.alert {
+    border-radius: 10px;
+    padding: 15px 20px;
+    margin-bottom: 20px;
+}
+
+/* Mejoras de contraste */
+.form-control::placeholder {
+    color: #6c757d;
+    opacity: 1;
+}
+
+select.form-control option {
+    color: #212529;
+    background: white;
+}
+
+.select2-container--bootstrap-5 .select2-selection {
+    background-color: white;
+    border: 2px solid #dee2e6;
+    color: #212529;
+}
+
+/* Espaciado */
+.mt-4 {
+    margin-top: 2rem;
+}
+
+/* ============================================
+   ESTILOS PARA PATROCINIOS - VERSIÓN MEJORADA
+   ============================================ */
+/* ---------- Hero Section ---------- */
+.patrocinios-hero {
+    background: linear-gradient(135deg, #293e6b 0%, #1a2b4a 100%) !important;
+    border-radius: 20px !important;
+    padding: 40px !important;
+    margin-bottom: 40px !important;
+    color: white !important;
+    position: relative !important;
+    overflow: hidden !important;
+}
+.patrocinios-hero h1,
+.patrocinios-hero .display-4,
+.patrocinios-hero p,
+.patrocinios-hero .lead {
+    color: white !important;
+}
+/* ---------- Tarjetas de Estadísticas ---------- */
+.stat-card {
+    background: white !important;
+    border-radius: 15px !important;
+    padding: 20px !important;
+    text-align: center !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.08) !important;
+    border: 1px solid #e9ecef !important;
+}
+.stat-card:hover {
+    transform: translateY(-5px) !important;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15) !important;
+}
+.stat-icon {
+    width: 60px !important;
+    height: 60px !important;
+    border-radius: 50% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin: 0 auto 15px !important;
+    font-size: 24px !important;
+}
+.stat-number {
+    font-size: 28px !important;
+    font-weight: bold !important;
+    margin-bottom: 5px !important;
+    color: #293e6b !important;
+}
+.stat-label {
+    color: #6c757d !important;
+    font-size: 14px !important;
+}
+/* ---------- Tarjetas de Proyectos ---------- */
+.proyecto-card {
+    border: none !important;
+    border-radius: 20px !important;
+    overflow: hidden !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08) !important;
+    background: white !important;
+    height: 100% !important;
+}
+.proyecto-card:hover {
+    transform: translateY(-8px) !important;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.15) !important;
+}
+.proyecto-img {
+    height: 180px !important;
+    object-fit: cover !important;
+    width: 100% !important;
+}
+.proyecto-img-placeholder {
+    height: 180px !important;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+.proyecto-badge {
+    position: absolute !important;
+    top: 15px !important;
+    right: 15px !important;
+    padding: 5px 12px !important;
+    border-radius: 20px !important;
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    z-index: 1 !important;
+}
+/* Badges por tipo de trabajo */
+.badge-cartel { background: #ffc107 !important; color: #000 !important; }
+.badge-ponencia { background: #17a2b8 !important; color: #fff !important; }
+.badge-taller { background: #28a745 !important; color: #fff !important; }
+.badge-prototipo { background: #6f42c1 !important; color: #fff !important; }
+/* Botón de patrocinio */
+.btn-patrocinar {
+    background: linear-gradient(135deg, #D59F0F, #b8860b) !important;
+    border: none !important;
+    transition: all 0.3s ease !important;
+    color: white !important;
+    font-weight: 600 !important;
+    padding: 10px 20px !important;
+    border-radius: 10px !important;
+}
+.btn-patrocinar:hover {
+    transform: scale(1.02) !important;
+    box-shadow: 0 5px 15px rgba(213,159,15,0.4) !important;
+    color: white !important;
+}
+/* ---------- Tabla de Solicitudes ---------- */
+.solicitudes-table {
+    border-radius: 15px !important;
+    overflow: hidden !important;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08) !important;
+    width: 100% !important;
+}
+.solicitudes-table thead {
+    background: linear-gradient(135deg, #293e6b, #1a2b4a) !important;
+    color: white !important;
+}
+.solicitudes-table th {
+    padding: 15px !important;
+    font-weight: 600 !important;
+    border: none !important;
+    color: white !important;
+}
+.solicitudes-table td {
+    padding: 12px 15px !important;
+    vertical-align: middle !important;
+    background: white !important;
+}
+.solicitudes-table tbody tr:hover td {
+    background-color: rgba(213,159,15,0.05) !important;
+}
+/* Estados de solicitudes */
+.estado-pendiente {
+    background: #ffc107 !important;
+    color: #000 !important;
+    padding: 5px 12px !important;
+    border-radius: 20px !important;
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 5px !important;
+}
+.estado-aceptado {
+    background: #28a745 !important;
+    color: #fff !important;
+    padding: 5px 12px !important;
+    border-radius: 20px !important;
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 5px !important;
+}
+.estado-rechazado {
+    background: #dc3545 !important;
+    color: #fff !important;
+    padding: 5px 12px !important;
+    border-radius: 20px !important;
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 5px !important;
+}
+/* ---------- Estado Vacío ---------- */
+.empty-state {
+    text-align: center !important;
+    padding: 60px 20px !important;
+    background: #f8f9fa !important;
+    border-radius: 20px !important;
+}
+.empty-state i {
+    font-size: 60px !important;
+    color: #dee2e6 !important;
+    margin-bottom: 20px !important;
+}
+.empty-state h4 {
+    color: #293e6b !important;
+    margin-bottom: 10px !important;
+}
+/* ---------- Patrocinadores en Mis Proyectos ---------- */
+.patrocinadores-badge {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 5px !important;
+}
+
+/* ========== SECTION HEADER CARDS ========== */
+.section-header-card {
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    border-radius: 15px;
+    padding: 20px 25px;
+    border-left: 5px solid #D59F0F;
+    box-shadow: 0 3px 15px rgba(0,0,0,0.05);
+    transition: all 0.3s ease;
+}
+
+.section-header-card:hover {
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    transform: translateY(-2px);
+}
+
+.section-header-card .section-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #293e6b;
+}
+
+.section-header-card .section-subtitle {
+    color: #6c757d;
+    font-size: 0.95rem;
+}
+
+.section-header-card .badge {
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+/* Botón volver pequeño y elegante */
+.btn-volver-pequeno {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 20px;
+    background-color: #f8f9fa;
+    color: #293e6b;
+    text-decoration: none;
+    border-radius: 30px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    border: 1px solid #dee2e6;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.btn-volver-pequeno:hover {
+    background-color: #293e6b;
+    color: white;
+    border-color: #293e6b;
+    transform: translateX(-3px);
+    box-shadow: 0 3px 8px rgba(41,62,107,0.2);
+}
+
+.btn-volver-pequeno i {
+    font-size: 0.8rem;
+    transition: transform 0.2s ease;
+}
+
+.btn-volver-pequeno:hover i {
+    transform: translateX(-2px);
+}
+
+/* ========== ESTILOS PARA NOTIFICACIONES ========== */
+.notificacion-dropdown {
+    width: 450px;
+    max-width: 90vw;
+    max-height: 500px;
+    overflow-y: auto;
+    padding: 0;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+}
+
+.dropdown-header {
+    background-color: #f8f9fa;
+    font-weight: 600;
+    border-bottom: 1px solid #e9ecef;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    padding: 12px 15px;
+}
+
+.notificacion-item {
+    padding: 12px 15px;
+    transition: all 0.2s ease;
+    white-space: normal !important;
+    word-break: break-word;
+}
+
+.notificacion-item:hover {
+    background-color: #f8f9fa;
+}
+
+.notificacion-item.eliminando {
+    opacity: 0;
+    transform: translateX(20px);
+}
+
+/* Botón eliminar - ROJO BONITO */
+.btn-eliminar {
+    background: linear-gradient(135deg, #dc3545, #c82333);
+    border: none;
+    color: white;
+    cursor: pointer;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    font-size: 0.7rem;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 5px rgba(220, 53, 69, 0.3);
+}
+
+.btn-eliminar:hover {
+    background: linear-gradient(135deg, #c82333, #a71d2a);
+    transform: scale(1.1);
+    box-shadow: 0 4px 10px rgba(220, 53, 69, 0.5);
+}
+
+.btn-eliminar:active {
+    transform: scale(0.95);
+}
+
+.badge-nueva {
+    font-size: 0.6rem;
+    background-color: #007bff;
+}
+
+.no-notificaciones {
+    text-align: center;
+    padding: 30px;
+    color: #6c757d;
+}
+
+.no-notificaciones i {
+    font-size: 2rem;
+    margin-bottom: 10px;
+    display: block;
+}
+
+/* Botón eliminar proyecto (tabla) */
+.btn-eliminar-proyecto {
+    background: #dc3545 !important;
+    color: white !important;
+    padding: 8px 12px !important;
+    border-radius: 8px !important;
+    border: none !important;
+    cursor: pointer !important;
+    margin: 0 2px !important;
+    transition: all 0.3s ease !important;
+    width: auto !important;
+    height: auto !important;
+}
+
+.btn-eliminar-proyecto:hover {
+    background: #c82333 !important;
+    transform: translateY(-2px) !important;
+}
+
+/* ============================================
+   ESTILOS PARA EL DROPDOWN DE NOTIFICACIONES
+   ============================================ */
+
+.notificacion-dropdown {
+    width: 350px !important;
+    max-height: 500px !important;
+    overflow-y: auto !important;
+    padding: 0 !important;
+    border-radius: 12px !important;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15) !important;
+    border: none !important;
+}
+
+.notificacion-dropdown .dropdown-header {
+    background: #f8f9fa !important;
+    padding: 12px 15px !important;
+    font-weight: 600 !important;
+    border-radius: 12px 12px 0 0 !important;
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 2 !important;
+}
+
+.notificacion-item {
+    padding: 12px 15px !important;
+    transition: all 0.2s ease !important;
+    border-left: 3px solid transparent !important;
+    white-space: normal !important;
+}
+
+.notificacion-item:hover {
+    background-color: #f8f9fa !important;
+    border-left: 3px solid #D59F0F !important;
+}
+
+.notificacion-item.bg-light {
+    border-left: 3px solid #293e6b !important;
+    background-color: #f0f7ff !important;
+}
+
+.notificacion-badge {
+    font-size: 0.7rem !important;
+    margin-left: -5px !important;
+    margin-top: -10px !important;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+
+.no-notificaciones {
+    text-align: center !important;
+    padding: 30px 20px !important;
+    color: #6c757d !important;
+    list-style: none !important;
+}
+
+.no-notificaciones i {
+    font-size: 3rem !important;
+    display: block !important;
+    margin-bottom: 10px !important;
+    opacity: 0.5 !important;
+}
+
+.btn-eliminar {
+    background: transparent !important;
+    border: 1px solid transparent !important;
+    color: #dc3545 !important;
+    cursor: pointer !important;
+    width: 28px !important;
+    height: 28px !important;
+    border-radius: 50% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 0.75rem !important;
+    transition: all 0.2s ease !important;
+    position: relative !important;
+    z-index: 1 !important;
+    flex-shrink: 0 !important;
+}
+
+.btn-eliminar:hover {
+    color: #fff !important;
+    background-color: #dc3545 !important;
+    border-color: #dc3545 !important;
+    transform: scale(1.15) !important;
+}
+
+/* Scrollbar personalizada para el dropdown */
+.notificacion-dropdown::-webkit-scrollbar {
+    width: 6px;
+}
+
+.notificacion-dropdown::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.notificacion-dropdown::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 10px;
+}
+
+.notificacion-dropdown::-webkit-scrollbar-thumb:hover {
+    background: #a1a1a1;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 768px) {
+    .patrocinios-hero {
+        padding: 25px !important;
+        text-align: center !important;
+    }
+    
+    .patrocinios-hero .display-4 {
+        font-size: 28px !important;
+    }
+    
+    .stat-number {
+        font-size: 22px !important;
+    }
+    
+    .stat-icon {
+        width: 45px !important;
+        height: 45px !important;
+        font-size: 18px !important;
+    }
+    
+    .solicitudes-table {
+        font-size: 14px !important;
+    }
+    
+    .solicitudes-table th,
+    .solicitudes-table td {
+        padding: 8px 10px !important;
+    }
+}
+@media (max-width: 576px) {
+    .proyecto-img,
+    .proyecto-img-placeholder {
+        height: 150px !important;
+    }
+    
+    .patrocinios-hero {
+        padding: 20px !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .registro-body {
+        padding: 20px;
+    }
+    
+    .tipo-trabajo {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .horario-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .coautor-item {
+        flex-direction: column;
+    }
+    
+    .coautor-externo-grid {
+        grid-template-columns: 1fr;
+        width: 100%;
+    }
+    
+    .acciones {
+        flex-direction: column;
+    }
+    
+    .btn {
+        width: 100%;
+    }
+}
+
