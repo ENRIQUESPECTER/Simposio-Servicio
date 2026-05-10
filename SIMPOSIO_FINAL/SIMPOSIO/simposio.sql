@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 06-05-2026 a las 05:22:35
+-- Tiempo de generación: 09-05-2026 a las 08:48:57
 -- Versión del servidor: 10.4.16-MariaDB
 -- Versión de PHP: 7.4.12
 
@@ -365,6 +365,25 @@ CREATE TABLE `horario_ponencia` (
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `notificaciones`
+--
+
+CREATE TABLE `notificaciones` (
+  `id_notificacion` int(11) NOT NULL,
+  `id_usuario` int(11) NOT NULL COMMENT 'Usuario destinatario',
+  `tipo` enum('info','success','warning','danger') NOT NULL DEFAULT 'info',
+  `titulo` varchar(100) NOT NULL,
+  `mensaje` text NOT NULL,
+  `icono` varchar(50) DEFAULT NULL,
+  `enlace` varchar(255) DEFAULT NULL COMMENT 'Enlace al que lleva la notificación',
+  `leida` tinyint(1) NOT NULL DEFAULT 0,
+  `fecha_creacion` timestamp NOT NULL DEFAULT current_timestamp(),
+  `fecha_lectura` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `patrocinios`
 --
 
@@ -406,6 +425,28 @@ CREATE TABLE `plantilla_impresion` (
 
 INSERT INTO `plantilla_impresion` (`id_plantilla`, `anio`, `nombre`, `archivo_css`, `activa`) VALUES
 (1, 2026, 'Plantilla Oficial 2026', 'plantilla2026.css', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `preferencias_notificaciones`
+--
+
+CREATE TABLE `preferencias_notificaciones` (
+  `id_preferencia` int(11) NOT NULL,
+  `id_usuario` int(11) NOT NULL,
+  `notificar_email` tinyint(1) NOT NULL DEFAULT 1,
+  `notificar_sistema` tinyint(1) NOT NULL DEFAULT 1,
+  `tipos_activos` text DEFAULT NULL COMMENT 'JSON con tipos de notificaciones activas'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `preferencias_notificaciones`
+--
+
+INSERT INTO `preferencias_notificaciones` (`id_preferencia`, `id_usuario`, `notificar_email`, `notificar_sistema`, `tipos_activos`) VALUES
+(0, 11, 1, 1, NULL),
+(0, 13, 1, 1, NULL);
 
 -- --------------------------------------------------------
 

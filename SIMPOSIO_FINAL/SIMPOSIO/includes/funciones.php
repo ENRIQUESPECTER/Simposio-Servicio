@@ -329,4 +329,54 @@ function contar_patrocinadores_proyecto($conexion, $id_articulo) {
     $stmt->execute();
     return $stmt->get_result()->fetch_row()[0];
 }
+
+// Función auxiliar para tiempo relativo
+function time_elapsed_string($datetime, $full = false) {
+    $now = new DateTime;
+    $ago = new DateTime($datetime);
+    $diff = $now->diff($ago);
+    
+    $diff->w = floor($diff->d / 7);
+    $diff->d -= $diff->w * 7;
+    
+    $string = array(
+        'y' => 'año',
+        'm' => 'mes',
+        'w' => 'semana',
+        'd' => 'día',
+        'h' => 'hora',
+        'i' => 'minuto',
+        's' => 'segundo',
+    );
+    
+    foreach ($string as $k => &$v) {
+        if ($diff->$k) {
+            $v = $diff->$k . ' ' . $v . ($diff->$k > 1 ? 's' : '');
+        } else {
+            unset($string[$k]);
+        }
+    }
+    
+    if (!$full) $string = array_slice($string, 0, 1);
+    return $string ? implode(', ', $string) . ' atrás' : 'justo ahora';
+}
+/**
+ * Cuenta cuántas solicitudes de patrocinio ha hecho una empresa para un proyecto
+ * (incluye todos los estados: pendiente, aceptado, rechazado)
+ */
+function contar_intentos_patrocinio($conexion, $id_articulo, $id_empresa) {
+    $stmt = $conexion->prepare("SELECT COUNT(*) FROM patrocinios WHERE id_articulo = ? AND id_empresa = ?");
+    $stmt->bind_param("ii", $id_articulo, $id_empresa);
+    $stmt->execute();
+    return $stmt->get_result()->fetch_row()[0];
+}
+/**
+ * Verifica si una empresa ya agotó sus intentos de patrocinio para un proyecto
+ * Retorna true si ya no puede reenviar (llegó al límite de 2 intentos)
+ */
+function intentos_patrocinio_agotados($conexion, $id_articulo, $id_empresa) {
+    $intentos = contar_intentos_patrocinio($conexion, $id_articulo, $id_empresa);
+    // Máximo 2 intentos: 1 solicitud inicial + 1 reenvío
+    return $intentos >= 2;
+}
 ?>

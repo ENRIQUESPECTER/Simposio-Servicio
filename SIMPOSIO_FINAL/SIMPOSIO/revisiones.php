@@ -2,6 +2,7 @@
 session_start();
 require_once 'includes/conexion.php';
 require_once 'includes/auth.php';
+require_once 'includes/notificaciones.php';
 
 // Solo docentes pueden acceder
 if (!esta_logeado() || !es_docente()) {
@@ -43,11 +44,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['accion']) && isset($_P
                 $stmt2 = $conexion->prepare("UPDATE articulo SET estado = 'aprobado' WHERE id_articulo = ?");
                 $stmt2->bind_param("i", $id_articulo);
                 $stmt2->execute();
+                // ✅ AGREGAR ESTO: Obtener el id_usuario del autor
+                $stmt_autor = $conexion->prepare("SELECT id_usuario FROM articulo WHERE id_articulo = ?");
+                $stmt_autor->bind_param("i", $id_articulo);
+                $stmt_autor->execute();
+                $id_autor = $stmt_autor->get_result()->fetch_assoc()['id_usuario'];
                 // Asegurar que la actividad sea visible
                 $stmt3 = $conexion->prepare("UPDATE actividad_evento SET visible = 1 WHERE id_articulo = ?");
                 $stmt3->bind_param("i", $id_articulo);
                 $stmt3->execute();
                 $mensaje = "Trabajo aprobado correctamente.";
+                notificar_trabajo_aprobado($conexion, $id_articulo, $id_autor);
             } else { // rechazar
                 $stmt2 = $conexion->prepare("UPDATE articulo SET estado = 'rechazado' WHERE id_articulo = ?");
                 $stmt2->bind_param("i", $id_articulo);
@@ -56,6 +63,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['accion']) && isset($_P
                 $stmt3->bind_param("i", $id_articulo);
                 $stmt3->execute();
                 $mensaje = "Trabajo rechazado.";
+                // ✅ AGREGAR ESTO: Obtener el id_usuario del autor para la notificación
+                $stmt_autor = $conexion->prepare("SELECT id_usuario FROM articulo WHERE id_articulo = ?");
+                $stmt_autor->bind_param("i", $id_articulo);
+                $stmt_autor->execute();
+                $id_autor = $stmt_autor->get_result()->fetch_assoc()['id_usuario'];
+                notificar_trabajo_rechazado($conexion, $id_articulo, $id_autor);
+                notificar_devolucion_correcciones($conexion, $id_articulo, $id_docente, "Se requieren cambios. Revisa los comentarios del revisor.");
             }
             // Actualizar estado de la asignación
             $stmt4 = $conexion->prepare("UPDATE asignacion_revision SET estado_revision = ? WHERE id_articulo = ? AND id_docente = ?");
@@ -90,6 +104,16 @@ $stmt = $conexion->prepare($sql);
 $stmt->bind_param("i", $id_docente);
 $stmt->execute();
 $trabajos = $stmt->get_result();
+
+// Obtener notificaciones para el navbar
+$total_notificaciones = 0;
+$notificaciones_no_leidas = [];
+$ultimas_notificaciones = [];
+if (esta_logeado()) {
+    $total_notificaciones = contar_notificaciones_no_leidas($conexion, $_SESSION['id_usuario']);
+    $notificaciones_no_leidas = obtener_notificaciones_no_leidas($conexion, $_SESSION['id_usuario'], 5);
+    $ultimas_notificaciones = obtener_notificaciones($conexion, $_SESSION['id_usuario'], 0, 10);
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -130,6 +154,100 @@ $trabajos = $stmt->get_result();
                         <li class="nav-item"><a class="nav-link" href="mis_proyectos.php"><i class="fas fa-project-diagram me-1"></i>Mis Proyectos</a></li>
                         <li class="nav-item"><a class="nav-link" href="registrar_trabajos.php"><i class="fas fa-upload me-1"></i>Registrar Trabajo</a></li>
                         <?php endif; ?>
+                        <!-- ========== DROPDOWN DE NOTIFICACIONES CON BOTÓN ELIMINAR ========== -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link" href="#" id="notificacionesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-bell"></i>
+                                <?php if ($total_notificaciones > 0): ?>
+                                    <span class="badge bg-danger rounded-pill notificacion-badge" style="font-size: 0.7rem; margin-left: -5px; margin-top: -10px;"><?php echo $total_notificaciones; ?></span>
+                                <?php endif; ?>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end notificacion-dropdown">
+                                <li class="dropdown-header d-flex justify-content-between align-items-center">
+                                    <span><i class="fas fa-bell me-2"></i>Notificaciones</span>
+                                    <div>
+                                        <?php if ($total_notificaciones > 0): ?>
+                                            <a href="notificaciones/marcar_todas.php" class="text-decoration-none small me-2">Marcar todas</a>
+                                        <?php endif; ?>
+                                        <a href="notificaciones/ver_todas.php" class="text-decoration-none small">Ver todas</a>
+                                    </div>
+                                </li>
+                                <li><hr class="dropdown-divider m-0"></li>
+                                
+                                <?php if ($total_notificaciones == 0 && $ultimas_notificaciones->num_rows == 0): ?>
+                                    <li class="no-notificaciones">
+                                        <i class="fas fa-inbox"></i>
+                                        No hay notificaciones
+                                    </li>
+                                <?php else: ?>
+                                    <?php 
+                                    $notif_items = [];
+                                    if ($notificaciones_no_leidas) {
+                                        while ($notif = $notificaciones_no_leidas->fetch_assoc()) {
+                                            $notif_items[] = $notif;
+                                        }
+                                    }
+                                    if ($ultimas_notificaciones) {
+                                        $ultimas_notificaciones->data_seek(0);
+                                        while ($notif = $ultimas_notificaciones->fetch_assoc()) {
+                                            if ($notif['leida'] == 1 && count($notif_items) < 10) {
+                                                $notif_items[] = $notif;
+                                            }
+                                        }
+                                    }
+                                    
+                                    foreach (array_slice($notif_items, 0, 10) as $notif): 
+                                    ?>
+                                    <li class="dropdown-item notificacion-item" data-id="<?php echo $notif['id_notificacion']; ?>" style="padding: 12px 15px;">
+                                        <div class="d-flex align-items-start">
+                                            <div class="me-3 flex-shrink-0">
+                                                <i class="fas <?php echo $notif['icono'] ?? 'fa-bell'; ?> 
+                                                text-<?php echo $notif['tipo'] == 'success' ? 'success' : ($notif['tipo'] == 'danger' ? 'danger' : 'primary'); ?>">
+                                                </i>
+                                            </div>
+                                            <div class="flex-grow-1" style="min-width: 0;">
+                                                <div class="fw-bold small"><?php echo htmlspecialchars($notif['titulo']); ?></div>
+                                                <div class="small text-muted" style="word-break: break-word; line-height: 1.4;">
+                                                    <?php 
+                                                    $mensaje_corto = htmlspecialchars($notif['mensaje']);
+                                                    if (strlen($mensaje_corto) > 80) {
+                                                        $mensaje_corto = substr($mensaje_corto, 0, 80) . '...';
+                                                    }
+                                                    echo $mensaje_corto;
+                                                    ?>
+                                                </div>
+                                                <div class="small text-muted mt-1">
+                                                    <i class="far fa-clock me-1"></i>
+                                                    <?php echo time_elapsed_string($notif['fecha_creacion']); ?>
+                                                </div>
+                                            </div>
+                                            <div class="ms-2 flex-shrink-0 d-flex align-items-center gap-1">
+                                                <?php if (!$notif['leida']): ?>
+                                                    <span class="badge bg-primary rounded-pill" style="font-size: 0.6rem;">Nueva</span>
+                                                <?php endif; ?>
+                                                <!-- Botón eliminar FUERA del enlace -->
+                                                <button type="button" class="btn-eliminar" 
+                                                        onclick="eliminarNotificacion(<?php echo $notif['id_notificacion']; ?>, this)"
+                                                        title="Eliminar notificación">
+                                                    <i class="fas fa-trash-alt"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <!-- Enlace separado que NO cubre el botón -->
+                                        <?php if ($notif['enlace']): ?>
+                                            <div class="mt-1">
+                                                <a href="<?php echo htmlspecialchars($notif['enlace']); ?>" class="small text-decoration-none" 
+                                                onclick="marcarNotificacion(<?php echo $notif['id_notificacion']; ?>)">
+                                                    <i class="fas fa-eye me-1"></i>Ver detalles
+                                                </a>
+                                            </div>
+                                        <?php endif; ?>
+                                    </li>
+                                    <li><hr class="dropdown-divider m-0"></li>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
+                            </ul>
+                        </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
                                 <i class="fas fa-user-circle me-1"></i> <?php echo htmlspecialchars($_SESSION['nombre'] ?? 'Usuario'); ?>
@@ -169,6 +287,7 @@ $trabajos = $stmt->get_result();
                                     </a>
                                 </li>
                                 <?php endif; ?>
+                                <li><a class="dropdown-item" href="notificaciones/preferencias.php"><i class="fas fa-bell me-2"></i>Preferencias</a></li>
                                 <li><hr class="dropdown-divider"></li>
                                 <li><a class="dropdown-item" href="logout.php"><i class="fas fa-sign-out-alt me-2"></i>Cerrar sesión</a></li>
                             </ul>
@@ -237,5 +356,78 @@ $trabajos = $stmt->get_result();
         <p class="mb-0">&copy; <?php echo date('Y'); ?> SIMPOSIO FESC C4</p>
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+    function marcarNotificacion(id) {
+        fetch('notificaciones/marcar_leida.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: 'id=' + id
+        });
+    }
+    function eliminarNotificacion(id, btnElement) {
+        event.stopPropagation();
+        
+        if (!confirm('¿Eliminar esta notificación?')) return;
+        
+        const item = btnElement.closest('.notificacion-item');
+        if (!item) return;
+        
+        const dropdownMenu = document.querySelector('.notificacion-dropdown');
+        const badge = document.querySelector('.notificacion-badge');
+        
+        item.style.transition = 'all 0.2s ease';
+        item.style.opacity = '0';
+        item.style.transform = 'translateX(20px)';
+        
+        fetch('notificaciones/eliminar.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: 'id=' + id
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                setTimeout(() => {
+                    const divider = item.nextElementSibling;
+                    item.remove();
+                    if (divider && divider.tagName === 'HR') divider.remove();
+                    
+                    const notificacionesRestantes = document.querySelectorAll('.notificacion-item').length;
+                    
+                    if (notificacionesRestantes === 0) {
+                        if (badge) badge.remove();
+                        
+                        if (dropdownMenu && !dropdownMenu.querySelector('.no-notificaciones')) {
+                            const remainingDividers = dropdownMenu.querySelectorAll('hr');
+                            remainingDividers.forEach(hr => hr.remove());
+                            
+                            const emptyMessage = document.createElement('li');
+                            emptyMessage.className = 'no-notificaciones';
+                            emptyMessage.innerHTML = '<i class="fas fa-inbox"></i>No hay notificaciones';
+                            
+                            const header = dropdownMenu.querySelector('.dropdown-header');
+                            if (header) {
+                                header.insertAdjacentElement('afterend', emptyMessage);
+                            }
+                        }
+                    } else {
+                        if (badge) badge.textContent = notificacionesRestantes;
+                    }
+                }, 200);
+            } else {
+                alert('Error al eliminar la notificación');
+                item.style.opacity = '1';
+                item.style.transform = '';
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Error de conexión');
+            item.style.opacity = '1';
+            item.style.transform = '';
+        });
+    }
+</script>
 </body>
 </html>
