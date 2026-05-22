@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FES CUAUTITLAN C4 EVENTOS</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
+    <!-- Basic Icons -->
+    <link href="https://cdn.boxicons.com/3.0.8/fonts/basic/boxicons.min.css" rel="stylesheet">
+    <!-- Tu CSS personalizado -->
+    <link rel="stylesheet" href="Css/interfaz_usuario.css">
+    <style>
+        /* Estilos adicionales (pueden complementar los existentes) */
+        .carousel-item img { height: 400px; object-fit: cover; }
+        .stats-card { background: #f8f9fa; border-radius: 10px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); text-align: center; }
+        .stats-number { font-size: 2.5rem; font-weight: bold; color: #293e6b; }
+        .card { transition: transform 0.3s; margin-bottom: 20px; }
+        .card:hover { transform: translateY(-5px); }
+        .btn-primary { background-color: #293e6b; border-color: #293e6b; }
+        .btn-primary:hover { background-color: #1a2b4a; border-color: #1a2b4a; }
+        .colordorado { background-color: #D59F0F !important; }
+        .colorazul { background-color: #293e6b !important; }
+        section {
+            padding: 30px 0;
+            overflow: hidden;
+            text-align:justify;
+            font-size: 18px;
+        }
+
+        .section-bg {
+        background-color: #efefef;
+        }
+
+        .section-azul {
+        background-color: #08245a;
+        }
+
+        .section-title {
+            margin-top: 30px;
+            margin-bottom: 20px;
+        }
+        .section-title h2 {
+            font-size: 26px;
+            font-weight: 600;
+            padding-bottom: 0;
+            color: #08245a;
+        }
+        .section-title p {
+        margin-bottom: 0;
+        }
+        .section p {
+        text-align:justify;
+        font-size: 18px;
+        }
+        .services .icon-box {
+            text-align: center;
+            padding: 80px 20px;
+            transition: all ease-in-out 0.3s;
+            box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.1);
+            }
+
+            .services .icon-box .icon {
+            margin: 0 auto;
+            width: 64px;
+            height: 64px;
+            background: #08245a;
+            transition: all 0.3s ease-out 0s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            transform-style: preserve-3d;
+            }
+
+            .services .icon-box .icon i {
+            color: #fff;
+            font-size: 28px;
+            }
+
+            .services .icon-box .icon::before {
+            position: absolute;
+            content: "";
+            left: -8px;
+            top: -8px;
+            height: 100%;
+            width: 100%;
+            background: #a9a9a9;
+            transition: all 0.3s ease-out 0s;
+            transform: translateZ(-1px);
+            }
+
+            .services .icon-box h4 {
+            font-weight: 600;
+            margin-bottom: 15px;
+            font-size: 22px;
+            }
+
+            .services .icon-box h4 a {
+            color: #191919;
+            }
+
+            .services .icon-box p {
+            line-height: 24px;
+            font-size: 18px;
+            margin-bottom: 0;
+            }
+
+            .services .icon-box:hover {
+            background: #08245a;
+            border-color: #08245a;
+            padding: 70px 20px 90px 20px;
+            }
+
+            .services .icon-box:hover .icon {
+            background: #fff;
+            }
+
+            .services .icon-box:hover .icon i {
+            color: #08245a;
+            }
+
+            .services .icon-box:hover .icon::before {
+            background: #08245a;
+            }
+
+            .services .icon-box:hover h4 a,
+            .services .icon-box:hover p {
+            color: #fff;
+            }
+            .services .icon-box img {
+                height: 8rem;
+                width: 6rem;
+            }
+    </style>
+</head>
+<body>
+    <!-- Navbar (puedes incluir la que ya tienes en includes/navbar.php, pero por ahora la dejamos simple) -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav" style="background-color: #293e6b;">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#inicio">
+                <i class="fas fa-calculator me-2"></i>UNAM FES CUAUTITLAN C4
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#inicio"><i class="fas fa-home me-1"></i>Inicio</a></li>
+                    <li class="nav-item"><a class="nav-link" href="red_universitaria.php"><i class="fas fa-chalkboard me-1"></i>Red Universitaria de Proyectos</a></li>
+                    <li class="nav-item"><a class="nav-link" href="convocatoria.php"><i class="fas fa-scroll me-1"></i>Convocatoria</a></li>
+                    <li class="nav-item"><a class="nav-link" href="empresas.html"><i class="fas fa-address-card me-1"></i>Empresas</a></li>
+                    <li class="nav-item"><a class="nav-link" href="programa/index_programa.php"><i class="fas fa-user me-1"></i>Alumnos</a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.php"><i class="fas fa-calendar me-1"></i>Eventos</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contactanos.php"><i class="fas fa-phone me-1"></i>Contactanos</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Espaciado para el menú fijo -->
+    <div style="height: 76px;" id="inicio"></div>
+
+    <!-- Carrusel de imágenes -->
+    <div class="container-fluid px-0">
+        <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#carouselExample" data-bs-slide-to="0" class="active"></button>
+                <button type="button" data-bs-target="#carouselExample" data-bs-slide-to="1"></button>
+                <button type="button" data-bs-target="#carouselExample" data-bs-slide-to="2"></button>
+            </div>
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="Assets/fesc4.jpg" class="d-block w-100" alt="Simposio">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>Bienvenido al SIMPOSIO FESC C4</h5>
+                        <p>Congreso Internacional de Matemáticas</p>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img src="Assets/carruselunam1.jpg" class="d-block w-100" alt="UNAM">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>Investigación de vanguardia</h5>
+                        <p>Comparte tus conocimientos</p>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img src="Assets/carruselunam2.jpg" class="d-block w-100" alt="Matemáticas">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>Red de colaboración</h5>
+                        <p>Conecta con expertos</p>
+                    </div>
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+                <span class="carousel-control-next-icon"></span>
+            </button>
+        </div>
+    </div>
+
+    <div class="container mt-4">
+            <div class="row mb-4">
+                <div class="col-md-12">
+                    <div class="main-content p-4 bg-light rounded">
+                        <h2 class="colorazul text-white p-3 rounded mb-4 text-center">Información sobre nuestra Facultad</h2>
+                        <section id="services" class="services">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-lg-4 col-md-6 d-flex align-items-stretch aos-init aos-animate" data-aos="fade-up">
+                                        <div class="icon-box" style="background: #08245a; border-color: #08245a; color: white;">
+                                            <img src="Assets/Fesc.png">
+                                            <h4><a href="https://www.cuautitlan.unam.mx/historia.php" style="text-decoration: none; color: white;">Introducción</a></h4>
+                                            <p style="text-align:justify">La Facultad de Estudios Superiores Cuautitlán es una entidad multidisciplinaria de la UNAM, reconocida por la excelencia de sus programas tanto académicos como de investigación y extensión de la cultura.</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-md-0 aos-init aos-animate" data-aos="fade-up" data-aos-delay="150">
+                                        <div class="icon-box">
+                                            <div class="icon"><i class="bx bx-video"></i></div>
+                                            <h4><a href="https://youtu.be/zxyR8gSpU5o?si=Arn_HujbHM7rAMJN" target="_blank" style="text-decoration: none;">Video Institucional</a></h4>
+                                            <p>FES Cuautitlán, una Universidad comprometida con la vanguardia, la calidad educativa y el desarrollo nacional.</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-lg-0 aos-init aos-animate" data-aos="fade-up" data-aos-delay="300">
+                                        <div class="icon-box">
+                                            <div class="icon"><i class="bx bx-video"></i></div>
+                                            <h4><a href="https://youtu.be/MR2VqRfOQLs" target="_blank" style="text-decoration: none;">Somos la Universidad<br> de la Nación</a></h4>
+                                            <p>Somos un proyecto educativo fundamental en la historia, en el presente y para el futuro de México.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+
+        <!-- Proyectos Destacados -->
+        <section class="mt-5 services">
+            <h3 class="text-center mb-4 colorazul text-white p-3 rounded">
+                <i class="fas fa-info me-2"></i>Más Sobre Nosotros
+            </h3>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-lg-0 aos-init aos-animate">
+                        <div class="icon-box" style="background-color: white;">
+                            <h4 class="">MISION</h4>
+                            <p class="text-dark">La Facultad de Estudios Superiores Cuautitlán es una entidad académica descentralizada de la 
+                                Universidad Nacional Autónoma de México, organizada de forma matricial y departamental que forma profesionistas de licenciatura y posgrado 
+                                con un alto nivel académico, con estricto rigor científico, valores éticos, que promueve el liderazgo y la innovación, además de ser una 
+                                entidad socialmente responsable.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-lg-0 aos-init aos-animate">
+                        <div class="icon-box" style="background-color: white;">
+                            <h4 class="">VISION</h4>
+                            <p class="text-dark">Ser una Facultad líder en la formación de profesionales de alta competitividad académica, de excelencia en 
+                                su producción científica, con un enfoque multidisciplinario, interdisciplinario y transdisciplinario en todas las áreas del 
+                                conocimiento, además de ser un referente en la zona norte del área metropolitana del Valle de México, así como a nivel 
+                                internacional por la calidad de sus programas académicos acreditados, con énfasis en la responsabilidad social e igualdad de 
+                                género; además, que coadyuvan al mejoramiento de su entorno, al desarrollo científico, tecnológico, socioeconómico y sostenible de la sociedad.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-lg-0 aos-init aos-animate">
+                        <div class="icon-box" style="background-color: white;">
+                            <img src="Assets/Valores.jpg" class="card-img-top" style="height: 200px; width: 200px; object-fit: cover; margin-bottom: 2.5rem;" alt="Imagen del proyecto">
+                            <h4 class="">VALORES</h4>
+                            <p class="text-dark">
+                                FES Cuautitlán, a través de sus funciones, promueve y fortalece el alcance de los valores que conforman una sociedad humanista entre los que se encuentran, de manera enunciativa y no limitativa:
+                                Honestidad,
+                                Solidaridad,
+                                Responsabilidad,
+                                Respeto,
+                                Respeto al ambiente, y
+                                Empatía.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    
+    </div>
+
+    <!-- Footer -->
+    <footer class="colorazul text-white mt-5 py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-4 mb-md-0">
+                    <h5 class="mb-3"><i class="fas fa-calculator me-2"></i>SIMPOSIO FESC C4</h5>
+                    <p class="text-white-50">Congreso Internacional sobre la Enseñanza y Aplicación de las Matemáticas</p>
+                    <p class="text-white-50"><i class="fas fa-map-marker-alt me-2"></i><a href="" style="text-decoration: none; color: rgba(255, 255, 255, 0.5);">FES Cuautitlán, UNAM</a></p>
+                </div>
+                <div class="col-md-4 mb-4 mb-md-0">
+                    <h5 class="mb-3"><i class="fas fa-address-card me-2"></i><a class="text-white" href="contactanos.php" style="text-decoration: none;">Contactanos</a></h5>
+                    <p class="text-white-50"><i class="fas fa-envelope me-2"></i>info@simposiofesc.com</p>
+                    <p class="text-white-50"><i class="fas fa-phone me-2"></i>(55) 1234-5678</p>
+                    <p class="text-white-50"><i class="fas fa-clock me-2"></i>Lun-Vie: 9:00 - 18:00</p>
+                </div>
+                <div class="col-md-4">
+                    <h5 class="mb-3"><i class="fas fa-share-alt me-2"></i>Síguenos</h5>
+                    <div class="d-flex gap-3">
+                        <a href="https://www.facebook.com/fescunamoficial/about?locale=es_LA" class="text-white fs-3"><i class="fab fa-facebook"></i></a>
+                        <a href="https://x.com/FESC_UNAM?fbclid=IwY2xjawQyQHxleHRuA2FlbQIxMABicmlkETFvUEhaR0VMQmo5UEQ1b0M0c3J0YwZhcHBfaWQQMjIyMDM5MTc4ODIwMDg5MgABHunbJB2FGEliNtdbtCRQ5rraIYqxrw-P_F1GfK3vbH2iH1LCVWqhSXpl2LP7_aem_vLlrun1rax8EMbKR0qgxBQ" class="text-white fs-3"><i class="fab fa-twitter"></i></a>
+                        <a href="https://www.instagram.com/fescunamoficial?fbclid=IwY2xjawQyQnJleHRuA2FlbQIxMABicmlkETFjOU9lY2lsNWhBREVmV1Nxc3J0YwZhcHBfaWQQMjIyMDM5MTc4ODIwMDg5MgABHvwGr8ZN8ksdMDFGCUCpjhMbJJW9cbvuMXJ5qhpo6m2tuK4zV1DqLw3vk0vB_aem_XcaPSOTLV8iGNi3yf750EQ" class="text-white fs-3"><i class="fab fa-instagram"></i></a>
+                        <a href="https://youtube.com/@fescunamoficial9877?si=J4aNbVU3BTRfEzd7" class="text-white fs-3"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            <hr class="border-white-50">
+            <div class="text-center">
+                <p class="mb-0 text-white-50"><i class="far fa-copyright me-2"></i>2026 Congreso Internacional de Matemáticas. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

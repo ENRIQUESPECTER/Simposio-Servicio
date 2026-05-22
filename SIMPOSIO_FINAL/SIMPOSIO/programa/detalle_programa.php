@@ -125,7 +125,7 @@ $hora_fin_evento = strtotime($evento['hora_fin']);
         <div>
             <strong><?php echo $bloque_inicio." - ".$bloque_fin; ?></strong>
         </div>
-
+        <?php if(esta_logeado()): ?>
         <div>
             Disponible
 
@@ -142,7 +142,7 @@ $hora_fin_evento = strtotime($evento['hora_fin']);
             <?php endif; ?>
 
         </div>
-
+        <?php endif; ?>
     </div>
 
     <?php

@@ -494,7 +494,7 @@ select.form-control option {
 /* ============================================
    ESTILOS PARA PATROCINIOS - VERSIÓN MEJORADA
    ============================================ */
-/* ---------- Hero Section ---------- */
+/* Hero Section */
 .patrocinios-hero {
     background: linear-gradient(135deg, #293e6b 0%, #1a2b4a 100%) !important;
     border-radius: 20px !important;

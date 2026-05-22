@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 09-05-2026 a las 08:48:57
+-- Tiempo de generación: 22-05-2026 a las 02:37:38
 -- Versión del servidor: 10.4.16-MariaDB
 -- Versión de PHP: 7.4.12
 
@@ -381,6 +381,13 @@ CREATE TABLE `notificaciones` (
   `fecha_lectura` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Volcado de datos para la tabla `notificaciones`
+--
+
+INSERT INTO `notificaciones` (`id_notificacion`, `id_usuario`, `tipo`, `titulo`, `mensaje`, `icono`, `enlace`, `leida`, `fecha_creacion`, `fecha_lectura`) VALUES
+(0, 11, 'info', '💼 Nueva solicitud de patrocinio', 'La empresa \'Sony Japon\' quiere patrocinar tu proyecto \'Magia De Barreras\'. Revisa la solicitud en \'Mis Proyectos\'.', 'fa-hand-holding-usd', 'mis_proyectos.php', 0, '2026-05-12 05:22:50', NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -403,7 +410,8 @@ CREATE TABLE `patrocinios` (
 --
 
 INSERT INTO `patrocinios` (`id_patrocinio`, `id_articulo`, `id_empresa`, `fecha_solicitud`, `estado`, `comentarios_empresa`, `comentarios_autor`, `fecha_respuesta`) VALUES
-(3, 35, 2, '2026-04-30 00:44:00', 'pendiente', 'ME INTERESA', NULL, NULL);
+(3, 35, 2, '2026-04-30 00:44:00', 'rechazado', 'ME INTERESA [CANCELADO POR LA EMPRESA]', NULL, NULL),
+(4, 35, 2, '2026-05-12 05:22:50', 'pendiente', 'Me interesa bastante tu trabajo', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -869,7 +877,7 @@ ALTER TABLE `horario_ponencia`
 -- AUTO_INCREMENT de la tabla `patrocinios`
 --
 ALTER TABLE `patrocinios`
-  MODIFY `id_patrocinio` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_patrocinio` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `plantilla_impresion`
