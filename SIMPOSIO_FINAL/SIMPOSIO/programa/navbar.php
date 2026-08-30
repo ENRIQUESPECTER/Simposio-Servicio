@@ -6,7 +6,7 @@
             </button>
             <div class="navbar-collapse collapse" id="navbarResponsive">
                 <ul class="navbar-nav nav nav-container menu">
-                    <li class="nav-item"><a class="nav-link" href="../index.php">Red Universitaria de Proyectos</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../red_universitaria.php">Red Universitaria de Proyectos</a></li>
                     <li class="nav-item"><a class="nav-link" href="../convocatoria.php">Convocatoria</a></li>
                     <li class="nav-item"><a class="nav-link" href="../ponencias.php">Ponencias</a></li>
                 </ul>

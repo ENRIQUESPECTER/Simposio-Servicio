@@ -6,7 +6,7 @@ require_once '../libs/pdfparser-master/src/Smalot/PdfParser/Parser.php'; // Comp
 require_once '../libs/pdfparser-master/alt_autoload.php';
 
 use Smalot\PdfParser\Parser;
-use setasign\Fpdi\Fpdi; // solo para portada, opcional (puedes usar solo FPDF si no importas páginas)
+use setasign\Fpdi\Fpdi; // solo para portada, opcional 
 
 if (!es_admin()) {
     header('Location: ../login_admin.php');

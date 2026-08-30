@@ -336,6 +336,7 @@ $pendientes = $stmt->get_result()->fetch_assoc()['pendientes'];
                         <li class="nav-item"><a class="nav-link" href="eventos/lista_eventos.php"><i class="fas fa-scroll me-1"></i>Lista Eventos</a></li>
                         <li class="nav-item"><a class="nav-link" href="actividades/lista_actividades.php"><i class="fas fa-chalkboard me-1"></i>Agenda Actividades</a></li>
                         <li class="nav-item"><a class="nav-link" href="trabajos/pendientes.php"><i class="fas fa-calendar me-1"></i>Evaluación de Trabajos</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#"><i class="fas fa-calendar me-1"></i>Evaluar Patrocinios</a></li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
                                     <i class="fas fa-user-circle me-1"></i> <?php echo $_SESSION['usuario'];  ?>

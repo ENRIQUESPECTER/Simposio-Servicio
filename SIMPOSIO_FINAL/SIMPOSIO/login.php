@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
                 $_SESSION['tipo_usuario'] = $usuario['tipo_usuario'];
 
                 // Redirección inteligente
-                header("Location: index.php");
+                header("Location: simposio.php");
                 exit();
 
             } else {
@@ -192,7 +192,7 @@ if (isset($_GET['registro']) && $_GET['registro'] == 'exitoso') {
             </button>
             <div class="navbar-collapse collapse" id="navbarResponsive">
                 <ul class="navbar-nav nav nav-container menu">
-                    <li class="nav-item"><a class="nav-link" href="index.php">Inicio</a></li>
+                    <li class="nav-item"><a class="nav-link" href="simposio.php">Inicio</a></li>
                     <li class="nav-item"><a class="nav-link" href="convocatoria.php">Convocatoria</a></li>
                     <li class="nav-item"><a class="nav-link" href="ponencias.php">Ponencias</a></li>
                     <li class="nav-item"><a class="nav-link" href="programa/index_programa.php">Eventos</a></li>

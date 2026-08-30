@@ -132,7 +132,7 @@ if (esta_logeado()) {
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav" style="background-color: #293e6b;">
         <div class="container-fluid">
-            <a class="navbar-brand" href="index.php">
+            <a class="navbar-brand" href="simposio.php">
                 <i class="fas fa-calculator me-2"></i>SIMPOSIO FESC C4
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -140,7 +140,7 @@ if (esta_logeado()) {
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="index.php"><i class="fas fa-home me-1"></i>Inicio</a></li>
+                    <li class="nav-item"><a class="nav-link" href="simposio.php"><i class="fas fa-home me-1"></i>Simposio</a></li>
                     <li class="nav-item"><a class="nav-link" href="convocatoria.php"><i class="fas fa-scroll me-1"></i>Convocatoria</a></li>
                     <li class="nav-item"><a class="nav-link" href="ponencias.php"><i class="fas fa-chalkboard me-1"></i>Ponencias</a></li>
                     <li class="nav-item"><a class="nav-link" href="programa/index_programa.php"><i class="fas fa-calendar me-1"></i>Programa</a></li>
@@ -336,9 +336,10 @@ if (esta_logeado()) {
                     </ul>
 
                     <h3 class="mt-4"><i class="fas fa-file-alt me-2"></i>Envío de trabajos</h3>
-                    <p>Los interesados deben registrarse en el sistema y subir su trabajo a través de la opción <a href="registrar_trabajos.php" class="text-decoration-none">Registrar Trabajo</a>. Los resúmenes serán evaluados por el comité científico.</p>
-
+                    <p>Los interesados deben registrarse en el sistema y subir su trabajo a través de la opción <?php if (!es_empresa()): ?> <a href="registrar_trabajos.php" class="text-decoration-none">Registrar Trabajo</a><?php endif; ?>. Los resúmenes serán evaluados por el comité científico.</p>
+                    <?php if(!es_empresa()): ?>
                     <a href="registrar_trabajos.php" class="btn-descarga mt-3"><i class="fas fa-upload me-2"></i>Registrar trabajo ahora</a>
+                    <?php endif; ?>
                 </div>
             </div>
 

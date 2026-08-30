@@ -64,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     $stmt2->execute([$id_usuario, $nombre_empresa, $sector]);
                 }
                 
-                header('Location: login.php?registro=exitoso');
+                header('Location: simposio.php?registro=exitoso');
                 exit;
             }
         } catch (PDOException $e) {

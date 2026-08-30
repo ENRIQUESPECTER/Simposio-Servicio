@@ -41,18 +41,20 @@ if (esta_logeado()) {
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav" style="background-color: #293e6b;">
         <div class="container-fluid">
-            <a class="navbar-brand" href="index.php">
-                <i class="fas fa-calculator me-2"></i>SIMPOSIO FESC C4
+            <a class="navbar-brand" href="home.html">
+                <i class="fas fa-calculator me-2"></i>UNAM FES CUAUTITLAN C4
+
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="index.php"><i class="fas fa-home me-1"></i>Inicio</a></li>
+                    <li class="nav-item"><a class="nav-link" href="home.html"><i class="fas fa-home me-1"></i>Inicio</a></li>
                     <li class="nav-item"><a class="nav-link" href="convocatoria.php"><i class="fas fa-scroll me-1"></i>Convocatoria</a></li>
                     <li class="nav-item"><a class="nav-link" href="ponencias.php"><i class="fas fa-chalkboard me-1"></i>Ponencias</a></li>
                     <li class="nav-item"><a class="nav-link" href="programa/index_programa.php"><i class="fas fa-calendar me-1"></i>Programa</a></li>
+                    <li class="nav-item"><a class="nav-link" href="simposio.php"><i class="fas fa-calendar me-1"></i>Evenntos</a></li>
                     <?php if (esta_logeado()): ?>
                         <?php if (es_empresa()): ?>
                                 <!-- EMPRESA: enlace a Patrocinar -->

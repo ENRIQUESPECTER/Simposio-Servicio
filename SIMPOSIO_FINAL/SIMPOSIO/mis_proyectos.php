@@ -342,7 +342,7 @@ if (esta_logeado()) {
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav" style="background-color: #293e6b;">
         <div class="container-fluid">
-            <a class="navbar-brand" href="index.php">
+            <a class="navbar-brand" href="simposio.php">
                 <i class="fas fa-calculator me-2"></i>SIMPOSIO FESC C4
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -350,7 +350,7 @@ if (esta_logeado()) {
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="index.php"><i class="fas fa-home me-1"></i>Inicio</a></li>
+                    <li class="nav-item"><a class="nav-link" href="simposio.php"><i class="fas fa-home me-1"></i>Simposio</a></li>
                     <li class="nav-item"><a class="nav-link" href="convocatoria.php"><i class="fas fa-scroll me-1"></i>Convocatoria</a></li>
                     <li class="nav-item"><a class="nav-link" href="ponencias.php"><i class="fas fa-chalkboard me-1"></i>Ponencias</a></li>
                     <li class="nav-item"><a class="nav-link" href="programa/index_programa.php"><i class="fas fa-calendar me-1"></i>Programa</a></li>
@@ -698,22 +698,22 @@ if (esta_logeado()) {
                                 </td>-->
                                 <td>
                                     <button class="btn-accion btn-ver" onclick="verProyecto(<?php echo $p['id_articulo']; ?>)">
-                                        <i class="fas fa-eye"></i>
+                                        <i class="fas fa-eye"></i> Ver
                                     </button>
                                     <?php if ($p['participacion'] == 'Autor'): ?>
                                     <button class="btn-accion btn-editar" onclick="editarProyecto(<?php echo $p['id_articulo']; ?>)">
-                                        <i class="fas fa-edit"></i>
+                                        <i class="fas fa-edit"></i> Editar
                                     </button>
                                     <form method="POST" style="display: inline;" onsubmit="return confirm('¿Eliminar este proyecto?')">
                                         <input type="hidden" name="accion" value="eliminar">
                                         <input type="hidden" name="id_proyecto" value="<?php echo $p['id_articulo']; ?>">
                                         <button type="submit" class="btn-accion btn-eliminar-proyecto">
-                                            <i class="fas fa-trash"></i>
+                                            <i class="fas fa-trash"></i> Eliminar
                                         </button>
                                     </form>
                                         <?php if ($p['estado'] == 'rechazado' && $p['participacion'] == 'Autor'): ?>
-                                        <a href="reenviar.php?id=<?php echo $p['id_articulo']; ?>" class="btn-accion btn-warning" onclick="return confirm('¿Reenviar este trabajo para aprobación?')">
-                                            <i class="fas fa-paper-plane"></i>
+                                        <a href="reenviar.php?id=<?php echo $p['id_articulo']; ?>" class="btn-accion btn-warning" style="text-decoration: none;" onclick="return confirm('¿Reenviar este trabajo para aprobación?')">
+                                            <i class="fas fa-paper-plane"></i> Reenviar
                                         </a>
                                         <?php endif; ?>
                                     <?php endif; ?>

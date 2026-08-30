@@ -68,6 +68,17 @@ if (esta_logeado()) {
     $ultimas_notificaciones = obtener_notificaciones($conexion, $_SESSION['id_usuario'], 0, 10);
 }
 
+$revisiones_pendientes = 0;
+if (es_docente()) {
+    $stmt = $conexion->prepare("SELECT id_docente FROM docente WHERE id_usuario = ?");
+    $stmt->bind_param("i", $_SESSION['id_usuario']);
+    $stmt->execute();
+    $docente = $stmt->get_result()->fetch_assoc();
+    if ($docente) {
+        $revisiones_pendientes = contar_revisiones_docente($conexion, $docente['id_docente']);
+    }
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -95,7 +106,7 @@ if (esta_logeado()) {
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav" style="background-color: #293e6b;">
         <div class="container-fluid">
-            <a class="navbar-brand" href="../index.php">
+            <a class="navbar-brand" href="../simposio.php">
                 <i class="fas fa-calculator me-2"></i>SIMPOSIO FESC C4
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -103,7 +114,7 @@ if (esta_logeado()) {
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="../index.php"><i class="fas fa-home me-1"></i>Inicio</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../simposio.php"><i class="fas fa-home me-1"></i>Simposio</a></li>
                     <li class="nav-item"><a class="nav-link" href="../convocatoria.php"><i class="fas fa-scroll me-1"></i>Convocatoria</a></li>
                     <li class="nav-item"><a class="nav-link" href="../ponencias.php"><i class="fas fa-chalkboard me-1"></i>Ponencias</a></li>
                     <li class="nav-item"><a class="nav-link" href="../programa/index_programa.php"><i class="fas fa-calendar me-1"></i>Programa</a></li>
@@ -225,10 +236,31 @@ if (esta_logeado()) {
                                 <?php if (es_empresa()): ?>
                                     <li><a class="dropdown-item" href="../patrocinar_proyectos.php"><i class="fas fa-hand-holding-usd me-2"></i>Patrocinar</a></li>
                                 <?php else: ?>
-                                    <li><a class="dropdown-item" href="../mis_proyectos.php"><i class="fas fa-project-diagram me-2"></i>Mis Proyectos</a></li>
+                                    <li><a class="dropdown-item" href="../mis_proyectos.php"><i class="fas fa-project-diagram me-2"></i>Mis Proyectos
+                                            <?php // Después de contar revisiones de docente, añadir:
+                                                if (esta_logeado()) {
+                                                    $stmt_notif = $conexion->prepare("SELECT COUNT(DISTINCT a.id_articulo) 
+                                                        FROM articulo a 
+                                                        JOIN revision_detalles rd ON a.id_articulo = rd.id_articulo 
+                                                        WHERE a.id_usuario = ? AND a.estado = 'rechazado'");
+                                                    $stmt_notif->bind_param("i", $_SESSION['id_usuario']);
+                                                    $stmt_notif->execute();
+                                                    $notif_count = $stmt_notif->get_result()->fetch_row()[0];
+                                                    if ($notif_count > 0) {
+                                                        echo '<span class="badge bg-danger rounded-pill ms-1">' . $notif_count . '</span>';
+                                                    }
+                                                } 
+                                            ?>
+                                        </a>
+                                    </li>
                                 <?php endif; ?>
                                 <?php if (es_docente() && !es_empresa()): ?>
-                                    <li><a class="dropdown-item" href="../revisiones.php"><i class="fas fa-tasks me-2"></i>Mis revisiones</a></li>
+                                    <li><a class="dropdown-item" href="../revisiones.php"><i class="fas fa-tasks me-2"></i>Mis revisiones
+                                        <?php if ($revisiones_pendientes > 0): ?>
+                                            <span class="badge bg-danger rounded-pill ms-1"><?php echo $revisiones_pendientes; ?></span>
+                                        <?php endif; ?>
+                                        </a>
+                                    </li>
                                 <?php endif; ?>
                                 <li><a class="dropdown-item" href="preferencias.php"><i class="fas fa-bell me-2"></i>Preferencias</a></li>
                                 <li><hr class="dropdown-divider"></li>
@@ -330,7 +362,7 @@ if (esta_logeado()) {
                                 <button type="submit" class="btn btn-primary">
                                     <i class="fas fa-save me-2"></i>Guardar preferencias
                                 </button>
-                                <a href="../index.php" class="btn btn-secondary">
+                                <a href="../simposio.php" class="btn btn-secondary">
                                     <i class="fas fa-arrow-left me-2"></i>Volver
                                 </a>
                             </div>
